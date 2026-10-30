@@ -11,7 +11,7 @@ export const ClinicalAdvisorChat: React.FC = () => {
     {
       sender: 'assistant',
       text: `Hola. Soy tu consultor biomecánico especializado en Pinzamiento Isquiofemoral (IFI).
-He analizado tu caso: el hecho de que los ejercicios de tracción con goma elástica te alivien es un indicio biomecánico de gran relevancia clínica, pues confirma que la decoaptación lateral del fémur descomprime el túnel entre el trocánter menor y el isquion.
+Que los ejercicios de tracción con goma elástica te alivien es un dato útil: es compatible con que la decoaptación lateral del fémur descomprima el túnel entre el trocánter menor y el isquion, aunque no confirma el diagnóstico, que requiere valoración médica y resonancia magnética.
 
 ¿Tienes dudas sobre cómo ajustar la goma, qué ejercicios realizar según tus sensaciones o cómo modificar tu marcha?`
     }

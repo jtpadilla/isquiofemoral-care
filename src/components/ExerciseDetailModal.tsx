@@ -1,6 +1,6 @@
 import React from 'react';
 import { Exercise } from '../types';
-import { ExerciseDiagram } from './ExerciseDiagram';
+import { ExerciseVisual } from './ExerciseVisual';
 import { X, Check, AlertOctagon, Sparkles, Layers, ShieldAlert, Play } from 'lucide-react';
 
 interface Props {
@@ -40,7 +40,7 @@ export const ExerciseDetailModal: React.FC<Props> = ({ exercise, onClose, onStar
         {/* Modal Body */}
         <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
           {/* Visual Diagram */}
-          <ExerciseDiagram type={exercise.diagramType} />
+          <ExerciseVisual type={exercise.diagramType} />
 
           {/* Biomechanical Opening Effect */}
           <div className="p-4 rounded-xl bg-cyan-50/70 border border-cyan-200/80 text-xs space-y-1.5">

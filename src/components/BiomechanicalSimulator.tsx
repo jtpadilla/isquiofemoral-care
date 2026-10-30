@@ -15,11 +15,12 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
     bandTractionActive: true,
   });
 
-  // Calculate live ischiofemoral space (IFS) in mm based on biomechanical studies
+  // Illustrative estimate of the ischiofemoral space (IFS) in mm.
+  // The direction of each effect follows the literature; the coefficients are NOT measured values.
   // Normal baseline IFS: ~21.0 mm (standard range 18 - 25 mm)
   // Extension narrows: -0.35 mm per degree of extension (<0)
   // Flexion opens: +0.08 mm per degree of flexion (>0)
-  // Adduction narrows severely: -0.42 mm per degree of adduction (<0)
+  // Adduction narrows severely: -0.45 mm per degree of adduction (<0)
   // Abduction opens: +0.28 mm per degree of abduction (>0)
   // External rotation narrows: -0.32 mm per degree (<0)
   // Internal rotation opens: +0.18 mm per degree (>0)
@@ -79,7 +80,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
     statusText = 'Descompresión Terapéutica Máxima';
     statusColor = 'text-cyan-700';
     statusBg = 'bg-cyan-50 border-cyan-200';
-    statusDesc = '¡La tracción lateral con goma elástica abre el túnel isquiofemoral! Alivio inmediato del atrapamiento muscular y neural.';
+    statusDesc = 'En este modelo, la tracción lateral con goma elástica amplía el túnel isquiofemoral, lo que explicaría el alivio que puedes notar.';
   }
 
   // Presets
@@ -157,7 +158,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
               <span aria-hidden="true">·</span>
               <span>Anatomía 2D Dinámica</span>
               <span aria-hidden="true">·</span>
-              <span>Evidencia Fisioterapéutica</span>
+              <span>Modelo Ilustrativo</span>
             </div>
             <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900">
               ¿Por qué te alivia la tracción con gomas?
@@ -337,11 +338,14 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
           <div className="p-4 rounded-xl bg-white border border-slate-200 text-xs text-slate-600 space-y-2">
             <span className="font-semibold text-slate-900 flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              Por qué esto confirma tu sospecha
+              Qué muestra este modelo
             </span>
             <p className="leading-relaxed">
-              En el pinzamiento isquiofemoral, el trocánter menor colisiona con la tuberosidad isquiática al caminar (cuando la pierna va hacia atrás en extensión y aducción).
-              Cuando usas la goma, generas una <strong>fuerza de tracción decoaptante</strong> que amplía el canal de forma inmediata, permitiendo que el cuadrado femoral y el nervio ciático vuelvan a respirar.
+              En el pinzamiento isquiofemoral, el trocánter menor puede chocar con la tuberosidad isquiática al caminar (cuando la pierna va hacia atrás en extensión y aducción).
+              La goma busca generar una <strong>fuerza de tracción decoaptante</strong> que amplíe ese canal, lo que explicaría el alivio.
+            </p>
+            <p className="leading-relaxed">
+              Las cifras son una estimación ilustrativa, no una medición de tu cadera, y sentir alivio no confirma el diagnóstico: el espacio real solo se mide con una resonancia magnética.
             </p>
           </div>
         </div>
@@ -352,7 +356,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs">
               <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-600 block mb-1">
-                Espacio Isquiofemoral Calculado (IFS)
+                Espacio Isquiofemoral Estimado (IFS)
               </span>
               <div className="flex items-baseline gap-2">
                 <span className={`text-3xl md:text-4xl font-mono font-bold tabular-nums ${statusColor}`}>
@@ -369,7 +373,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
             <div className={`p-4 rounded-xl border ${statusBg} flex flex-col justify-between`}>
               <div>
                 <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-600 block mb-1">
-                  Diagnóstico Mecánico
+                  Interpretación del Modelo (no es un diagnóstico)
                 </span>
                 <span className={`text-base font-bold ${statusColor} block`}>
                   {statusText}

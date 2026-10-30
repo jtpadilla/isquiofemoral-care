@@ -89,14 +89,11 @@ export const ExerciseDiagram: React.FC<Props> = ({ type, className = '' }) => {
             <line x1="80" y1="190" x2="180" y2="190" stroke="#cbd5e1" strokeWidth="10" strokeLinecap="round" />
             {/* Head tilting up */}
             <circle cx="65" cy="180" r="14" fill="#e2e8f0" />
-            <path d="M 60 170 Q 75 160, 85 180" fill="none" stroke="#fde047" strokeWidth="2" markerEnd="url(#greenArrow)" />
-            <text x="40" y="145" fill="#fde047" fontSize="10">Flexión cabeza</text>
+            <text x="30" y="145" fill="#fde047" fontSize="10">Cabeza atrás</text>
 
             {/* Leg at 90° flexion with hand holding thigh */}
             <path d="M 180 190 L 195 120 L 260 80" fill="none" stroke="#38bdf8" strokeWidth="7" strokeLinecap="round" />
-            {/* Foot in plantarflexion (pointing away) */}
-            <line x1="260" y1="80" x2="280" y2="70" stroke="#f43f5e" strokeWidth="6" strokeLinecap="round" />
-            <text x="250" y="55" fill="#f43f5e" fontSize="10">Punta de pie hacia abajo</text>
+            <text x="225" y="60" fill="#7dd3fc" fontSize="10">Rodilla se extiende</text>
 
             {/* Sciatic nerve thread visualization */}
             <path d="M 65 180 Q 150 160, 180 190 Q 200 120, 260 80" fill="none" stroke="#facc15" strokeWidth="2.5" strokeDasharray="4 2" />

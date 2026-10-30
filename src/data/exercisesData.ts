@@ -54,7 +54,7 @@ export const EXERCISES_DATABASE: Exercise[] = [
     holdSeconds: 60,
     instructions: [
       'Túmbate boca arriba con una banda larga anclada en un punto firme delante de ti a nivel del suelo.',
-      'Engancha la banda en el empeine/tobillo o en el pliegue inguinal de la pierna afectada.',
+      'Engancha la banda alrededor del tobillo de la pierna afectada, con una tobillera acolchada si dispones de ella.',
       'Eleva la cadera en una flexión suave de 70° a 80° con la rodilla semi-relajada.',
       'Permite que la tracción de la banda estire suavemente la pierna hacia el punto de anclaje de forma distal.',
       'Mantén la pelvis bien apoyada en el suelo, sin dejar que el lado afecto se despegue de la esterilla.'
@@ -84,8 +84,8 @@ export const EXERCISES_DATABASE: Exercise[] = [
     durationSeconds: 40,
     instructions: [
       'Túmbate boca arriba con las manos detrás del muslo de la pierna afectada (cadera a 90°).',
-      'Paso 1: Al extender suavemente la rodilla hacia arriba, apunta el pie hacia abajo (flexión plantar/punta de bailarina) y flexiona el cuello acercando la barbilla al pecho.',
-      'Paso 2: Al flexionar la rodilla hacia abajo, flexiona el tobillo (dorsiflexión) y relaja la cabeza hacia atrás sobre la esterilla.',
+      'Paso 1: Al extender suavemente la rodilla hacia arriba, relaja la cabeza hacia atrás sobre la esterilla (mirada al techo). Mantén el tobillo relajado.',
+      'Paso 2: Al flexionar la rodilla hacia abajo, levanta la cabeza acercando suavemente la barbilla al pecho. Así, cuando un extremo del nervio se tensa, el otro se afloja.',
       'El movimiento debe ser continuo, fluido y rítmico como una polea de dos extremos.'
     ],
     techniqueCues: [
@@ -114,7 +114,7 @@ export const EXERCISES_DATABASE: Exercise[] = [
     equipment: ['miniband_circular', 'esterilla'],
     sets: 3,
     repsOrTime: '10 - 12 repeticiones (3s isométrica arriba)',
-    durationSeconds: 45,
+    durationSeconds: 72,
     holdSeconds: 3,
     instructions: [
       'Coloca una miniband de resistencia media 3-5 cm por encima de las rodillas.',
@@ -146,7 +146,7 @@ export const EXERCISES_DATABASE: Exercise[] = [
     equipment: ['esterilla', 'miniband_circular'],
     sets: 3,
     repsOrTime: '12 - 15 repeticiones por lado',
-    durationSeconds: 40,
+    durationSeconds: 60,
     instructions: [
       'Túmbate de costado sobre el lado no afecto, con el cuerpo alineado y la cabeza descansando sobre el brazo.',
       'La pierna de apoyo (inferior) permanece flexionada a 90° para dar máxima estabilidad pélvica.',
@@ -208,7 +208,7 @@ export const EXERCISES_DATABASE: Exercise[] = [
     equipment: ['esterilla'],
     sets: 3,
     repsOrTime: '12 repeticiones lentas por lado',
-    durationSeconds: 35,
+    durationSeconds: 60,
     instructions: [
       'Túmbate de costado con rodillas flexionadas a 90° y caderas a 45°.',
       'Mantén las rodillas pegadas una con otra en todo momento (la rodilla actúa de bisagra o pivote).',
@@ -298,7 +298,7 @@ export const EXERCISES_DATABASE: Exercise[] = [
     phaseNumber: 3,
     targetMuscles: ['Patrón locomotor', 'Glúteo medio', 'Psoas en rango seguro'],
     biomechanicalObjective: 'Elimina la combinación patomecánica de hiperextensión + aducción en la pierna de despegue y corrige la base de sustentación estrecha.',
-    whyItRelieves: 'El 80% de los pinzamientos isquiofemorales se agravan por caminar con pasos largos y cruzar los pies. Estos 3 ajustes inmediatos quitan el 70% del estrés compresivo al desplazarse.',
+    whyItRelieves: 'Caminar con pasos largos y cruzando los pies lleva la cadera a la extensión y aducción que estrechan el espacio isquiofemoral. Estos ajustes buscan reducir esa combinación al desplazarte.',
     equipment: ['ninguno'],
     sets: 2,
     repsOrTime: 'Práctica de 3 a 5 minutos',
@@ -306,7 +306,7 @@ export const EXERCISES_DATABASE: Exercise[] = [
     instructions: [
       'Paso 1 - Acorta la zancada: Reduce un 10% la longitud del paso. No dejes que la pierna trasera se quede muy estirada hacia atrás en hiperextensión.',
       'Paso 2 - Ensancha la base de apoyo: Camina con los pies separados unos centímetros más (evita la marcha "en cuerda floja" o con cruce de pies).',
-      'Paso 3 - Aumenta la cadencia: Da pasos un poco más rápidos y ligeros (en torno a 165-170 pasos/minuto) en lugar de zancadas pesadas y largas.',
+      'Paso 3 - Aumenta la cadencia: Da pasos un poco más rápidos y ligeros (alrededor de un 5-10% más que tu ritmo habitual) en lugar de zancadas pesadas y largas.',
       'Paso 4 - Postura al sentarse: Siéntate apoyado sobre los muslos posteriores con caderas ligeramente abiertas, nunca con las piernas cruzadas o con la cadera colapsada hacia adentro.'
     ],
     techniqueCues: [

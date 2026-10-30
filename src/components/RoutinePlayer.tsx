@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Exercise } from '../types';
-import { ExerciseDiagram } from './ExerciseDiagram';
+import { ExerciseVisual } from './ExerciseVisual';
 import { sounds } from '../utils/soundEffects';
 import { 
   Play, 
@@ -260,7 +260,12 @@ export const RoutinePlayer: React.FC<Props> = ({ exercises, onFinishWorkout, onE
           </div>
 
           {/* Graphical Diagram Component */}
-          <ExerciseDiagram type={currentExercise.diagramType} />
+          <ExerciseVisual
+            key={currentExercise.id}
+            type={currentExercise.diagramType}
+            side={selectedSide === 'Derecha' ? 'right' : 'left'}
+            playing={isTimerRunning && !isResting}
+          />
 
           {/* Biomechanical Why It Relieves Callout */}
           <div className="p-4 rounded-xl bg-cyan-50/60 border border-cyan-200/70 text-xs text-cyan-950 space-y-1.5">
