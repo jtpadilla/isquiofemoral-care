@@ -11,7 +11,7 @@ Aplicación web en español para el alivio del pinzamiento isquiofemoral (IFI): 
 - **Rutinas:** rutinas predefinidas y personalizables, con un reproductor guiado por temporizador y sonido.
 - **Guía clínica:** explicación de la patología y de los criterios de resonancia magnética.
 - **Diario de síntomas:** registro del dolor, la tolerancia a estar sentado y el efecto de la tracción. Los datos se guardan solo en el `localStorage` del navegador.
-- **Consultor IA:** chat sobre biomecánica basado en Gemini. Las preguntas se envían a la API de Google y solo está disponible si la aplicación se ejecuta con su servidor.
+- **Consultor IA:** chat sobre biomecánica basado en Gemini. Las preguntas se envían a la API de Google. En la versión publicada, cada usuario pone su propia clave.
 
 ## Requisitos
 
@@ -50,7 +50,11 @@ NODE_ENV=production npm start
 
 ## Despliegue
 
-Cada push a `main` publica un sitio estático en GitHub Pages mediante [`deploy-pages.yml`](.github/workflows/deploy-pages.yml). Esa versión se compila con `VITE_STATIC_SITE=true`: no tiene servidor, así que el consultor IA queda desactivado y las preguntas no se envían a ningún sitio.
+Cada push a `main` publica un sitio estático en GitHub Pages mediante [`deploy-pages.yml`](.github/workflows/deploy-pages.yml). Esa versión se compila con `VITE_STATIC_SITE=true` y no tiene servidor, así que el navegador llama directamente a Gemini con la clave del usuario:
+
+- La clave se queda en memoria hasta recargar o cerrar la página. Solo se guarda en `localStorage`, sin cifrar, si el usuario marca «Recordar en este navegador», y se puede borrar desde el propio consultor.
+- La clave y las preguntas solo se envían a Google, y una política de seguridad de contenido (CSP) bloquea las conexiones a otros sitios.
+- El coste y las condiciones de uso de los datos dependen de la cuenta de Google de cada usuario.
 
 ## Tecnologías
 
