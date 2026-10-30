@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { BiomechanicsState } from '../types';
 import { Activity, ShieldCheck, AlertTriangle, ArrowRight, Sparkles, RefreshCw, Layers } from 'lucide-react';
+import { supportsWebGL, ViewerBoundary } from './ExerciseVisual';
+
+// three.js solo se descarga si el navegador puede mostrar la escena 3D
+const Hip3DViewer = lazy(() => import('./Hip3DViewer'));
 
 interface Props {
   onSelectPhase?: (phase: string) => void;
 }
 
 export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
+  const [canRender3D] = useState(supportsWebGL);
   const [state, setState] = useState<BiomechanicsState>({
     hipAngle: 15, // Ligera flexión por defecto
     frontalAngle: 5, // Ligera abducción
@@ -147,6 +152,190 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
   // Distance between ischium and lesser trochanter on SVG
   const visualGap = Math.max(16, lesserTrochanterX - ischiumX);
 
+  const diagram2D = (
+            <svg viewBox="0 0 520 280" className="w-full h-auto max-h-[300px]">
+              <defs>
+                {/* Gradient for muscle */}
+                <linearGradient id="muscleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#e11d48" stopOpacity="0.95" />
+                </linearGradient>
+                {/* Pattern for bone */}
+                <linearGradient id="boneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#e2e8f0" />
+                  <stop offset="100%" stopColor="#94a3b8" />
+                </linearGradient>
+                <linearGradient id="ischiumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#d97706" />
+                </linearGradient>
+                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4" />
+                </marker>
+              </defs>
+
+              {/* Grid backdrop */}
+              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#grid)" />
+
+              {/* Pelvis / Ischial Tuberosity (Left Anchor) */}
+              <g id="pelvis-ischium">
+                <path
+                  d={`M ${ischiumX - 45} 80 C ${ischiumX - 25} 120, ${ischiumX - 10} 150, ${ischiumX} ${ischiumY} C ${ischiumX + 5} 190, ${ischiumX - 20} 220, ${ischiumX - 50} 240 L ${ischiumX - 60} 100 Z`}
+                  fill="url(#ischiumGrad)"
+                  stroke="#b45309"
+                  strokeWidth="2"
+                />
+                <circle cx={ischiumX} cy={ischiumY} r="6" fill="#78350f" />
+                <text x={ischiumX - 10} y={ischiumY + 25} fill="#fde68a" fontSize="10" textAnchor="end" fontFamily="monospace">
+                  Tuberosidad Isquiática
+                </text>
+              </g>
+
+              {/* Quadratus Femoris Muscle (bridges between Ischium and Lesser Trochanter) */}
+              <g id="quadratus-femoris">
+                <path
+                  d={`M ${ischiumX} ${ischiumY - 14} Q ${(ischiumX + lesserTrochanterX) / 2} ${ischiumY - 5}, ${lesserTrochanterX} ${lesserTrochanterY - 12} L ${lesserTrochanterX} ${lesserTrochanterY + 12} Q ${(ischiumX + lesserTrochanterX) / 2} ${ischiumY + 20}, ${ischiumX} ${ischiumY + 14} Z`}
+                  fill="url(#muscleGrad)"
+                  stroke="#9f1239"
+                  strokeWidth="1.5"
+                  opacity={ifs < 12 ? '0.95' : '0.75'}
+                />
+                {/* Muscle fibers */}
+                <line
+                  x1={ischiumX + 4}
+                  y1={ischiumY}
+                  x2={lesserTrochanterX - 4}
+                  y2={lesserTrochanterY}
+                  stroke="#fda4af"
+                  strokeWidth="1.5"
+                  strokeDasharray="3 3"
+                />
+                <text
+                  x={(ischiumX + lesserTrochanterX) / 2}
+                  y={(ischiumY + lesserTrochanterY) / 2 - 18}
+                  fill="#fecdd3"
+                  fontSize="10"
+                  textAnchor="middle"
+                  fontWeight="bold"
+                >
+                  M. Cuadrado Femoral {ifs < 12 ? '⚠️ COMPRIMIDO' : ''}
+                </text>
+              </g>
+
+              {/* Sciatic Nerve (runs vertically behind the quadratus femoris) */}
+              <g id="sciatic-nerve">
+                <path
+                  d={`M ${(ischiumX + lesserTrochanterX) / 2 - 2} 40 Q ${(ischiumX + lesserTrochanterX) / 2 + (ifs < 12 ? 8 : 0)} 150, ${(ischiumX + lesserTrochanterX) / 2 - 4} 260`}
+                  fill="none"
+                  stroke="#facc15"
+                  strokeWidth={ifs < 12 ? '4' : '3.5'}
+                  strokeDasharray="6 3"
+                  opacity="0.9"
+                />
+                <circle cx={(ischiumX + lesserTrochanterX) / 2} cy={ischiumY + 4} r="3" fill="#ca8a04" />
+                <text
+                  x={(ischiumX + lesserTrochanterX) / 2 + 10}
+                  y="250"
+                  fill="#fef08a"
+                  fontSize="9.5"
+                  fontFamily="monospace"
+                >
+                  Nervio Ciático
+                </text>
+              </g>
+
+              {/* Femur Bone (Proximal Femur, Femoral Head, Lesser Trochanter, Shaft) */}
+              <g id="femur-bone" className="transition-transform duration-300">
+                {/* Femoral Head and Neck */}
+                <ellipse cx={femurX + 30} cy={femurY - 45} rx="26" ry="24" fill="url(#boneGrad)" stroke="#64748b" strokeWidth="2" />
+                {/* Neck to Greater Trochanter */}
+                <path
+                  d={`M ${femurX + 15} ${femurY - 30} L ${femurX + 55} ${femurY - 10} L ${femurX + 45} ${femurY + 100} L ${femurX - 15} ${femurY + 100} L ${femurX - 25} ${femurY + 35} L ${lesserTrochanterX} ${lesserTrochanterY} L ${femurX - 20} ${femurY - 15} Z`}
+                  fill="url(#boneGrad)"
+                  stroke="#475569"
+                  strokeWidth="2"
+                />
+                {/* Lesser Trochanter Marker */}
+                <circle cx={lesserTrochanterX} cy={lesserTrochanterY} r="7" fill="#ef4444" stroke="#991b1b" strokeWidth="2" />
+                <text x={femurX + 15} y={lesserTrochanterY + 4} fill="#f1f5f9" fontSize="10" textAnchor="start">
+                  Trocánter Menor
+                </text>
+                <text x={femurX + 30} y={femurY + 80} fill="#94a3b8" fontSize="10" textAnchor="start" fontFamily="monospace">
+                  Fémur
+                </text>
+              </g>
+
+              {/* Traction Band Vector (if active) */}
+              {state.bandTractionActive && (
+                <g id="traction-arrow" className="animate-pulse">
+                  {/* Anchor icon/point on right */}
+                  <rect x="490" y={femurY - 15} width="16" height="30" fill="#0891b2" rx="3" />
+                  {/* Elastic Band */}
+                  <path
+                    d={`M ${femurX + 20} ${femurY} Q 400 ${femurY - 10}, 490 ${femurY}`}
+                    fill="none"
+                    stroke="#06b6d4"
+                    strokeWidth="4.5"
+                    strokeDasharray="8 4"
+                  />
+                  {/* Force vector arrow pulling laterally */}
+                  <line
+                    x1={femurX + 35}
+                    y1={femurY}
+                    x2={femurX + 90}
+                    y2={femurY}
+                    stroke="#06b6d4"
+                    strokeWidth="3.5"
+                    markerEnd="url(#arrow)"
+                  />
+                  <text x={femurX + 50} y={femurY - 12} fill="#67e8f9" fontSize="10.5" fontWeight="bold">
+                    Tracción Lateral (+{((state.bandTractionIntensity / 100) * 8.5).toFixed(1)} mm)
+                  </text>
+                </g>
+              )}
+
+              {/* Dynamic Measurement Arrow between Ischium & Lesser Trochanter */}
+              <g id="ifs-measurement">
+                <line
+                  x1={ischiumX}
+                  y1={ischiumY + 45}
+                  x2={lesserTrochanterX}
+                  y2={ischiumY + 45}
+                  stroke={ifs < 15 ? '#f43f5e' : '#38bdf8'}
+                  strokeWidth="2.5"
+                />
+                {/* Ticks on ends */}
+                <line x1={ischiumX} y1={ischiumY + 38} x2={ischiumX} y2={ischiumY + 52} stroke="#f43f5e" strokeWidth="2" />
+                <line x1={lesserTrochanterX} y1={ischiumY + 38} x2={lesserTrochanterX} y2={ischiumY + 52} stroke="#38bdf8" strokeWidth="2" />
+                {/* Gap distance label */}
+                <rect
+                  x={(ischiumX + lesserTrochanterX) / 2 - 32}
+                  y={ischiumY + 32}
+                  width="64"
+                  height="22"
+                  rx="4"
+                  fill="#0f172a"
+                  stroke={ifs < 15 ? '#e11d48' : '#0284c7'}
+                  strokeWidth="1.5"
+                />
+                <text
+                  x={(ischiumX + lesserTrochanterX) / 2}
+                  y={ischiumY + 47}
+                  fill="#ffffff"
+                  fontSize="11"
+                  fontFamily="monospace"
+                  textAnchor="middle"
+                  fontWeight="bold"
+                >
+                  {ifs.toFixed(1)} mm
+                </text>
+              </g>
+            </svg>
+  );
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
       {/* Header section */}
@@ -156,7 +345,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
             <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-1.5">
               <span>Simulador Biomecánico Interactivo</span>
               <span aria-hidden="true">·</span>
-              <span>Anatomía 2D Dinámica</span>
+              <span>Anatomía 3D Dinámica</span>
               <span aria-hidden="true">·</span>
               <span>Modelo Ilustrativo</span>
             </div>
@@ -413,187 +602,15 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
               )}
             </div>
 
-            <svg viewBox="0 0 520 280" className="w-full h-auto max-h-[300px]">
-              <defs>
-                {/* Gradient for muscle */}
-                <linearGradient id="muscleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.85" />
-                  <stop offset="100%" stopColor="#e11d48" stopOpacity="0.95" />
-                </linearGradient>
-                {/* Pattern for bone */}
-                <linearGradient id="boneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#e2e8f0" />
-                  <stop offset="100%" stopColor="#94a3b8" />
-                </linearGradient>
-                <linearGradient id="ischiumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#d97706" />
-                </linearGradient>
-                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4" />
-                </marker>
-              </defs>
-
-              {/* Grid backdrop */}
-              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-              </pattern>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-
-              {/* Pelvis / Ischial Tuberosity (Left Anchor) */}
-              <g id="pelvis-ischium">
-                <path
-                  d={`M ${ischiumX - 45} 80 C ${ischiumX - 25} 120, ${ischiumX - 10} 150, ${ischiumX} ${ischiumY} C ${ischiumX + 5} 190, ${ischiumX - 20} 220, ${ischiumX - 50} 240 L ${ischiumX - 60} 100 Z`}
-                  fill="url(#ischiumGrad)"
-                  stroke="#b45309"
-                  strokeWidth="2"
-                />
-                <circle cx={ischiumX} cy={ischiumY} r="6" fill="#78350f" />
-                <text x={ischiumX - 10} y={ischiumY + 25} fill="#fde68a" fontSize="10" textAnchor="end" fontFamily="monospace">
-                  Tuberosidad Isquiática
-                </text>
-              </g>
-
-              {/* Quadratus Femoris Muscle (bridges between Ischium and Lesser Trochanter) */}
-              <g id="quadratus-femoris">
-                <path
-                  d={`M ${ischiumX} ${ischiumY - 14} Q ${(ischiumX + lesserTrochanterX) / 2} ${ischiumY - 5}, ${lesserTrochanterX} ${lesserTrochanterY - 12} L ${lesserTrochanterX} ${lesserTrochanterY + 12} Q ${(ischiumX + lesserTrochanterX) / 2} ${ischiumY + 20}, ${ischiumX} ${ischiumY + 14} Z`}
-                  fill="url(#muscleGrad)"
-                  stroke="#9f1239"
-                  strokeWidth="1.5"
-                  opacity={ifs < 12 ? '0.95' : '0.75'}
-                />
-                {/* Muscle fibers */}
-                <line
-                  x1={ischiumX + 4}
-                  y1={ischiumY}
-                  x2={lesserTrochanterX - 4}
-                  y2={lesserTrochanterY}
-                  stroke="#fda4af"
-                  strokeWidth="1.5"
-                  strokeDasharray="3 3"
-                />
-                <text
-                  x={(ischiumX + lesserTrochanterX) / 2}
-                  y={(ischiumY + lesserTrochanterY) / 2 - 18}
-                  fill="#fecdd3"
-                  fontSize="10"
-                  textAnchor="middle"
-                  fontWeight="bold"
-                >
-                  M. Cuadrado Femoral {ifs < 12 ? '⚠️ COMPRIMIDO' : ''}
-                </text>
-              </g>
-
-              {/* Sciatic Nerve (runs vertically behind the quadratus femoris) */}
-              <g id="sciatic-nerve">
-                <path
-                  d={`M ${(ischiumX + lesserTrochanterX) / 2 - 2} 40 Q ${(ischiumX + lesserTrochanterX) / 2 + (ifs < 12 ? 8 : 0)} 150, ${(ischiumX + lesserTrochanterX) / 2 - 4} 260`}
-                  fill="none"
-                  stroke="#facc15"
-                  strokeWidth={ifs < 12 ? '4' : '3.5'}
-                  strokeDasharray="6 3"
-                  opacity="0.9"
-                />
-                <circle cx={(ischiumX + lesserTrochanterX) / 2} cy={ischiumY + 4} r="3" fill="#ca8a04" />
-                <text
-                  x={(ischiumX + lesserTrochanterX) / 2 + 10}
-                  y="250"
-                  fill="#fef08a"
-                  fontSize="9.5"
-                  fontFamily="monospace"
-                >
-                  Nervio Ciático
-                </text>
-              </g>
-
-              {/* Femur Bone (Proximal Femur, Femoral Head, Lesser Trochanter, Shaft) */}
-              <g id="femur-bone" className="transition-transform duration-300">
-                {/* Femoral Head and Neck */}
-                <ellipse cx={femurX + 30} cy={femurY - 45} rx="26" ry="24" fill="url(#boneGrad)" stroke="#64748b" strokeWidth="2" />
-                {/* Neck to Greater Trochanter */}
-                <path
-                  d={`M ${femurX + 15} ${femurY - 30} L ${femurX + 55} ${femurY - 10} L ${femurX + 45} ${femurY + 100} L ${femurX - 15} ${femurY + 100} L ${femurX - 25} ${femurY + 35} L ${lesserTrochanterX} ${lesserTrochanterY} L ${femurX - 20} ${femurY - 15} Z`}
-                  fill="url(#boneGrad)"
-                  stroke="#475569"
-                  strokeWidth="2"
-                />
-                {/* Lesser Trochanter Marker */}
-                <circle cx={lesserTrochanterX} cy={lesserTrochanterY} r="7" fill="#ef4444" stroke="#991b1b" strokeWidth="2" />
-                <text x={femurX + 15} y={lesserTrochanterY + 4} fill="#f1f5f9" fontSize="10" textAnchor="start">
-                  Trocánter Menor
-                </text>
-                <text x={femurX + 30} y={femurY + 80} fill="#94a3b8" fontSize="10" textAnchor="start" fontFamily="monospace">
-                  Fémur
-                </text>
-              </g>
-
-              {/* Traction Band Vector (if active) */}
-              {state.bandTractionActive && (
-                <g id="traction-arrow" className="animate-pulse">
-                  {/* Anchor icon/point on right */}
-                  <rect x="490" y={femurY - 15} width="16" height="30" fill="#0891b2" rx="3" />
-                  {/* Elastic Band */}
-                  <path
-                    d={`M ${femurX + 20} ${femurY} Q 400 ${femurY - 10}, 490 ${femurY}`}
-                    fill="none"
-                    stroke="#06b6d4"
-                    strokeWidth="4.5"
-                    strokeDasharray="8 4"
-                  />
-                  {/* Force vector arrow pulling laterally */}
-                  <line
-                    x1={femurX + 35}
-                    y1={femurY}
-                    x2={femurX + 90}
-                    y2={femurY}
-                    stroke="#06b6d4"
-                    strokeWidth="3.5"
-                    markerEnd="url(#arrow)"
-                  />
-                  <text x={femurX + 50} y={femurY - 12} fill="#67e8f9" fontSize="10.5" fontWeight="bold">
-                    Tracción Lateral (+{((state.bandTractionIntensity / 100) * 8.5).toFixed(1)} mm)
-                  </text>
-                </g>
-              )}
-
-              {/* Dynamic Measurement Arrow between Ischium & Lesser Trochanter */}
-              <g id="ifs-measurement">
-                <line
-                  x1={ischiumX}
-                  y1={ischiumY + 45}
-                  x2={lesserTrochanterX}
-                  y2={ischiumY + 45}
-                  stroke={ifs < 15 ? '#f43f5e' : '#38bdf8'}
-                  strokeWidth="2.5"
-                />
-                {/* Ticks on ends */}
-                <line x1={ischiumX} y1={ischiumY + 38} x2={ischiumX} y2={ischiumY + 52} stroke="#f43f5e" strokeWidth="2" />
-                <line x1={lesserTrochanterX} y1={ischiumY + 38} x2={lesserTrochanterX} y2={ischiumY + 52} stroke="#38bdf8" strokeWidth="2" />
-                {/* Gap distance label */}
-                <rect
-                  x={(ischiumX + lesserTrochanterX) / 2 - 32}
-                  y={ischiumY + 32}
-                  width="64"
-                  height="22"
-                  rx="4"
-                  fill="#0f172a"
-                  stroke={ifs < 15 ? '#e11d48' : '#0284c7'}
-                  strokeWidth="1.5"
-                />
-                <text
-                  x={(ischiumX + lesserTrochanterX) / 2}
-                  y={ischiumY + 47}
-                  fill="#ffffff"
-                  fontSize="11"
-                  fontFamily="monospace"
-                  textAnchor="middle"
-                  fontWeight="bold"
-                >
-                  {ifs.toFixed(1)} mm
-                </text>
-              </g>
-            </svg>
+            {canRender3D ? (
+              <ViewerBoundary fallback={diagram2D}>
+                <Suspense fallback={diagram2D}>
+                  <Hip3DViewer state={state} ifs={ifs} />
+                </Suspense>
+              </ViewerBoundary>
+            ) : (
+              diagram2D
+            )}
           </div>
 
           {/* Action to proceed to routine */}

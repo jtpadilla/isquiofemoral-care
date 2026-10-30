@@ -12,7 +12,7 @@ interface Props {
   playing?: boolean;
 }
 
-const supportsWebGL = () => {
+export const supportsWebGL = () => {
   try {
     return !!document.createElement('canvas').getContext('webgl2');
   } catch {
@@ -20,7 +20,7 @@ const supportsWebGL = () => {
   }
 };
 
-class ViewerBoundary extends React.Component<{ fallback: React.ReactNode; children: React.ReactNode }, { failed: boolean }> {
+export class ViewerBoundary extends React.Component<{ fallback: React.ReactNode; children: React.ReactNode }, { failed: boolean }> {
   state = { failed: false };
 
   static getDerivedStateFromError() {
