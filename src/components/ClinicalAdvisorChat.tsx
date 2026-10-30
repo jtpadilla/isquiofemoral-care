@@ -33,6 +33,19 @@ Que los ejercicios de tracción con goma elástica te alivien es un dato útil: 
     const userMsg: Message = { sender: 'user', text: textToSend };
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
+
+    // La versión estática (GitHub Pages) no tiene servidor ni clave de API
+    if (import.meta.env.VITE_STATIC_SITE) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: 'assistant',
+          text: 'El consultor IA no está disponible en esta versión publicada, porque necesita un servidor propio. Tu pregunta no se ha enviado a ningún sitio. Los ejercicios, la rutina y el diario sí funcionan con normalidad. Para dudas sobre tu caso, consulta con tu médico o fisioterapeuta.'
+        }
+      ]);
+      return;
+    }
+
     setLoading(true);
 
     try {
