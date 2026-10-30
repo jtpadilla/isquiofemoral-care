@@ -39,6 +39,7 @@ Sin `GEMINI_API_KEY`, el resto de la aplicación funciona con normalidad y el co
 | `npm run build` | Genera la versión de producción en `dist/` |
 | `npm run preview` | Sirve `dist/` con Vite, sin la API del consultor |
 | `npm run lint` | Comprueba los tipos con `tsc --noEmit` |
+| `npm run check:spec` | Comprueba que `spec.md` y `src/data/` coinciden |
 | `npm run clean` | Borra `dist/` |
 
 Para ejecutar la versión de producción con el consultor IA:
@@ -47,6 +48,10 @@ Para ejecutar la versión de producción con el consultor IA:
 npm run build
 NODE_ENV=production npm start
 ```
+
+## Contenido clínico
+
+[`spec.md`](spec.md) es la fuente de verdad de los ejercicios, los consejos y los textos de seguridad. Para cambiarlos, edita ese archivo y pide a Claude Code que traslade el cambio a `src/data/`. `npm run check:spec` y el despliegue fallan si ambos no coinciden.
 
 ## Despliegue
 

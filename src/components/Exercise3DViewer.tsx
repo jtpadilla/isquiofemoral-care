@@ -4,6 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import { AlertTriangle, CheckCircle, Pause, Play } from 'lucide-react';
 import { AnimationReadout, ExerciseAnimation, Pose } from '../types';
 import { AFFECTED_SIDE } from '../data/exerciseAnimations';
+import { DISCLAIMERS } from '../data/clinicalContent';
 import { createExerciseProps } from '../utils/exerciseProps';
 import { createMannequin, Mannequin } from '../utils/mannequin';
 import { getCycleDuration, getPhases, groundPhases, sampleTimeline } from '../utils/poseTimeline';
@@ -320,7 +321,7 @@ const Exercise3DViewer: React.FC<Props> = ({ animation, side, playing }) => {
         </div>
 
         <p className="text-[11px] text-slate-400">
-          Arrastra sobre la figura para girarla. Es un modelo de referencia: los ángulos son orientativos y no analizan tu movimiento.
+          {DISCLAIMERS.model3D}
         </p>
       </div>
     </div>

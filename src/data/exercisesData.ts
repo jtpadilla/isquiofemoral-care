@@ -1,5 +1,7 @@
 import { Exercise } from '../types';
 
+// Derivado de spec.md: cámbialo allí primero. `npm run check:spec` comprueba que coinciden.
+
 export const EXERCISES_DATABASE: Exercise[] = [
   // ==========================================
   // FASE 1: DESCOMPRESIÓN ARTICULAR Y TRACCIÓN

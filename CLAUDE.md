@@ -6,6 +6,7 @@ Aplicación React para el pinzamiento isquiofemoral. La descripción funcional y
 
 - `npm run dev`: servidor en el puerto 3000 (`tsx server.ts`, con Vite como middleware).
 - `npm run lint`: comprobación de tipos (`tsc --noEmit`). El despliegue también la ejecuta y falla si hay errores.
+- `npm run check:spec`: comprueba que `spec.md` y `src/data/` coinciden. El despliegue también la ejecuta.
 - `npm run build`: compilación de producción.
 
 No hay tests ni ESLint. Verifica los cambios con `npm run lint` y, si afectan a la interfaz, ejecutando la aplicación.
@@ -16,8 +17,10 @@ No hay tests ni ESLint. Verifica los cambios con `npm run lint` y, si afectan a 
 - `src/data/clinicalAdvisor.ts`: modelo y prompt del consultor, compartidos por el servidor y el navegador.
 - `src/utils/browserGemini.ts`: en la versión estática, gestiona la clave del usuario y llama a Gemini desde el navegador.
 - `src/App.tsx`: navegación por estado (`activeTab`, `activeWorkoutList`). No hay router ni librería de estado global.
-- `src/data/exercisesData.ts`: contenido clínico de los ejercicios.
-- `src/data/exerciseAnimations.ts`: animaciones, indexadas por `Exercise['diagramType']`.
+- `spec.md`: fuente de verdad del contenido clínico.
+- `src/data/exercisesData.ts` y `src/data/clinicalContent.ts`: copia de ese contenido que usa la interfaz (ejercicios, rutinas, guía, simulador, portada y avisos).
+- `src/data/exerciseAnimations.ts`: animaciones, indexadas por `Exercise['diagramType']`. Sus textos y rangos también proceden de `spec.md`; las poses no.
+- `src/components/RichText.tsx`: muestra la `**negrita**` del contenido.
 - `src/types/index.ts`: todos los tipos compartidos.
 
 Visualización 3D:
@@ -43,7 +46,10 @@ Visualización 3D:
 
 ## Contenido clínico
 
-- Es información de salud: redáctala con prudencia y coherencia entre la guía, los ejercicios y el prompt de `src/data/clinicalAdvisor.ts`. Si cambias un criterio clínico, búscalo en los tres sitios.
+- **Cambia primero `spec.md`** y traslada el cambio a `src/data/`, sin escribir contenido clínico en los componentes. Si el usuario pide aplicar la especificación, cambia solo los datos y lo imprescindible de la interfaz; no regeneres componentes enteros.
+- Ejecuta siempre `npm run check:spec`. Si un ejercicio es nuevo, crea también su animación en `exerciseAnimations.ts` y revísala en el navegador.
+- Es información de salud: redáctala con prudencia y coherencia entre la guía, los ejercicios y el prompt del consultor. Si cambias un criterio clínico, búscalo en todas las secciones de `spec.md`.
+- No corrijas por tu cuenta los «Puntos para la revisión clínica» de `spec.md` salvo que te lo pidan.
 - Presenta el alivio con la tracción como compatible con el diagnóstico, nunca como confirmación. El diagnóstico requiere valoración médica y resonancia magnética.
 - No inventes datos clínicos. Si no puedes respaldar una afirmación, indícalo en lugar de incluirla.
 

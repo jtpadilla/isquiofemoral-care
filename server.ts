@@ -4,7 +4,7 @@ import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { buildConsultationPrompt, GEMINI_MODEL } from './src/data/clinicalAdvisor';
+import { buildConsultationPrompt, GEMINI_MODEL, NO_KEY_REPLY } from './src/data/clinicalAdvisor';
 
 dotenv.config();
 
@@ -25,10 +25,7 @@ async function startServer() {
 
       if (!apiKey) {
         return res.status(200).json({
-          reply: `Nota: La clave GEMINI_API_KEY no está configurada en las variables de entorno. Sin embargo, basándonos en la evidencia de fisioterapia y biomecánica sobre el Pinzamiento Isquiofemoral:
-1. La tracción con goma elástica descomprime el espacio entre el trocánter menor y el isquion, aliviando la compresión sobre el músculo cuadrado femoral y el nervio ciático.
-2. Evita la hiperextensión de cadera combinada con aducción y rotación externa.
-3. Prioriza el fortalecimiento del glúteo medio para evitar la caída de la pelvis (signo de Trendelenburg) durante la marcha.`
+          reply: NO_KEY_REPLY
         });
       }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Exercise } from '../types';
 import { ExerciseVisual } from './ExerciseVisual';
 import { AFFECTED_SIDE } from '../data/exerciseAnimations';
+import { POST_SESSION_TIP } from '../data/clinicalContent';
 import { sounds } from '../utils/soundEffects';
 import { 
   Play, 
@@ -167,7 +168,7 @@ export const RoutinePlayer: React.FC<Props> = ({ exercises, onFinishWorkout, onE
             Recomendación posterior:
           </span>
           <p>
-            Al terminar la tracción, camina 1-2 minutos con zancada corta y base ligeramente ancha para que el sistema nervioso integre la nueva amplitud sin comprimir el canal isquiofemoral.
+            {POST_SESSION_TIP}
           </p>
         </div>
 

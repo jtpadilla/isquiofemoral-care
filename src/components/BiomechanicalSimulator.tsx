@@ -2,9 +2,20 @@ import React, { Suspense, lazy, useState } from 'react';
 import { BiomechanicsState } from '../types';
 import { Activity, ShieldCheck, AlertTriangle, ArrowRight, Sparkles, RefreshCw, Layers } from 'lucide-react';
 import { supportsWebGL, ViewerBoundary } from './ExerciseVisual';
+import { SIMULATOR, SimulatorPreset } from '../data/clinicalContent';
+import { RichText } from './RichText';
 
 // three.js solo se descarga si el navegador puede mostrar la escena 3D
 const Hip3DViewer = lazy(() => import('./Hip3DViewer'));
+
+const STATUS_STYLES = {
+  severe: { color: 'text-rose-600', bg: 'bg-rose-50 border-rose-200' },
+  risk: { color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
+  normal: { color: 'text-slate-800', bg: 'bg-slate-100 border-slate-200' },
+  decompressed: { color: 'text-cyan-700', bg: 'bg-cyan-50 border-cyan-200' },
+};
+
+const SEVERE_BELOW_MM = SIMULATOR.statuses[0].below;
 
 interface Props {
   onSelectPhase?: (phase: string) => void;
@@ -20,114 +31,52 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
     bandTractionActive: true,
   });
 
-  // Illustrative estimate of the ischiofemoral space (IFS) in mm.
-  // The direction of each effect follows the literature; the coefficients are NOT measured values.
-  // Normal baseline IFS: ~21.0 mm (standard range 18 - 25 mm)
-  // Extension narrows: -0.35 mm per degree of extension (<0)
-  // Flexion opens: +0.08 mm per degree of flexion (>0)
-  // Adduction narrows severely: -0.45 mm per degree of adduction (<0)
-  // Abduction opens: +0.28 mm per degree of abduction (>0)
-  // External rotation narrows: -0.32 mm per degree (<0)
-  // Internal rotation opens: +0.18 mm per degree (>0)
-  // Rubber band lateral traction creates decoaptation: + (intensity * 0.08) mm (up to +8.0 mm)
+  // Estimación ilustrativa del espacio isquiofemoral (IFS) en mm.
+  // La dirección de cada efecto sigue la literatura; los coeficientes NO son valores medidos.
   const calculateIFS = (s: BiomechanicsState) => {
-    let base = 21.0;
+    const { effects } = SIMULATOR;
+    let base = SIMULATOR.baselineMm;
 
     if (s.hipAngle < 0) {
-      base += s.hipAngle * 0.35; // Extensión estrecha
+      base += s.hipAngle * effects.extension.perDegree; // Extensión estrecha
     } else {
-      base += Math.min(s.hipAngle * 0.08, 6.0); // Flexión abre hasta un límite
+      base += Math.min(s.hipAngle * effects.flexion.perDegree, effects.flexion.limit); // Flexión abre hasta un límite
     }
 
     if (s.frontalAngle < 0) {
-      base += s.frontalAngle * 0.45; // Aducción estrecha severamente
+      base += s.frontalAngle * effects.adduction.perDegree; // Aducción estrecha severamente
     } else {
-      base += Math.min(s.frontalAngle * 0.28, 8.0); // Abducción abre
+      base += Math.min(s.frontalAngle * effects.abduction.perDegree, effects.abduction.limit); // Abducción abre
     }
 
     if (s.rotationAngle < 0) {
-      base += s.rotationAngle * 0.32; // Rotación externa aproxima trocánter menor a isquion
+      base += s.rotationAngle * effects.externalRotation.perDegree; // Rotación externa aproxima trocánter menor a isquion
     } else {
-      base += Math.min(s.rotationAngle * 0.18, 5.0); // Rotación interna aleja trocánter menor
+      base += Math.min(s.rotationAngle * effects.internalRotation.perDegree, effects.internalRotation.limit); // Rotación interna aleja trocánter menor
     }
 
     if (s.bandTractionActive) {
-      base += (s.bandTractionIntensity / 100) * 8.5; // Decoaptación lateral con goma
+      base += (s.bandTractionIntensity / 100) * SIMULATOR.maxTractionMm; // Decoaptación lateral con goma
     }
 
-    return Math.max(4.0, Math.round(base * 10) / 10);
+    return Math.max(SIMULATOR.minimumMm, Math.round(base * 10) / 10);
   };
 
   const ifs = calculateIFS(state);
 
   // Status determination
-  let statusText = '';
-  let statusColor = '';
-  let statusBg = '';
-  let statusDesc = '';
-
-  if (ifs < 12) {
-    statusText = 'Pinzamiento Severo (Conflicto Activo)';
-    statusColor = 'text-rose-600';
-    statusBg = 'bg-rose-50 border-rose-200';
-    statusDesc = 'El trocánter menor colisiona directamente con el isquion. El músculo cuadrado femoral está atrapado y el nervio ciático sufre compresión e isquemia.';
-  } else if (ifs < 16) {
-    statusText = 'Espacio Crítico / En Riesgo';
-    statusColor = 'text-amber-600';
-    statusBg = 'bg-amber-50 border-amber-200';
-    statusDesc = 'Espacio inferior al umbral normal de resonancia (< 15 mm). Hay fricción miofascial repetitiva al caminar o sentarse.';
-  } else if (ifs < 24) {
-    statusText = 'Espacio Fisiológico Libre';
-    statusColor = 'text-slate-800';
-    statusBg = 'bg-slate-100 border-slate-200';
-    statusDesc = 'Rango anatómico estándar. El cuadrado femoral dispone de espacio de deslizamiento sin compresión ósea.';
-  } else {
-    statusText = 'Descompresión Terapéutica Máxima';
-    statusColor = 'text-cyan-700';
-    statusBg = 'bg-cyan-50 border-cyan-200';
-    statusDesc = 'En este modelo, la tracción lateral con goma elástica amplía el túnel isquiofemoral, lo que explicaría el alivio que puedes notar.';
-  }
+  const status = SIMULATOR.statuses.find(({ below }) => ifs < below)!;
+  const statusText = status.name;
+  const statusDesc = status.description;
+  const { color: statusColor, bg: statusBg } = STATUS_STYLES[status.tone];
 
   // Presets
-  const applyPreset = (preset: 'traction' | 'walk_impingement' | 'crossed_legs' | 'neutral') => {
-    switch (preset) {
-      case 'traction':
-        setState({
-          hipAngle: 75,
-          frontalAngle: 15,
-          rotationAngle: 10,
-          bandTractionIntensity: 90,
-          bandTractionActive: true,
-        });
-        break;
-      case 'walk_impingement':
-        setState({
-          hipAngle: -12, // Extensión al terminar paso
-          frontalAngle: -8, // Aducción relativa por debilidad de glúteo medio
-          rotationAngle: -15, // Rotación externa al despegar
-          bandTractionIntensity: 0,
-          bandTractionActive: false,
-        });
-        break;
-      case 'crossed_legs':
-        setState({
-          hipAngle: 70,
-          frontalAngle: -15, // Cruce de piernas
-          rotationAngle: -20,
-          bandTractionIntensity: 0,
-          bandTractionActive: false,
-        });
-        break;
-      case 'neutral':
-        setState({
-          hipAngle: 0,
-          frontalAngle: 0,
-          rotationAngle: 0,
-          bandTractionIntensity: 50,
-          bandTractionActive: false,
-        });
-        break;
-    }
+  const applyPreset = (preset: SimulatorPreset | 'neutral') => {
+    setState(
+      preset === 'neutral'
+        ? { hipAngle: 0, frontalAngle: 0, rotationAngle: 0, bandTractionIntensity: 50, bandTractionActive: false }
+        : SIMULATOR.presets[preset].state
+    );
   };
 
   // Graphical coordinates for the SVG diagram
@@ -201,7 +150,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                   fill="url(#muscleGrad)"
                   stroke="#9f1239"
                   strokeWidth="1.5"
-                  opacity={ifs < 12 ? '0.95' : '0.75'}
+                  opacity={ifs < SEVERE_BELOW_MM ? '0.95' : '0.75'}
                 />
                 {/* Muscle fibers */}
                 <line
@@ -221,17 +170,17 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                   textAnchor="middle"
                   fontWeight="bold"
                 >
-                  M. Cuadrado Femoral {ifs < 12 ? '⚠️ COMPRIMIDO' : ''}
+                  M. Cuadrado Femoral {ifs < SEVERE_BELOW_MM ? '⚠️ COMPRIMIDO' : ''}
                 </text>
               </g>
 
               {/* Sciatic Nerve (runs vertically behind the quadratus femoris) */}
               <g id="sciatic-nerve">
                 <path
-                  d={`M ${(ischiumX + lesserTrochanterX) / 2 - 2} 40 Q ${(ischiumX + lesserTrochanterX) / 2 + (ifs < 12 ? 8 : 0)} 150, ${(ischiumX + lesserTrochanterX) / 2 - 4} 260`}
+                  d={`M ${(ischiumX + lesserTrochanterX) / 2 - 2} 40 Q ${(ischiumX + lesserTrochanterX) / 2 + (ifs < SEVERE_BELOW_MM ? 8 : 0)} 150, ${(ischiumX + lesserTrochanterX) / 2 - 4} 260`}
                   fill="none"
                   stroke="#facc15"
-                  strokeWidth={ifs < 12 ? '4' : '3.5'}
+                  strokeWidth={ifs < SEVERE_BELOW_MM ? '4' : '3.5'}
                   strokeDasharray="6 3"
                   opacity="0.9"
                 />
@@ -292,7 +241,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                     markerEnd="url(#arrow)"
                   />
                   <text x={femurX + 50} y={femurY - 12} fill="#67e8f9" fontSize="10.5" fontWeight="bold">
-                    Tracción Lateral (+{((state.bandTractionIntensity / 100) * 8.5).toFixed(1)} mm)
+                    Tracción Lateral (+{((state.bandTractionIntensity / 100) * SIMULATOR.maxTractionMm).toFixed(1)} mm)
                   </text>
                 </g>
               )}
@@ -304,7 +253,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                   y1={ischiumY + 45}
                   x2={lesserTrochanterX}
                   y2={ischiumY + 45}
-                  stroke={ifs < 15 ? '#f43f5e' : '#38bdf8'}
+                  stroke={ifs < SIMULATOR.pathologicalBelowMm ? '#f43f5e' : '#38bdf8'}
                   strokeWidth="2.5"
                 />
                 {/* Ticks on ends */}
@@ -318,7 +267,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                   height="22"
                   rx="4"
                   fill="#0f172a"
-                  stroke={ifs < 15 ? '#e11d48' : '#0284c7'}
+                  stroke={ifs < SIMULATOR.pathologicalBelowMm ? '#e11d48' : '#0284c7'}
                   strokeWidth="1.5"
                 />
                 <text
@@ -369,7 +318,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Tracción con Goma (Alivio)</span>
+              <span>{SIMULATOR.presets.traction.label}</span>
             </button>
             <button
               onClick={() => applyPreset('walk_impingement')}
@@ -379,7 +328,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                   : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              <span>Marcha / Zancada Larga (Pinzamiento)</span>
+              <span>{SIMULATOR.presets.walk_impingement.label}</span>
             </button>
             <button
               onClick={() => applyPreset('crossed_legs')}
@@ -389,7 +338,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                   : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              <span>Piernas Cruzadas</span>
+              <span>{SIMULATOR.presets.crossed_legs.label}</span>
             </button>
             <button
               onClick={() => applyPreset('neutral')}
@@ -516,7 +465,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                     className="w-full accent-cyan-600 h-2 bg-cyan-200 rounded-lg cursor-pointer"
                   />
                   <p className="text-[11px] text-cyan-800 leading-relaxed">
-                    Ejerce un vector perpendicular que tracciona lateralmente la cabeza del fémur, separándola mecánicamente del isquion.
+                    {SIMULATOR.tractionExplanation}
                   </p>
                 </div>
               )}
@@ -530,11 +479,10 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
               Qué muestra este modelo
             </span>
             <p className="leading-relaxed">
-              En el pinzamiento isquiofemoral, el trocánter menor puede chocar con la tuberosidad isquiática al caminar (cuando la pierna va hacia atrás en extensión y aducción).
-              La goma busca generar una <strong>fuerza de tracción decoaptante</strong> que amplíe ese canal, lo que explicaría el alivio.
+              <RichText text={SIMULATOR.modelExplanation} />
             </p>
             <p className="leading-relaxed">
-              Las cifras son una estimación ilustrativa, no una medición de tu cadera, y sentir alivio no confirma el diagnóstico: el espacio real solo se mide con una resonancia magnética.
+              {SIMULATOR.modelLimits}
             </p>
           </div>
         </div>
@@ -554,8 +502,8 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
                 <span className="text-xs uppercase font-mono text-slate-600 font-medium">mm</span>
               </div>
               <div className="mt-2 text-xs text-slate-600 flex items-center justify-between">
-                <span>Normal: 18 - 25 mm</span>
-                <span>Patológico: &lt; 15 mm</span>
+                <span>Normal: {SIMULATOR.normalRange}</span>
+                <span>Patológico: &lt; {SIMULATOR.pathologicalBelowMm} mm</span>
               </div>
             </div>
 
@@ -616,7 +564,7 @@ export const BiomechanicalSimulator: React.FC<Props> = ({ onSelectPhase }) => {
           {/* Action to proceed to routine */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
             <span className="text-xs text-slate-500">
-              Objetivo terapéutico: <strong>Mantener el espacio &gt; 18 mm</strong> mediante tracción y fuerza abductora.
+              Objetivo terapéutico: <RichText text={SIMULATOR.therapeuticGoal} />
             </span>
             {onSelectPhase && (
               <button

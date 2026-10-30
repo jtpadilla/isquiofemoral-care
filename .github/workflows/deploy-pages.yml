@@ -28,6 +28,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx tsc --noEmit
+      - run: npm run check:spec
       - run: npx vite build --base=/${{ github.event.repository.name }}/
         env:
           VITE_STATIC_SITE: 'true'

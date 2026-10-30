@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Send, Sparkles, User, Bot, AlertCircle, RefreshCw, KeyRound } from 'lucide-react';
+import { ADVISOR_GREETING, ADVISOR_SAMPLE_QUESTIONS } from '../data/clinicalAdvisor';
+import { DISCLAIMERS } from '../data/clinicalContent';
 import { askGemini, clearApiKey, loadApiKey, saveApiKey } from '../utils/browserGemini';
 
 const IS_STATIC_SITE = !!import.meta.env.VITE_STATIC_SITE;
@@ -13,10 +15,7 @@ export const ClinicalAdvisorChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: 'assistant',
-      text: `Hola. Soy tu consultor biomecánico especializado en Pinzamiento Isquiofemoral (IFI).
-Que los ejercicios de tracción con goma elástica te alivien es un dato útil: es compatible con que la decoaptación lateral del fémur descomprima el túnel entre el trocánter menor y el isquion, aunque no confirma el diagnóstico, que requiere valoración médica y resonancia magnética.
-
-¿Tienes dudas sobre cómo ajustar la goma, qué ejercicios realizar según tus sensaciones o cómo modificar tu marcha?`
+      text: ADVISOR_GREETING
     }
   ]);
   const [input, setInput] = useState('');
@@ -39,13 +38,6 @@ Que los ejercicios de tracción con goma elástica te alivien es un dato útil: 
     setApiKey(null);
     setRememberKey(false);
   };
-
-  const sampleQuestions = [
-    '¿A qué altura exacta debe anclarse la goma elástica?',
-    '¿Por qué me baja un calambre por la parte posterior del muslo al caminar?',
-    '¿Puedo hacer sentadillas o estirar los isquiotibiales?',
-    '¿Cómo ajusto la tracción si siento molestia en la ingle anterior?'
-  ];
 
   const handleSend = async (queryText?: string) => {
     const textToSend = queryText || input;
@@ -243,7 +235,7 @@ Que los ejercicios de tracción con goma elástica te alivien es un dato útil: 
           {/* Suggested chips */}
           <div className="px-5 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center gap-2 overflow-x-auto text-[11px]">
             <span className="text-slate-400 whitespace-nowrap">Sugerencias:</span>
-            {sampleQuestions.map((q, idx) => (
+            {ADVISOR_SAMPLE_QUESTIONS.map((q, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSend(q)}
@@ -284,7 +276,7 @@ Que los ejercicios de tracción con goma elástica te alivien es un dato útil: 
               </button>
             </form>
             <span className="text-[10px] text-slate-400 mt-2 block text-center">
-              Orientación educativa basada en biomecánica. Consulta siempre con tu médico o fisioterapeuta para confirmación diagnóstica con RMN.
+              {DISCLAIMERS.advisor}
             </span>
           </div>
         </>

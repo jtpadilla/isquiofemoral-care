@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Exercise } from './types';
 import { EXERCISES_DATABASE } from './data/exercisesData';
+import { DISCLAIMERS, HOME, QUICK_START_ROUTINE } from './data/clinicalContent';
+import { RichText } from './components/RichText';
 import { TopNav, NavTab } from './components/TopNav';
 import { BiomechanicalSimulator } from './components/BiomechanicalSimulator';
 import { ExerciseCatalog } from './components/ExerciseCatalog';
@@ -21,6 +23,12 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
+const PILLAR_STYLES = [
+  { badge: 'bg-cyan-100 text-cyan-800', outcome: 'text-cyan-700' },
+  { badge: 'bg-emerald-100 text-emerald-800', outcome: 'text-emerald-700' },
+  { badge: 'bg-indigo-100 text-indigo-800', outcome: 'text-indigo-700' },
+];
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<NavTab>('simulador');
   const [activeExerciseModal, setActiveExerciseModal] = useState<Exercise | null>(null);
@@ -28,15 +36,7 @@ export default function App() {
 
   // Quick launch default recommended decompression & stabilization routine
   const startDefaultRoutine = () => {
-    const routine = EXERCISES_DATABASE.filter((ex) =>
-      [
-        'traccion-lateral-cuadrupedia',
-        'descompresion-axial-supino',
-        'puente-gluteo-abduccion-banda',
-        'abduccion-decubito-lateral-30flex',
-        'monster-walk-semisentadilla',
-      ].includes(ex.id)
-    );
+    const routine = EXERCISES_DATABASE.filter((ex) => QUICK_START_ROUTINE.exerciseIds.includes(ex.id));
     setActiveWorkoutList(routine);
   };
 
@@ -100,8 +100,7 @@ export default function App() {
                       Descompresión articular y estabilidad para el espacio isquiofemoral.
                     </h1>
                     <p className="text-slate-300 text-sm md:text-base leading-relaxed">
-                      Si los ejercicios de tracción con gomas elásticas te producen alivio inmediato, estás experimentando el efecto directo de la 
-                      <strong> decoaptación lateral del fémur</strong>: abrir milímetros críticos entre el trocánter menor y el isquion para liberar el músculo cuadrado femoral y el nervio ciático.
+                      <RichText text={HOME.intro} />
                     </p>
 
                     <div className="flex flex-wrap items-center gap-3 pt-4">
@@ -110,7 +109,7 @@ export default function App() {
                         className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-2"
                       >
                         <Play className="w-4 h-4 fill-current" />
-                        <span>Comenzar Rutina de Descompresión (15 min)</span>
+                        <span>Comenzar Rutina de Descompresión ({QUICK_START_ROUTINE.duration})</span>
                       </button>
 
                       <button
@@ -151,50 +150,25 @@ export default function App() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-slate-300 transition-all space-y-3">
-                      <div className="w-8 h-8 rounded-xl bg-cyan-100 text-cyan-800 font-mono font-bold text-xs flex items-center justify-center">
-                        01
-                      </div>
-                      <h4 className="text-base font-bold text-slate-900">
-                        Descompresión Inmediata
-                      </h4>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        Tracción lateral y longitudinal con banda elástica en decúbito y cuadrupedia. Abre el espacio y permite la revascularización del cuadrado femoral.
-                      </p>
-                      <span className="text-[11px] font-semibold text-cyan-700 block">
-                        Alivio sintomático y decoaptación
-                      </span>
-                    </div>
-
-                    <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-slate-300 transition-all space-y-3">
-                      <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 font-mono font-bold text-xs flex items-center justify-center">
-                        02
-                      </div>
-                      <h4 className="text-base font-bold text-slate-900">
-                        Estabilización del Glúteo Medio
-                      </h4>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        Fortalecimiento de abductores en rangos que evitan la extensión. Impide la caída contralateral de la pelvis (signo de Trendelenburg).
-                      </p>
-                      <span className="text-[11px] font-semibold text-emerald-700 block">
-                        Mantiene el espacio abierto de forma activa
-                      </span>
-                    </div>
-
-                    <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-slate-300 transition-all space-y-3">
-                      <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-800 font-mono font-bold text-xs flex items-center justify-center">
-                        03
-                      </div>
-                      <h4 className="text-base font-bold text-slate-900">
-                        Integración y Reeducación
-                      </h4>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        Modificación del patrón de zancada (acortar paso, evitar cruce de pies) y ejercicios monopodales con pelvis estrictamente nivelada.
-                      </p>
-                      <span className="text-[11px] font-semibold text-indigo-700 block">
-                        Prevención de recidivas en la vida diaria
-                      </span>
-                    </div>
+                    {HOME.pillars.map((pillar, idx) => {
+                      const style = PILLAR_STYLES[idx % PILLAR_STYLES.length];
+                      return (
+                        <div key={pillar.title} className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-slate-300 transition-all space-y-3">
+                          <div className={`w-8 h-8 rounded-xl ${style.badge} font-mono font-bold text-xs flex items-center justify-center`}>
+                            {String(idx + 1).padStart(2, '0')}
+                          </div>
+                          <h4 className="text-base font-bold text-slate-900">
+                            {pillar.title}
+                          </h4>
+                          <p className="text-xs text-slate-600 leading-relaxed">
+                            {pillar.description}
+                          </p>
+                          <span className={`text-[11px] font-semibold ${style.outcome} block`}>
+                            {pillar.outcome}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -242,12 +216,12 @@ export default function App() {
               IsquioFemoral Care · Protocolo Fisioterapéutico de Descompresión Articular
             </p>
             <p className="text-[11px] text-slate-600">
-              Desarrollado según criterios de biomecánica ortopédica para el conflicto del espacio isquiofemoral y del cuadrado femoral.
+              {DISCLAIMERS.footerOrigin}
             </p>
           </div>
 
           <div className="text-[11px] text-slate-600 max-w-md">
-            Nota de responsabilidad: Esta aplicación no sustituye una consulta médica individualizada. El diagnóstico definitivo de pinzamiento isquiofemoral requiere confirmación por Resonancia Magnética (RMN).
+            {DISCLAIMERS.footer}
           </div>
         </div>
       </footer>

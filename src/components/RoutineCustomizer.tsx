@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { Exercise } from '../types';
 import { EXERCISES_DATABASE } from '../data/exercisesData';
+import { ROUTINE_PRESETS } from '../data/clinicalContent';
 import { Play, Sparkles, CheckSquare, Square, Printer, Clock, Layers } from 'lucide-react';
+
+const PRESET_STYLES = [
+  { card: 'border-cyan-200 bg-cyan-50/50 hover:bg-cyan-50', title: 'text-cyan-900', duration: 'text-cyan-700', text: 'text-cyan-800' },
+  { card: 'border-emerald-200 bg-emerald-50/50 hover:bg-emerald-50', title: 'text-emerald-900', duration: 'text-emerald-700', text: 'text-emerald-800' },
+  { card: 'border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50', title: 'text-indigo-900', duration: 'text-indigo-700', text: 'text-indigo-800' },
+];
 
 interface Props {
   onStartRoutine: (exercises: Exercise[]) => void;
@@ -15,37 +22,6 @@ export const RoutineCustomizer: React.FC<Props> = ({ onStartRoutine }) => {
     'puente-gluteo-abduccion-banda',
     'abduccion-decubito-lateral-30flex',
   ]);
-
-  // Presets definition
-  const applyPreset = (presetName: 'alivio_rapido' | 'completo' | 'pre_marcha') => {
-    switch (presetName) {
-      case 'alivio_rapido':
-        setSelectedIds([
-          'traccion-lateral-cuadrupedia',
-          'descompresion-axial-supino',
-          'neurodinamica-ciatico-slider',
-        ]);
-        break;
-      case 'completo':
-        setSelectedIds([
-          'traccion-lateral-cuadrupedia',
-          'descompresion-axial-supino',
-          'puente-gluteo-abduccion-banda',
-          'abduccion-decubito-lateral-30flex',
-          'monster-walk-semisentadilla',
-          'reverse-clamshell-rotacion-interna',
-        ]);
-        break;
-      case 'pre_marcha':
-        setSelectedIds([
-          'traccion-lateral-cuadrupedia',
-          'puente-gluteo-abduccion-banda',
-          'monster-walk-semisentadilla',
-          'reeducacion-marcha-higiene',
-        ]);
-        break;
-    }
-  };
 
   const toggleExercise = (id: string) => {
     if (selectedIds.includes(id)) {
@@ -107,44 +83,24 @@ export const RoutineCustomizer: React.FC<Props> = ({ onStartRoutine }) => {
 
         {/* Preset Cards Strip */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3">
-          <button
-            onClick={() => applyPreset('alivio_rapido')}
-            className="p-4 rounded-xl border border-cyan-200 bg-cyan-50/50 hover:bg-cyan-50 transition-all text-left space-y-1 group"
-          >
-            <span className="text-xs font-bold text-cyan-900 flex items-center justify-between">
-              <span>Alivio Inmediato Express</span>
-              <span className="text-[11px] font-mono text-cyan-700 font-normal">~8 min</span>
-            </span>
-            <p className="text-[11px] text-cyan-800 leading-relaxed">
-              Enfocado 100% en decoaptación con bandas y deslizamiento neural. Ideal para crisis de dolor o tras estar mucho tiempo sentado.
-            </p>
-          </button>
-
-          <button
-            onClick={() => applyPreset('completo')}
-            className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 hover:bg-emerald-50 transition-all text-left space-y-1 group"
-          >
-            <span className="text-xs font-bold text-emerald-900 flex items-center justify-between">
-              <span>Descompresión + Glúteo Medio</span>
-              <span className="text-[11px] font-mono text-emerald-700 font-normal">~18 min</span>
-            </span>
-            <p className="text-[11px] text-emerald-800 leading-relaxed">
-              Tracción con gomas seguida de activación abductora sin colapso pélvico. Protocolo recomendado de mantenimiento.
-            </p>
-          </button>
-
-          <button
-            onClick={() => applyPreset('pre_marcha')}
-            className="p-4 rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50 transition-all text-left space-y-1 group"
-          >
-            <span className="text-xs font-bold text-indigo-900 flex items-center justify-between">
-              <span>Activación Pre-Caminata</span>
-              <span className="text-[11px] font-mono text-indigo-700 font-normal">~12 min</span>
-            </span>
-            <p className="text-[11px] text-indigo-800 leading-relaxed">
-              Prepara el espacio isquiofemoral y despierta el glúteo para evitar el pinzamiento por zancada larga al salir a caminar.
-            </p>
-          </button>
+          {ROUTINE_PRESETS.map((preset, idx) => {
+            const style = PRESET_STYLES[idx % PRESET_STYLES.length];
+            return (
+              <button
+                key={preset.title}
+                onClick={() => setSelectedIds(preset.exerciseIds)}
+                className={`p-4 rounded-xl border ${style.card} transition-all text-left space-y-1 group`}
+              >
+                <span className={`text-xs font-bold ${style.title} flex items-center justify-between`}>
+                  <span>{preset.title}</span>
+                  <span className={`text-[11px] font-mono ${style.duration} font-normal`}>{preset.duration}</span>
+                </span>
+                <p className={`text-[11px] ${style.text} leading-relaxed`}>
+                  {preset.description}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </div>
 
