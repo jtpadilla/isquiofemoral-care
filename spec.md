@@ -678,10 +678,11 @@ El pinzamiento isquiofemoral es una causa extraarticular frecuentemente subdiagn
 
 ### Qué evitar durante la rehabilitación
 
-- **Estiramientos clásicos de isquiotibiales hacia adelante:** Inclinarse hacia los dedos de los pies aplasta el vientre del cuadrado femoral y tensa el nervio ciático irritado. Sustitúyelo siempre por deslizamientos neurodinámicos sin tensión (sliders).
-- **Sentarse con las piernas cruzadas:** Cruzar las piernas coloca la cadera en aducción profunda y rotación extrema, cerrando al mínimo el espacio isquiofemoral. Mantén siempre las rodillas separadas y apoyadas en superficies con soporte.
-- **Zancadas largas hacia atrás o hiperextensión:** En cada zancada larga de marcha o carrera, la pierna retrasada entra en hiperextensión + aducción, produciendo un impacto repetitivo del trocánter menor contra el isquion.
-- **Asientos duros sin almohadilla isquiática:** El apoyo directo sobre superficies rígidas comprime el túnel isquiofemoral inferior. Utiliza un cojín o toalla doblada bajo los muslos para descargar la tuberosidad isquiática.
+- **Estiramientos clásicos de isquiotibiales hacia adelante:** Inclinarse hacia los dedos de los pies con las piernas rectas aplasta el vientre del cuadrado femoral contra el fémur y somete al nervio ciático irritado a una tensión excesiva. Sustitúyelo siempre por deslizamientos neurodinámicos sin tensión (sliders).
+- **Sentarse con las piernas cruzadas o en rotación forzada:** Cruzar una pierna sobre otra o sentarse sobre un pie coloca la cadera en aducción profunda y rotación extrema, reduciendo al mínimo el espacio isquiofemoral. Mantén siempre las rodillas separadas a la anchura de las caderas.
+- **Zancadas largas hacia atrás o hiperextensión:** En cada zancada amplia de marcha o carrera, la pierna retrasada entra en hiperextensión combinada con aducción, produciendo un impacto repetitivo del trocánter menor contra el isquion.
+- **Asientos duros o muy bajos sin descarga isquiática:** El apoyo directo sobre superficies rígidas o asientos hundidos (donde las rodillas quedan más altas que las caderas) comprime el túnel subglúteo inferior. Utiliza un cojín firme o toalla doblada bajo los muslos para liberar la tuberosidad isquiática.
+- **Apoyo monopodal asimétrico al estar de pie:** Descansar todo el peso del cuerpo sobre una sola pierna dejando caer la pelvis contraria reproduce el signo de Trendelenburg y cierra mecánicamente el canal isquiofemoral del lado de apoyo. Reparte el peso en ambas piernas por igual.
 
 ### Por qué alivia la tracción
 
@@ -696,9 +697,11 @@ Cuando una articulación presenta un conflicto de choque óseo, la respuesta fis
 
 ### Higiene postural
 
-- **Al dormir de lado:** Coloca un cojín o almohada gruesa entre tus rodillas. Esto mantiene la pierna de arriba en posición neutra/abducción y previene que caiga en aducción forzada durante las 8 horas de sueño.
-- **Al conducir o trabajar sentado:** Evita que las rodillas queden más altas que las caderas (asientos deportivos hundidos). Utiliza un cojín en forma de cuña que eleve ligeramente la pelvis y mantenga los pies bien apoyados en el suelo.
-- **Al caminar o pasear:** Camina como si pisaras sobre dos raíles paralelos de tren, no sobre una sola línea de cuerda floja. Acorta ligeramente el paso y evita arrastrar la pierna hacia atrás.
+- **Al dormir de lado:** Coloca un cojín o almohada gruesa entre las rodillas y tobillos. Esto mantiene la pierna superior en posición neutra o ligera abducción y previene que caiga cruzada por delante durante la noche.
+- **Al dormir boca arriba:** Pon un cojín pequeño debajo de las rodillas para mantener una ligera flexión de cadera y evitar que las piernas roten excesivamente hacia afuera durante el sueño.
+- **Al conducir o trabajar sentado:** Evita asientos bajos o hundidos donde las rodillas superen la altura de las caderas. Utiliza una cuña pélvica que eleve ligeramente el sacro, mantén los pies bien apoyados en el suelo y realiza pausas activas poniéndote de pie cada 30-45 minutos.
+- **Al caminar o pasear:** Camina como si pisaras sobre dos raíles paralelos de tren, nunca sobre una sola línea. Acorta ligeramente la zancada, aumenta un poco la cadencia y evita arrastrar o hiperextender la pierna que queda atrás.
+- **Al subir escaleras o pendientes:** Inclina levemente el tronco hacia adelante desde las caderas, apoya todo el pie en el escalón e impúlsate activando el glúteo sin dejar que la rodilla se hunda hacia adentro (evita el valgo dinámico).
 
 ### Actividad física y deporte
 
@@ -708,30 +711,30 @@ Cuando una articulación presenta un conflicto de choque óseo, la respuesta fis
 
 #### Suelen tolerarse mejor
 
-- **Bicicleta estática o de paseo:** La cadera trabaja en flexión y no llega a la extensión. Si el sillín presiona la zona dolorosa, ajústalo o acorta las sesiones. Mantén las rodillas alineadas, sin cerrarlas.
-- **Caminar en el agua y ejercicios acuáticos suaves:** El agua reduce la carga. Mantén el paso corto y sin cruzar las piernas.
-- **Ejercicios de esta guía:** Trabajan el glúteo medio sin llevar la cadera a la extensión forzada. Sigue la progresión por fases.
+- **Bicicleta estática o de paseo:** La cadera trabaja en flexión constante, lo que evita la extensión y mantiene el espacio isquiofemoral abierto. Ajusta el sillín a una altura intermedia para no estirar la pierna en exceso al bajar el pedal, usa un sillín ancho o acolchado si hay molestia por presión y mantén las rodillas alineadas en paralelo sin que se cierren hacia el cuadro.
+- **Caminar en el agua y ejercicios acuáticos suaves:** La flotabilidad reduce drásticamente la carga axial y permite activar los estabilizadores sin compresión articular. Camina con pasos cortos, evita cruzar las piernas al girar y mantén el abdomen activo.
+- **Ejercicios de esta guía y Pilates clínico adaptado:** Fortalecen el glúteo medio y el core lumbo-pélvico en ángulos protectores. Sigue la progresión por fases y omite cualquier ejercicio de pilates que implique extensión de cadera boca abajo (decúbito prono) o rotaciones externas forzadas en posición de rana.
 
 #### Posibles con adaptaciones
 
-- **Caminar:** Paso corto, pies sobre dos raíles paralelos y sin arrastrar la pierna hacia atrás. Aumenta la distancia de forma gradual.
-- **Elíptica:** La zancada la marca la máquina y puede llevar la pierna demasiado atrás. Elige la zancada más corta, poca resistencia y sesiones breves al principio. Déjala si reproduce el dolor.
-- **Musculación:** Prioriza máquinas y rangos controlados: abductores, prensa y sentadilla sin que las rodillas se cierren. Evita la máquina de aductores. En el hip thrust y el puente, no pases de la línea del cuerpo.
-- **Natación:** Empieza con crol o espalda suaves y patada corta. Evita la braza mientras sea dolorosa, porque su patada combina aducción y rotación.
-- **Yoga y pilates:** Avisa a tu instructor y omite la postura de la paloma, las flexiones hacia delante con piernas estiradas, las posturas de zancada amplia y las extensiones de cadera forzadas.
+- **Caminar al aire libre y senderismo suave:** Aplica el protocolo de zancada corta, pies sobre dos raíles paralelos y ritmo ligero. Evita pendientes pronunciadas de bajada (que fuerzan la extensión de la pierna retrasada y el frenado excéntrico) y aumenta la distancia de forma gradual en terreno llano.
+- **Elíptica con configuración conservadora:** Al no tener impacto contra el suelo ofrece buen trabajo cardiovascular, pero el recorrido fijo del pedal puede llevar la pierna demasiado atrás. Elige máquinas de zancada corta, usa poca resistencia, no apures la extensión trasera y detén el ejercicio si reproduce el dolor glúteo.
+- **Musculación y entrenamiento de fuerza:** Prioriza ejercicios bilaterales y máquinas guiadas en rangos seguros: prensa de piernas (pies separados a la anchura de los hombros y sin bajar hasta el tope), sentadilla a cajón alto (box squat), abductores y puente de glúteo sin hiperextender el tronco. Evita por completo la máquina de aductores (cerrar piernas).
+- **Natación (estilo crol o espalda):** Empieza con sesiones suaves usando patada corta desde la cadera sin hiperextender la columna lumbar, o utiliza un pull-buoy alto entre los muslos (sin apretarlo con fuerza para no activar los aductores). Evita el estilo braza porque su patada circular combina aducción brusca y rotación externa.
+- **Yoga restaurativo o Hatha suave:** Avisa a tu instructor y omite las posturas que cierran el canal posterior o tensan el nervio ciático: evita la postura de la paloma, las flexiones profundas hacia delante con piernas estiradas, las torsiones sentadas cruzando la pierna (Gomukhasana) y los guerreros con zancada muy amplia.
 
 #### Mejor evitar mientras haya síntomas
 
-- **Correr, sobre todo a ritmo rápido:** La zancada larga repite la extensión de cadera en cada paso. Retómalo de forma progresiva, con pasos cortos y con supervisión profesional.
-- **Zancadas y sentadilla búlgara:** Colocan la pierna retrasada justo en la posición que cierra el espacio.
-- **Peso muerto pesado:** Pospón la carga elevada. El peso muerto a una pierna de la fase 3 se reserva para cuando las fases anteriores ya no den síntomas.
-- **Fútbol, artes marciales y deportes de patada:** Combinan extensión rápida de cadera, cambios de dirección y cruces de pierna.
-- **Pádel, tenis y baloncesto:** Incluyen zancadas amplias, frenadas y giros difíciles de controlar.
+- **Correr y trotar (especialmente a ritmo rápido o en asfalto):** El ciclo de carrera exige extensión máxima de cadera en el despegue combinada con impacto repetitivo y estrechamiento de la base de paso. Su retorno debe ser progresivo, iniciando con intervalos de marcha-trote de alta cadencia y paso corto bajo supervisión profesional.
+- **Zancadas (lunges), desplantes y sentadilla búlgara:** Anclan la pierna retrasada exactamente en extensión de cadera con tendencia a la aducción pélvica, la combinación biomecánica directa que atrapa al músculo cuadrado femoral.
+- **Peso muerto pesado y sentadilla profunda libre:** Someten la cadera a grandes cargas axiales en rangos extremos donde, si el glúteo medio se fatiga, los rotadores profundos se espasman por compensación. El peso muerto unipodal asistido de la fase 3 se introduce sin carga externa cuando las fases previas no dan síntomas.
+- **Fútbol, artes marciales y deportes de patada:** Combinan sprints, cambios bruscos de dirección, patadas cruzadas y gestos explosivos en rotación que provocan cizallamiento en el espacio subglúteo.
+- **Deportes de raqueta y cancha (pádel, tenis, baloncesto):** Implican frenadas en seco, desplazamientos laterales con zancada baja forzada y giros de pivote difíciles de controlar en fase inflamatoria.
 
 #### Cuándo parar
 
-- **Cuándo parar:** interrumpe la actividad si aparece dolor punzante, hormigueo, adormecimiento o dolor que baja por la pierna, o si los síntomas empeoran al día siguiente. Coméntalo con tu médico o fisioterapeuta antes de retomarla.
-- **Busca atención urgente** si notas pérdida de fuerza en la pierna, adormecimiento en la zona genital o pérdida de control de la orina o las heces.
+- **Cuándo parar:** Interrumpe la actividad de inmediato si aparece dolor punzante en la nalga profunda, sensación de enganche articular, hormigueo, adormecimiento, dolor o calambre que baja por la pierna, o si el dolor basal empeora a las 24 horas de haber entrenado. Coméntalo con tu médico o fisioterapeuta antes de retomar ese deporte.
+- **Busca atención urgente:** Acude a urgencias si notas pérdida de fuerza en la pierna o el pie, adormecimiento en la zona genital o perineal (en silla de montar) o alteraciones en el control de la orina o las heces.
 
 ### Preguntas frecuentes
 

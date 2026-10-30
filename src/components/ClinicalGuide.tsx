@@ -43,7 +43,7 @@ export const ClinicalGuide: React.FC = () => {
         </p>
       </div>
 
-      {/* The 4 Red Line Rules (What NEVER to do) */}
+      {/* Red Line Rules (What NEVER to do) */}
       <div className="bg-white rounded-2xl border border-rose-200/90 p-6 md:p-8 shadow-sm space-y-4">
         <div className="flex items-center gap-2 text-xs font-semibold text-rose-700">
           <ShieldAlert className="w-4 h-4" />
