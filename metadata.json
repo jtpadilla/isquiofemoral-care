@@ -1,0 +1,6 @@
+{
+  "name": "IsquioFemoral Care",
+  "description": "Protocolo clínico y rutina de ejercicios para el alivio del pinzamiento isquiofemoral: descompresión articular con bandas y fortalecimiento de estabilizadores pélvicos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
