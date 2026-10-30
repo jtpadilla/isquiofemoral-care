@@ -4,6 +4,9 @@ import { Exercise, ExerciseAnimation, Pose } from '../types';
 // La pierna de trabajo es siempre la izquierda; el visor refleja la escena para la derecha.
 // La altura de la raíz (rootY) se calcula al cargar para que el cuerpo apoye en el suelo.
 
+// Pierna afectada: es el lado con el que se proponen los ejercicios por defecto
+export const AFFECTED_SIDE: 'left' | 'right' = 'right';
+
 // Cabeza hacia -X; la pierna izquierda queda en -Z
 const SUPINE: Partial<Pose> = { rootRotX: -90, rootRotZ: 90 };
 // Sobre el lado derecho, cabeza hacia -X; la pierna izquierda queda arriba

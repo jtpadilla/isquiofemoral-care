@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { AlertTriangle, CheckCircle, Pause, Play } from 'lucide-react';
 import { AnimationReadout, ExerciseAnimation, Pose } from '../types';
+import { AFFECTED_SIDE } from '../data/exerciseAnimations';
 import { createExerciseProps } from '../utils/exerciseProps';
 import { createMannequin, Mannequin } from '../utils/mannequin';
 import { getCycleDuration, getPhases, groundPhases, sampleTimeline } from '../utils/poseTimeline';
@@ -156,7 +157,7 @@ const Exercise3DViewer: React.FC<Props> = ({ animation, side, playing }) => {
   const [speed, setSpeed] = useState(1);
   const [errorId, setErrorId] = useState<string | null>(null);
   const [view, setView] = useState(0);
-  const [ownSide, setOwnSide] = useState<'left' | 'right'>('left');
+  const [ownSide, setOwnSide] = useState<'left' | 'right'>(AFFECTED_SIDE);
   const [phaseIndex, setPhaseIndex] = useState(0);
 
   const timeRef = useRef(0);
