@@ -705,7 +705,7 @@ Cuando una articulación presenta un conflicto de choque óseo, la respuesta fis
 
 ### Actividad física y deporte
 
-> **Origen distinto:** esta sección la redactó Claude Code a partir de la biomecánica, no el LLM de salud. Revísala con prioridad.
+> **Origen:** Claude Code redactó la primera versión de esta sección a partir de la biomecánica, y después se revisó con `spec_update.md`. Claude Code ajustó la redacción de «Cuándo parar» y «Busca atención urgente». Ningún profesional sanitario la ha validado, así que revísala con prioridad.
 
 **Es una orientación general, no una lista validada:** no hay estudios que clasifiquen cada deporte para esta patología. Se basa en evitar la posición que suele provocar los síntomas: extensión de cadera con aducción y rotación externa. La tolerancia varía de una persona a otra, así que acuerda tu caso con tu médico o fisioterapeuta.
 
@@ -875,7 +875,7 @@ Que los ejercicios de tracción con goma elástica te alivien es un dato útil: 
 
 ## Puntos para la revisión clínica
 
-Incoherencias detectadas durante la extracción. El contenido de arriba se ha copiado tal cual y **no se ha corregido ninguna**.
+Incoherencias detectadas durante la extracción inicial del contenido. La revisión de la guía con `spec_update.md` no resolvió estos puntos: **siguen pendientes**.
 
 ### Datos que se contradicen
 
