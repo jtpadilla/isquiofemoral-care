@@ -1,39 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { SymptomEntry } from '../types';
-import { Plus, Trash2, TrendingDown, Check, Activity, Calendar, Sparkles } from 'lucide-react';
+import { Plus, Trash2, TrendingDown, Check, Activity, Calendar, Sparkles, Info } from 'lucide-react';
 
 const STORAGE_KEY = 'isquiofemoral_symptom_logs';
 
-const INITIAL_LOGS: SymptomEntry[] = [
-  {
-    id: 'sample-1',
-    date: '2026-10-28',
-    painLevelBefore: 7,
-    painLevelAfter: 3,
-    tractionReliefEffect: 'Alto',
-    sittingToleranceMinutes: 30,
-    walkingStiffness: 'Moderada',
-    notes: 'Al aplicar la tracción lateral en cuadrupedia durante 3x45s sentí alivio instantáneo en el glúteo profundo.'
-  },
-  {
-    id: 'sample-2',
-    date: '2026-10-29',
-    painLevelBefore: 6,
-    painLevelAfter: 2,
-    tractionReliefEffect: 'Alto',
-    sittingToleranceMinutes: 45,
-    walkingStiffness: 'Leve',
-    notes: 'Añadí el puente con miniband manteniendo las rodillas abiertas. Mejor tolerancia al caminar después.'
-  }
-];
+// Registros de ejemplo que versiones anteriores dejaron guardados en el navegador
+const REMOVED_SAMPLE_IDS = ['sample-1', 'sample-2'];
+
+// El valor más frecuente; en caso de empate, el más reciente (los registros van de nuevo a antiguo)
+const mostFrequentRelief = (logs: SymptomEntry[]) => {
+  const counts = new Map<SymptomEntry['tractionReliefEffect'], number>();
+  logs.forEach((log) => counts.set(log.tractionReliefEffect, (counts.get(log.tractionReliefEffect) ?? 0) + 1));
+  return [...counts.entries()].reduce<[SymptomEntry['tractionReliefEffect'], number] | null>(
+    (best, entry) => (!best || entry[1] > best[1] ? entry : best),
+    null
+  );
+};
 
 export const SymptomTracker: React.FC = () => {
   const [logs, setLogs] = useState<SymptomEntry[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) return (JSON.parse(saved) as SymptomEntry[]).filter((log) => !REMOVED_SAMPLE_IDS.includes(log.id));
     } catch {}
-    return INITIAL_LOGS;
+    return [];
   });
 
   const [showAddForm, setShowAddForm] = useState(false);
@@ -75,6 +65,7 @@ export const SymptomTracker: React.FC = () => {
   // Average pain reduction calculation
   const totalReduction = logs.reduce((acc, l) => acc + Math.max(0, l.painLevelBefore - l.painLevelAfter), 0);
   const avgReduction = logs.length > 0 ? (totalReduction / logs.length).toFixed(1) : '0';
+  const commonRelief = mostFrequentRelief(logs);
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
@@ -105,6 +96,14 @@ export const SymptomTracker: React.FC = () => {
           </button>
         </div>
 
+        {/* Storage notice */}
+        <div className="flex items-start gap-2 mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 leading-relaxed">
+          <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+          <p>
+            Tus registros se guardan solo en este navegador y no se envían a ningún servidor. No podrás verlos desde otro dispositivo u otro navegador, y se perderán si borras los datos de navegación.
+          </p>
+        </div>
+
         {/* Quick summary strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-slate-100">
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
@@ -113,7 +112,7 @@ export const SymptomTracker: React.FC = () => {
             </span>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-2xl font-bold font-mono text-emerald-600 tabular-nums">
-                -{avgReduction} pts
+                {Number(avgReduction) > 0 ? `-${avgReduction}` : '0'} pts
               </span>
               <span className="text-xs text-slate-600">por sesión de tracción</span>
             </div>
@@ -125,10 +124,14 @@ export const SymptomTracker: React.FC = () => {
             </span>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-2xl font-bold font-mono text-cyan-700">
-                Alto / Inmediato
+                {commonRelief ? commonRelief[0] : 'Sin datos'}
               </span>
             </div>
-            <span className="text-[11px] text-slate-600 mt-0.5 block">Confirmación decoaptante</span>
+            <span className="text-[11px] text-slate-600 mt-0.5 block">
+              {commonRelief
+                ? `Lo más frecuente: ${commonRelief[1]} de ${logs.length} ${logs.length === 1 ? 'sesión' : 'sesiones'}`
+                : 'Registra una sesión para verlo aquí'}
+            </span>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
