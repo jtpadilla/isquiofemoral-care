@@ -34,6 +34,49 @@ export const ClinicalGuide: React.FC = () => {
     }
   ];
 
+  const activityGroups = [
+    {
+      title: 'Suelen tolerarse mejor',
+      Icon: CheckCircle,
+      cardClass: 'bg-emerald-50/70 border-emerald-200/60',
+      titleClass: 'text-emerald-900',
+      textClass: 'text-emerald-800',
+      activities: [
+        { name: 'Bicicleta estática o de paseo', note: 'La cadera trabaja en flexión y no llega a la extensión. Si el sillín presiona la zona dolorosa, ajústalo o acorta las sesiones. Mantén las rodillas alineadas, sin cerrarlas.' },
+        { name: 'Caminar en el agua y ejercicios acuáticos suaves', note: 'El agua reduce la carga. Mantén el paso corto y sin cruzar las piernas.' },
+        { name: 'Ejercicios de esta guía', note: 'Trabajan el glúteo medio sin llevar la cadera a la extensión forzada. Sigue la progresión por fases.' }
+      ]
+    },
+    {
+      title: 'Posibles con adaptaciones',
+      Icon: AlertTriangle,
+      cardClass: 'bg-amber-50/70 border-amber-200/60',
+      titleClass: 'text-amber-900',
+      textClass: 'text-amber-800',
+      activities: [
+        { name: 'Caminar', note: 'Paso corto, pies sobre dos raíles paralelos y sin arrastrar la pierna hacia atrás. Aumenta la distancia de forma gradual.' },
+        { name: 'Elíptica', note: 'La zancada la marca la máquina y puede llevar la pierna demasiado atrás. Elige la zancada más corta, poca resistencia y sesiones breves al principio. Déjala si reproduce el dolor.' },
+        { name: 'Musculación', note: 'Prioriza máquinas y rangos controlados: abductores, prensa y sentadilla sin que las rodillas se cierren. Evita la máquina de aductores. En el hip thrust y el puente, no pases de la línea del cuerpo.' },
+        { name: 'Natación', note: 'Empieza con crol o espalda suaves y patada corta. Evita la braza mientras sea dolorosa, porque su patada combina aducción y rotación.' },
+        { name: 'Yoga y pilates', note: 'Avisa a tu instructor y omite la postura de la paloma, las flexiones hacia delante con piernas estiradas, las posturas de zancada amplia y las extensiones de cadera forzadas.' }
+      ]
+    },
+    {
+      title: 'Mejor evitar mientras haya síntomas',
+      Icon: ShieldAlert,
+      cardClass: 'bg-rose-50/70 border-rose-200/60',
+      titleClass: 'text-rose-900',
+      textClass: 'text-rose-800',
+      activities: [
+        { name: 'Correr, sobre todo a ritmo rápido', note: 'La zancada larga repite la extensión de cadera en cada paso. Retómalo de forma progresiva, con pasos cortos y con supervisión profesional.' },
+        { name: 'Zancadas y sentadilla búlgara', note: 'Colocan la pierna retrasada justo en la posición que cierra el espacio.' },
+        { name: 'Peso muerto pesado', note: 'Pospón la carga elevada. El peso muerto a una pierna de la fase 3 se reserva para cuando las fases anteriores ya no den síntomas.' },
+        { name: 'Fútbol, artes marciales y deportes de patada', note: 'Combinan extensión rápida de cadera, cambios de dirección y cruces de pierna.' },
+        { name: 'Pádel, tenis y baloncesto', note: 'Incluyen zancadas amplias, frenadas y giros difíciles de controlar.' }
+      ]
+    }
+  ];
+
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       {/* Hero Guide Card */}
@@ -172,6 +215,44 @@ export const ClinicalGuide: React.FC = () => {
               <span>Camina como si pisaras sobre dos raíles paralelos de tren, no sobre una sola línea de cuerda floja. Acorta ligeramente el paso y evita arrastrar la pierna hacia atrás.</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Sports & Physical Activity */}
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 md:p-8 shadow-sm space-y-4">
+        <h3 className="text-lg font-bold text-slate-900">
+          Actividad Física y Deporte
+        </h3>
+        <p className="text-xs md:text-sm text-slate-600 leading-relaxed">
+          <strong>Es una orientación general, no una lista validada:</strong> no hay estudios que clasifiquen cada deporte para esta patología. Se basa en evitar la posición que suele provocar los síntomas: extensión de cadera con aducción y rotación externa. La tolerancia varía de una persona a otra, así que acuerda tu caso con tu médico o fisioterapeuta.
+        </p>
+
+        <div className="space-y-4 text-xs">
+          {activityGroups.map(({ title, Icon, cardClass, titleClass, textClass, activities }) => (
+            <div key={title} className={`p-4 rounded-xl border space-y-3 ${cardClass}`}>
+              <div className={`flex items-center gap-2 font-bold ${titleClass}`}>
+                <Icon className="w-4 h-4 shrink-0" />
+                <span>{title}</span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {activities.map((activity) => (
+                  <div key={activity.name} className="space-y-0.5">
+                    <span className={`font-semibold block ${titleClass}`}>{activity.name}</span>
+                    <p className={`leading-relaxed ${textClass}`}>{activity.note}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/60 text-xs text-slate-700 leading-relaxed space-y-1.5">
+          <p>
+            <strong className="text-slate-900">Cuándo parar:</strong> interrumpe la actividad si aparece dolor punzante, hormigueo, adormecimiento o dolor que baja por la pierna, o si los síntomas empeoran al día siguiente. Coméntalo con tu médico o fisioterapeuta antes de retomarla.
+          </p>
+          <p>
+            <strong className="text-slate-900">Busca atención urgente</strong> si notas pérdida de fuerza en la pierna, adormecimiento en la zona genital o pérdida de control de la orina o las heces.
+          </p>
         </div>
       </div>
 
