@@ -123,3 +123,8 @@ export interface BiomechanicsState {
   bandTractionIntensity: number; // 0% a 100% de fuerza de descompresión
   bandTractionActive: boolean;
 }
+
+export interface AdvisorMessage {
+  role: 'user' | 'model';
+  text: string;
+}

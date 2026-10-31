@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
-import { Send, Sparkles, User, Bot, AlertCircle, RefreshCw, KeyRound } from 'lucide-react';
-import { ADVISOR_GREETING, ADVISOR_SAMPLE_QUESTIONS, GEMINI_MODELS } from '../data/clinicalAdvisor';
+import { Send, Sparkles, User, Bot, AlertCircle, RefreshCw, KeyRound, UserCog } from 'lucide-react';
+import { ADVISOR_GREETING, ADVISOR_SAMPLE_QUESTIONS, GEMINI_MODELS, MAX_PERSONAL_CONTEXT_LENGTH } from '../data/clinicalAdvisor';
 import { DISCLAIMERS } from '../data/clinicalContent';
-import { askGemini, clearApiKey, loadApiKey, loadModel, saveApiKey, saveModel } from '../utils/browserGemini';
+import { ChatMarkdown } from './ChatMarkdown';
+import { askGemini, clearApiKey, loadApiKey, loadModel, loadPersonalContext, saveApiKey, saveModel, savePersonalContext } from '../utils/browserGemini';
 
 const IS_STATIC_SITE = !!import.meta.env.VITE_STATIC_SITE;
 
 interface Message {
   sender: 'user' | 'assistant';
   text: string;
+  // Avisos y errores de la propia app: no forman parte de la conversación con el modelo
+  localOnly?: boolean;
 }
 
 export const ClinicalAdvisorChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: 'assistant',
-      text: ADVISOR_GREETING
+      text: ADVISOR_GREETING,
+      localOnly: true
     }
   ]);
   const [input, setInput] = useState('');
@@ -24,7 +28,16 @@ export const ClinicalAdvisorChat: React.FC = () => {
   const [keyInput, setKeyInput] = useState('');
   const [rememberKey, setRememberKey] = useState(false);
   const [model, setModel] = useState(loadModel);
+  const [personalContext, setPersonalContext] = useState(loadPersonalContext);
+  const [contextDraft, setContextDraft] = useState(personalContext);
+  const [showContext, setShowContext] = useState(false);
   const needsKey = IS_STATIC_SITE && !apiKey;
+
+  const handleSaveContext = () => {
+    savePersonalContext(contextDraft);
+    setPersonalContext(contextDraft);
+    setShowContext(false);
+  };
 
   const handleSelectModel = (selected: string) => {
     setModel(selected);
@@ -55,16 +68,14 @@ export const ClinicalAdvisorChat: React.FC = () => {
 
     setLoading(true);
 
-    const context = {
-      suspectedCondition: 'Pinzamiento Isquiofemoral (Ischiofemoral Impingement)',
-      reliefWithTractionBands: true,
-      therapeuticGoals: ['Liberar espacio articular', 'Fortalecer musculatura estabilizadora pélvica']
-    };
+    const conversation = [...messages, userMsg]
+      .filter((m) => !m.localOnly)
+      .map((m) => ({ role: m.sender === 'user' ? 'user' as const : 'model' as const, text: m.text }));
 
     // La versión estática (GitHub Pages) no tiene servidor: llama a Gemini con la clave del usuario
     if (IS_STATIC_SITE) {
-      const reply = await askGemini(apiKey!, model, textToSend, context);
-      setMessages((prev) => [...prev, { sender: 'assistant', text: reply }]);
+      const { ok, text } = await askGemini(apiKey!, model, conversation, personalContext);
+      setMessages((prev) => [...prev, { sender: 'assistant', text, localOnly: !ok }]);
       setLoading(false);
       return;
     }
@@ -73,18 +84,19 @@ export const ClinicalAdvisorChat: React.FC = () => {
       const response = await fetch('/api/consultation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: textToSend, context, model })
+        body: JSON.stringify({ messages: conversation, model, personalContext })
       });
 
       const data = await response.json();
       const botReply = data.reply || data.error || 'No se pudo obtener respuesta del consultor.';
-      setMessages((prev) => [...prev, { sender: 'assistant', text: botReply }]);
+      setMessages((prev) => [...prev, { sender: 'assistant', text: botReply, localOnly: !data.reply }]);
     } catch (err: any) {
       setMessages((prev) => [
         ...prev,
         {
           sender: 'assistant',
-          text: 'Error de conexión con el servicio de consulta. Recuerda los principios clave: tracción lateral suave, evitar estiramientos bruscos de isquiotibiales y fortalecer glúteo medio en abducción sin extensión.'
+          text: 'Error de conexión con el servicio de consulta. Recuerda los principios clave: tracción lateral suave, evitar estiramientos bruscos de isquiotibiales y fortalecer glúteo medio en abducción sin extensión.',
+          localOnly: true
         }
       ]);
     } finally {
@@ -122,6 +134,17 @@ export const ClinicalAdvisorChat: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-1 shrink-0">
+          <button
+            onClick={() => {
+              setContextDraft(personalContext);
+              setShowContext(!showContext);
+            }}
+            aria-expanded={showContext}
+            className="px-2.5 py-1.5 text-[11px] font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 rounded-lg transition-all flex items-center gap-1.5"
+          >
+            <UserCog className="w-3.5 h-3.5" />
+            <span>Mi contexto{personalContext.trim() ? ' ✓' : ''}</span>
+          </button>
           {IS_STATIC_SITE && apiKey && (
             <button
               onClick={handleClearKey}
@@ -136,7 +159,8 @@ export const ClinicalAdvisorChat: React.FC = () => {
               setMessages([
                 {
                   sender: 'assistant',
-                  text: 'Conversación reiniciada. ¿En qué duda biomecánica o técnica puedo ayudarte hoy?'
+                  text: 'Conversación reiniciada. ¿En qué duda biomecánica o técnica puedo ayudarte hoy?',
+                  localOnly: true
                 }
               ]);
             }}
@@ -147,6 +171,42 @@ export const ClinicalAdvisorChat: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {showContext && (
+        <div className="p-5 border-b border-slate-100 bg-slate-50 space-y-3">
+          <label className="block text-xs font-bold text-slate-900" htmlFor="personal-context">
+            Mi contexto
+          </label>
+          <textarea
+            id="personal-context"
+            value={contextDraft}
+            onChange={(e) => setContextDraft(e.target.value)}
+            maxLength={MAX_PERSONAL_CONTEXT_LENGTH}
+            rows={8}
+            spellCheck={false}
+            placeholder="Tu caso, tus síntomas, tu plan de gimnasio..."
+            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all resize-y"
+          />
+          <div className="flex items-start gap-2 text-[11px] text-slate-600 leading-relaxed">
+            <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-600" />
+            <p>Se guarda sin cifrar solo en este navegador, no en la web ni en el repositorio, y se envía a Google con cada consulta. No incluyas tu nombre ni datos que te identifiquen. Déjalo vacío para borrarlo.</p>
+          </div>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setShowContext(false)}
+              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-all"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleSaveContext}
+              className="px-4 py-2 bg-cyan-700 hover:bg-cyan-800 text-white text-xs font-semibold rounded-xl transition-all"
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Messages area */}
       <div className="flex-1 p-5 overflow-y-auto space-y-4">
@@ -165,13 +225,13 @@ export const ClinicalAdvisorChat: React.FC = () => {
               {m.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
             <div
-              className={`max-w-[80%] rounded-2xl p-4 text-xs leading-relaxed whitespace-pre-wrap ${
+              className={`max-w-[80%] min-w-0 rounded-2xl p-4 text-xs leading-relaxed ${
                 m.sender === 'user'
-                  ? 'bg-slate-900 text-white rounded-tr-none'
+                  ? 'bg-slate-900 text-white rounded-tr-none whitespace-pre-wrap'
                   : 'bg-slate-50 border border-slate-200/80 text-slate-800 rounded-tl-none'
               }`}
             >
-              {m.text}
+              {m.sender === 'user' ? m.text : <ChatMarkdown text={m.text} />}
             </div>
           </div>
         ))}

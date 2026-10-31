@@ -1,7 +1,26 @@
-import { buildConsultationPrompt, DEFAULT_GEMINI_MODEL, isGeminiModel } from '../data/clinicalAdvisor';
+import { AdvisorMessage } from '../types';
+import { buildAdvisorRequest, DEFAULT_GEMINI_MODEL, isGeminiModel } from '../data/clinicalAdvisor';
 
 const STORAGE_KEY = 'isquiofemoral_gemini_api_key';
 const MODEL_STORAGE_KEY = 'isquiofemoral_gemini_model';
+const PERSONAL_CONTEXT_STORAGE_KEY = 'isquiofemoral_personal_context';
+
+export const loadPersonalContext = () => {
+  try {
+    return localStorage.getItem(PERSONAL_CONTEXT_STORAGE_KEY) ?? '';
+  } catch {
+    return '';
+  }
+};
+
+export const savePersonalContext = (context: string) => {
+  try {
+    if (context.trim()) localStorage.setItem(PERSONAL_CONTEXT_STORAGE_KEY, context);
+    else localStorage.removeItem(PERSONAL_CONTEXT_STORAGE_KEY);
+  } catch {
+    // Sin almacenamiento disponible, el contexto dura hasta recargar
+  }
+};
 
 export const loadModel = () => {
   try {
@@ -75,17 +94,17 @@ const errorMessage = (error: unknown, apiKey: string, model: string) => {
   return `No se pudo conectar con Gemini. Comprueba tu conexión y desactiva los bloqueadores de contenido para este sitio. Detalle: ${detail}`;
 };
 
-export const askGemini = async (apiKey: string, model: string, prompt: string, context: unknown) => {
+export const askGemini = async (apiKey: string, model: string, messages: AdvisorMessage[], personalContext: string) => {
   try {
     // El SDK solo se descarga cuando alguien usa el consultor
     const { GoogleGenAI } = await import('@google/genai');
     const ai = new GoogleGenAI({ apiKey });
-    const response = await ai.models.generateContent({
-      model,
-      contents: [{ role: 'user', parts: [{ text: buildConsultationPrompt(prompt, context) }] }],
-    });
-    return response.text || 'Gemini no ha devuelto ninguna respuesta. Prueba a reformular la pregunta.';
+    const response = await ai.models.generateContent(buildAdvisorRequest(model, messages, personalContext));
+    if (!response.text) {
+      return { ok: false, text: 'Gemini no ha devuelto ninguna respuesta. Prueba a reformular la pregunta.' };
+    }
+    return { ok: true, text: response.text };
   } catch (error) {
-    return errorMessage(error, apiKey, model);
+    return { ok: false, text: errorMessage(error, apiKey, model) };
   }
 };

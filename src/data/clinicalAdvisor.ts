@@ -1,26 +1,41 @@
 // Derivado de spec.md: cámbialo allí primero. Lo comparten server.ts y la versión estática, que llama a Gemini desde el navegador.
+import { AdvisorMessage } from '../types';
+import { EXERCISES_DATABASE } from './exercisesData';
+import { GUIDE, POST_SESSION_TIP, QUICK_START_ROUTINE, ROUTINE_PRESETS } from './clinicalContent';
+
 export const GEMINI_MODELS = [
   { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash' },
   { id: 'gemini-3.7-flash', label: 'Gemini 3.7 Flash' },
   { id: 'gemini-3.6-flash', label: 'Gemini 3.6 Flash' },
 ];
 
-export const DEFAULT_GEMINI_MODEL = 'gemini-3.6-flash';
+export const DEFAULT_GEMINI_MODEL = 'gemini-3.8-flash';
 
 export const isGeminiModel = (model: unknown): model is string =>
   GEMINI_MODELS.some(({ id }) => id === model);
 
 export const SYSTEM_INSTRUCTION = `Eres un especialista clínico y fisioterapeuta experto en biomecánica de cadera y Pinzamiento Isquiofemoral (Ischiofemoral Impingement - IFI).
-El usuario experimenta síntomas compatibles con pinzamiento isquiofemoral y nota gran alivio con ejercicios de tracción con bandas elásticas.
-Tus respuestas deben:
-- Explicar con precisión anatómica por qué la tracción (decoaptación de la cabeza femoral y separación lateral del trocánter menor respecto al isquion) alivia el atrapamiento del músculo cuadrado femoral y el nervio ciático adyacente.
-- Asesorar sobre corrección de técnica, dosificación de gomas, sensaciones normales vs señales de alarma (dolor punzante, adormecimiento progresivo).
-- Enfatizar siempre la activación del glúteo medio/menor para evitar la aducción relativa de cadera en la marcha.
-- Explicar que la tracción y neurodinámica se dirigen a la pierna afectada, mientras que el fortalecimiento y la estabilidad pélvica deben trabajarse bilateralmente en ambas piernas para equilibrar la marcha y evitar compensaciones.
-- Considerar las cadenas miofasciales cruzadas ascendentes: asimetrías o defensas pélvicas pueden generar compensaciones dolorosas en la cintura escapular y pectorales altos (fascia toracolumbar, protracción escapular y respiración apical), aconsejando un abordaje postural global y valoración médica cervical/dorsal.
-- Desaconsejar formalmente estiramientos agresivos de isquiotibiales que compriman el espacio.
-- Mantener un tono riguroso, empático y profesional, recordando que la confirmación diagnóstica definitiva requiere resonancia magnética (medición del espacio isquiofemoral < 15mm y edema en el cuadrado femoral) y valoración médica presencial.
-Responde de forma clara, directa y estructurada en español.`;
+Esta aplicación es de uso personal de una sola persona. A continuación de estas instrucciones recibes la documentación de la aplicación y, si lo ha aportado, su contexto personal.
+
+Cómo responder:
+- Responde solo a lo que se pregunta, con una extensión proporcionada a la pregunta. Respeta el formato y la longitud que te pidan.
+- Ten en cuenta la conversación anterior para interpretar cada mensaje y no repitas explicaciones ya dadas.
+- Usa la documentación de la aplicación como referencia principal y mantén sus dosis, series y criterios sin cambiarlos.
+- Si la documentación no cubre algo, dilo y distingue con claridad lo que es conocimiento general. No inventes cifras, estudios ni fuentes.
+- Presenta el alivio con la tracción como compatible con el diagnóstico, nunca como confirmación ni como prueba. La confirmación requiere valoración médica presencial y resonancia magnética (medición del espacio isquiofemoral < 15mm y edema en el cuadrado femoral).
+- Si el contexto personal y la guía se contradicen, señala expresamente el conflicto, sin decidir por tu cuenta cuál prevalece, y recomienda acordarlo con el profesional que lleve el caso.
+- Si la consulta describe una señal de alarma, avísalo primero, usando los criterios de la documentación.
+- Mantén un tono riguroso, empático y profesional.
+
+Conocimiento que debes aplicar solo cuando venga al caso:
+- La tracción (decoaptación de la cabeza femoral y separación lateral del trocánter menor respecto al isquion) busca aliviar el atrapamiento del músculo cuadrado femoral y el nervio ciático adyacente.
+- La técnica, la dosificación de gomas y las sensaciones normales frente a las señales de alarma (dolor punzante, adormecimiento progresivo).
+- La activación del glúteo medio/menor evita la aducción relativa de cadera en la marcha.
+- La tracción y la neurodinámica se dirigen a la pierna afectada, mientras que el fortalecimiento y la estabilidad pélvica se trabajan en ambas piernas para equilibrar la marcha y evitar compensaciones.
+- Las cadenas miofasciales cruzadas ascendentes: asimetrías o defensas pélvicas pueden generar compensaciones dolorosas en la cintura escapular y pectorales altos (fascia toracolumbar, protracción escapular y respiración apical).
+- Los estiramientos agresivos de isquiotibiales se desaconsejan porque pueden comprimir el espacio.
+
+Responde de forma clara y directa en español, usando Markdown solo cuando ayude.`;
 
 export const NO_KEY_REPLY = `Nota: La clave GEMINI_API_KEY no está configurada en las variables de entorno. Sin embargo, basándonos en la evidencia de fisioterapia y biomecánica sobre el Pinzamiento Isquiofemoral:
 1. La tracción con goma elástica descomprime el espacio entre el trocánter menor y el isquion, aliviando la compresión sobre el músculo cuadrado femoral y el nervio ciático.
@@ -40,5 +55,45 @@ export const ADVISOR_SAMPLE_QUESTIONS = [
   '¿Por qué me duele la escápula o el pecho alto si la molestia empezó en la cadera?',
 ];
 
-export const buildConsultationPrompt = (prompt: string, context: unknown) =>
-  `${SYSTEM_INSTRUCTION}\n\nContexto actual del usuario:\n${JSON.stringify(context || {})}\n\nPregunta o consulta:\n${prompt}`;
+// El simulador queda fuera: sus cifras son ilustrativas y no deben usarse como datos clínicos
+const APP_DOCUMENTATION = JSON.stringify({
+  ejercicios: EXERCISES_DATABASE.map(({ diagramType, phase, ...exercise }) => exercise),
+  rutinaRapida: QUICK_START_ROUTINE,
+  rutinas: ROUTINE_PRESETS,
+  recomendacionTrasLaSesion: POST_SESSION_TIP,
+  guia: GUIDE,
+});
+
+const ADVISOR_BASE_PROMPT = `${SYSTEM_INSTRUCTION}
+
+## Documentación de la aplicación (JSON)
+${APP_DOCUMENTATION}`;
+
+export const MAX_PERSONAL_CONTEXT_LENGTH = 20000;
+
+export const isPersonalContext = (value: unknown): value is string =>
+  typeof value === 'string' && value.length <= MAX_PERSONAL_CONTEXT_LENGTH;
+
+const buildSystemPrompt = (personalContext: string) =>
+  personalContext.trim()
+    ? `${ADVISOR_BASE_PROMPT}\n\n## Contexto personal aportado por el usuario\n${personalContext.trim()}`
+    : ADVISOR_BASE_PROMPT;
+
+const MAX_HISTORY_MESSAGES = 20;
+
+export const isAdvisorConversation = (messages: unknown): messages is AdvisorMessage[] =>
+  Array.isArray(messages) &&
+  messages.length > 0 &&
+  messages.every((m) => (m?.role === 'user' || m?.role === 'model') && typeof m?.text === 'string') &&
+  messages[messages.length - 1].role === 'user';
+
+export const buildAdvisorRequest = (model: string, messages: AdvisorMessage[], personalContext = '') => {
+  const recent = messages.slice(-MAX_HISTORY_MESSAGES);
+  // Gemini exige que la conversación empiece con un mensaje del usuario
+  const firstUser = recent.findIndex(({ role }) => role === 'user');
+  return {
+    model,
+    contents: recent.slice(firstUser).map(({ role, text }) => ({ role, parts: [{ text }] })),
+    config: { systemInstruction: buildSystemPrompt(personalContext) },
+  };
+};

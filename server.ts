@@ -4,7 +4,7 @@ import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { buildConsultationPrompt, DEFAULT_GEMINI_MODEL, isGeminiModel, NO_KEY_REPLY } from './src/data/clinicalAdvisor';
+import { buildAdvisorRequest, DEFAULT_GEMINI_MODEL, isAdvisorConversation, isGeminiModel, isPersonalContext, NO_KEY_REPLY } from './src/data/clinicalAdvisor';
 
 dotenv.config();
 
@@ -15,12 +15,13 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
 
-  app.use(express.json());
+  // El historial del consultor puede superar el límite de 100 KB por defecto
+  app.use(express.json({ limit: '1mb' }));
 
   // API Route: AI Clinical & Biomechanical Consultation for Ischiofemoral Impingement
   app.post('/api/consultation', async (req, res) => {
     try {
-      const { prompt, context, model } = req.body;
+      const { messages, model, personalContext } = req.body;
       const apiKey = process.env.GEMINI_API_KEY;
 
       if (!apiKey) {
@@ -29,18 +30,16 @@ async function startServer() {
         });
       }
 
+      if (!isAdvisorConversation(messages) || (personalContext !== undefined && !isPersonalContext(personalContext))) {
+        return res.status(400).json({ error: 'La conversación enviada no es válida.' });
+      }
+
       const ai = new GoogleGenAI({ apiKey });
 
-      const response = await ai.models.generateContent({
-        // Solo los modelos ofrecidos en la interfaz: el valor llega del cliente
-        model: isGeminiModel(model) ? model : DEFAULT_GEMINI_MODEL,
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: buildConsultationPrompt(prompt, context) }]
-          }
-        ]
-      });
+      // Solo los modelos ofrecidos en la interfaz: el valor llega del cliente
+      const response = await ai.models.generateContent(
+        buildAdvisorRequest(isGeminiModel(model) ? model : DEFAULT_GEMINI_MODEL, messages, personalContext)
+      );
 
       return res.json({ reply: response.text });
     } catch (error: any) {
