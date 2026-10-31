@@ -5,6 +5,7 @@ import { ADVISOR_GREETING, ADVISOR_SAMPLE_QUESTIONS, NO_KEY_REPLY, SYSTEM_INSTRU
 import { DISCLAIMERS, GUIDE, HOME, POST_SESSION_TIP, QUICK_START_ROUTINE, ROUTINE_PRESETS, SIMULATOR } from '../src/data/clinicalContent';
 import { EXERCISE_ANIMATIONS } from '../src/data/exerciseAnimations';
 import { EXERCISES_DATABASE, PHASE_CONFIG } from '../src/data/exercisesData';
+import { GYM_PLAN } from '../src/data/gymPlan';
 
 const spec = fs.readFileSync(new URL('../spec.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
@@ -250,6 +251,26 @@ compare('Portada', () => ({
     })),
   },
   fromCode: HOME,
+}));
+
+const gym = section(spec, 2, 'Plan de gimnasio');
+const gymDay = (title: string) => ({
+  title,
+  exercises: tableRows(section(gym, 3, title)).map(([block, name, sets, reps, rest, cue]) => ({ block, name, sets, reps, rest, cue })),
+});
+compare('Plan de gimnasio', () => ({
+  fromSpec: {
+    credits: paragraphs(section(gym, 3, 'Agradecimientos'))[0],
+    creditsUrl: paragraphs(section(gym, 3, 'Agradecimientos'))[1].replace('Enlace: ', ''),
+    intro: paragraphs(section(gym, 3, 'Introducción'))[0],
+    criteria: labelledItems(section(gym, 3, 'Criterios')),
+    days: [gymDay('Día A: Pierna'), gymDay('Día B: Torso y resto')],
+    progression: labelledItems(section(gym, 3, 'Progresión')),
+    stop: labelledItems(section(gym, 3, 'Cuándo parar')),
+    catalogIntro: paragraphs(section(gym, 3, 'Catálogo de ejercicios'))[0],
+    catalog: tableRows(section(gym, 3, 'Catálogo de ejercicios')).map(([name, group, status, origin, note]) => ({ name, group, status, origin, note: note === '-' ? '' : note })),
+  },
+  fromCode: GYM_PLAN,
 }));
 
 const advisor = section(spec, 2, 'Consultor IA');

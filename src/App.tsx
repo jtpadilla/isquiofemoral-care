@@ -10,6 +10,7 @@ import { ExerciseDetailModal } from './components/ExerciseDetailModal';
 import { RoutinePlayer } from './components/RoutinePlayer';
 import { RoutineCustomizer } from './components/RoutineCustomizer';
 import { ClinicalGuide } from './components/ClinicalGuide';
+import { GymPlan } from './components/GymPlan';
 import { ClinicalAdvisorChat } from './components/ClinicalAdvisorChat';
 import { 
   Sparkles, 
@@ -181,6 +182,9 @@ export default function App() {
                 onStartRoutine={(exercises) => setActiveWorkoutList(exercises)}
               />
             )}
+
+            {/* Vista: plan de gimnasio */}
+            {activeTab === 'gimnasio' && <GymPlan />}
 
             {/* View: Clinical Guide */}
             {activeTab === 'guia' && <ClinicalGuide />}

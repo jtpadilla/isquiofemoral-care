@@ -19,6 +19,7 @@ No hay tests ni ESLint. Verifica los cambios con `npm run lint` y, si afectan a 
 - `src/App.tsx`: navegación por estado (`activeTab`, `activeWorkoutList`). No hay router ni librería de estado global.
 - `spec.md`: fuente de verdad del contenido clínico.
 - `src/data/exercisesData.ts` y `src/data/clinicalContent.ts`: copia de ese contenido que usa la interfaz (ejercicios, rutinas, guía, simulador, portada y avisos).
+- `src/data/gymPlan.ts`: plan y catálogo de gimnasio. Son independientes de `exercisesData.ts` y no tienen animación.
 - `src/data/exerciseAnimations.ts`: animaciones, indexadas por `Exercise['diagramType']`. Sus textos y rangos también proceden de `spec.md`; las poses no.
 - `src/components/RichText.tsx`: muestra la `**negrita**` del contenido.
 - `src/types/index.ts`: todos los tipos compartidos.
@@ -35,7 +36,7 @@ Visualización 3D:
 - **Claves de Gemini.** `GEMINI_API_KEY` solo se usa en el servidor: nunca la expongas en el cliente ni con el prefijo `VITE_`. En el sitio estático, la clave es la del propio usuario y solo se guarda en `localStorage` si este lo elige.
 - **CSP del sitio estático.** `vite.config.ts` la inyecta solo en esa compilación. Si añades un recurso externo, permítelo ahí de forma explícita y no abras `connect-src` a otros sitios, porque protege la clave del usuario.
 - **HMR.** No cambies la configuración `hmr`/`watch` de `vite.config.ts`: la controla `DISABLE_HMR`, heredada de AI Studio.
-- **Datos personales.** El repositorio y la web son públicos. El caso del usuario y su plan de gimnasio no se escriben en `spec.md` ni en el código: van en «Mi contexto», guardado solo en `localStorage`. Solo se envían a Gemini al consultar.
+- **Datos personales.** El repositorio y la web son públicos. El caso del usuario y su historial de entrenamiento no se escriben en `spec.md` ni en el código: van en «Mi contexto», guardado solo en `localStorage`, o en `tmp/`. El plan y el catálogo de gimnasio de la app no incluyen datos del usuario, fechas, lados ni notas personales. La única persona citada es Bernardo González, en sus agradecimientos y a petición del usuario: no presentes el plan como verificado por él hasta que el usuario lo confirme. Solo se envían a Gemini al consultar.
 
 ## Animaciones
 

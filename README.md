@@ -9,6 +9,7 @@ Aplicación web en español para el alivio del pinzamiento isquiofemoral (IFI): 
 - **Simulador biomecánico:** modelo 3D de la cadera que muestra cómo cambia el espacio isquiofemoral según la postura y la tracción.
 - **Catálogo de ejercicios:** 10 ejercicios repartidos en tres fases (descompresión, estabilización e integración funcional), con animaciones 3D y los errores de técnica más habituales.
 - **Rutinas:** rutinas predefinidas y personalizables, con un reproductor guiado por temporizador y sonido.
+- **Plan de gimnasio:** dos sesiones semanales (pierna; torso y resto) y un catálogo de ejercicios clasificados según la guía.
 - **Guía clínica:** explicación de la patología y de los criterios de resonancia magnética.
 - **Consultor IA:** chat sobre biomecánica basado en Gemini. Las preguntas se envían a la API de Google. En la versión publicada, cada usuario pone su propia clave.
 

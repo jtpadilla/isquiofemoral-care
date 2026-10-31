@@ -1,6 +1,7 @@
 // Derivado de spec.md: cámbialo allí primero. Lo comparten server.ts y la versión estática, que llama a Gemini desde el navegador.
 import { AdvisorMessage } from '../types';
 import { EXERCISES_DATABASE } from './exercisesData';
+import { GYM_PLAN } from './gymPlan';
 import { GUIDE, POST_SESSION_TIP, QUICK_START_ROUTINE, ROUTINE_PRESETS } from './clinicalContent';
 
 export const GEMINI_MODELS = [
@@ -62,6 +63,7 @@ const APP_DOCUMENTATION = JSON.stringify({
   rutinas: ROUTINE_PRESETS,
   recomendacionTrasLaSesion: POST_SESSION_TIP,
   guia: GUIDE,
+  planGimnasio: GYM_PLAN,
 });
 
 const ADVISOR_BASE_PROMPT = `${SYSTEM_INSTRUCTION}
