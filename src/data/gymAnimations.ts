@@ -1,90 +1,12 @@
-import { AnimationError, AnimationPhase, AnimationReadout, ExerciseAnimation, Landmark, Pose, PoseKey } from '../types';
+import { ExerciseAnimation } from '../types';
 import { EXERCISE_ANIMATIONS } from './exerciseAnimations';
-import { GYM_TECHNIQUE } from './gymTechnique';
+import { GYM_CATALOG_ANIMATIONS } from './gymCatalogAnimations';
+import { CABLE, DUMBBELL, planted, SEAT, SEAT_HEIGHT, SEATED, SIDE_VIEWS, SUPINE, SUPINE_VIEWS, TOWER, BACKREST, build } from './gymAnimationKit';
 
-// Poses de los ejercicios de gimnasio. Los textos y rangos proceden de spec.md, a través de gymTechnique.ts.
-// El lado de trabajo es siempre el izquierdo; el visor refleja la escena para el derecho.
-
-const SEAT_HEIGHT = 0.55; // Pelvis sobre un asiento de unos 47 cm, con los pies en el suelo
-const SUPINE: Partial<Pose> = { rootRotX: -90, rootRotZ: 90 };
-
-const rad = (deg: number) => (deg * Math.PI) / 180;
-
-// Calcula la raíz y el tobillo para que los pies sigan fijos y planos en el suelo
-const planted = (rootRotX: number, hip: number, knee: number): Partial<Pose> => {
-  const thigh = hip - rootRotX;
-  const shin = thigh - knee;
-  return {
-    rootRotX,
-    rootZ: 0.04 * Math.sin(rad(rootRotX)) - 0.44 * Math.sin(rad(thigh)) - 0.42 * Math.sin(rad(shin)),
-    hipLFlexion: hip,
-    hipRFlexion: hip,
-    kneeLFlexion: knee,
-    kneeRFlexion: knee,
-    ankleLDorsiflexion: -shin,
-    ankleRDorsiflexion: -shin,
-  };
-};
-
-const SEATED: Partial<Pose> = { hipLFlexion: 90, hipRFlexion: 90, kneeLFlexion: 90, kneeRFlexion: 90 };
-
-const SIDE_VIEWS = (y = 0.8): ExerciseAnimation['scene']['views'] => [
-  { label: '3/4', position: [2.4, y + 0.6, 2.4] },
-  { label: 'Lateral', position: [3.4, y, 0] },
-  { label: 'Frente', position: [0, y + 0.2, 3.5] },
-  { label: 'Arriba', position: [0, 3.8, 0.1] },
-];
-const SUPINE_VIEWS: ExerciseAnimation['scene']['views'] = [
-  { label: '3/4', position: [1.05, 1.1, -2.1] },
-  { label: 'Lateral', position: [0, 0.45, -2.8] },
-  { label: 'Desde los pies', position: [2.6, 0.7, 0] },
-  { label: 'Arriba', position: [0, 2.8, -0.05] },
-];
-
-const CABLE: Pick<import('../types').EquipmentLink, 'radius' | 'color'> = { radius: 0.006, color: '#e2e8f0' };
-const DUMBBELL = (attach: Landmark) => ({ attach, size: [0.26, 0.09, 0.09] as [number, number, number], color: '#0f172a' });
-const SEAT = (z = 0) => ({ center: [0, 0.235, z] as [number, number, number], size: [0.42, 0.47, 0.42] as [number, number, number] });
-const BACKREST = (z = -0.2, tilt = -5) => ({ center: [0, 0.85, z] as [number, number, number], size: [0.42, 0.75, 0.08] as [number, number, number], rotationX: tilt, color: '#475569' });
-const TOWER = (x: number, z: number) => ({ center: [x, 1.05, z] as [number, number, number], size: [0.12, 2.1, 0.12] as [number, number, number], color: '#334155' });
-
-interface Spec extends Omit<ExerciseAnimation, 'phases' | 'errors' | 'readouts' | 'muscleLabel'> {
-  muscleLabel: string;
-  durations: number[];
-  poses: Partial<Pose>[];
-  activations: number[];
-  peaks: number[]; // Fases de trabajo
-  errors?: (Partial<Pose>)[]; // En el orden de los errores de spec.md
-  sources?: { source: PoseKey; offset?: number; peakOnly?: boolean }[]; // En el orden de los rangos
-}
-
-const build = (name: string, { durations, poses, activations, peaks, errors = [], sources = [], ...rest }: Spec): ExerciseAnimation => {
-  const text = GYM_TECHNIQUE[name];
-  const phases: AnimationPhase[] = text.phases.map((label, index) => ({
-    stepIndex: index,
-    label,
-    duration: durations[index],
-    pose: poses[index],
-    activation: activations[index],
-    peak: peaks.includes(index),
-  }));
-  const animationErrors: AnimationError[] = text.errors.map(({ title, text: why }, index) => ({
-    id: `error-${index}`,
-    label: title,
-    why,
-    peakPose: errors[index],
-  }));
-  const readouts: AnimationReadout[] = text.ranges.map(({ title, min, max, unit }, index) => ({
-    label: title,
-    unit,
-    min,
-    max,
-    ...sources[index],
-    source: sources[index].source,
-  }));
-  return { ...rest, phases, errors: animationErrors, readouts };
-};
+// Poses de los ejercicios del plan. Las del resto del catálogo están en gymCatalogAnimations.ts.
 
 export const GYM_ANIMATIONS: Record<string, ExerciseAnimation> = {
+  ...GYM_CATALOG_ANIMATIONS,
   'Tracción lateral en cuadrupedia con goma': EXERCISE_ANIMATIONS.lateral_traction!,
 
   '90/90 con corcho': build('90/90 con corcho', {

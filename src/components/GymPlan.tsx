@@ -30,11 +30,44 @@ const LabelledList: React.FC<{ items: { title: string; text: string }[] }> = ({ 
   </ul>
 );
 
+const ExerciseDetail: React.FC<{ name: string; canRender3D: boolean }> = ({ name, canRender3D }) => {
+  const technique = GYM_TECHNIQUE[name];
+  return (
+    <div className="p-3.5 pt-0 space-y-3">
+      {canRender3D && (
+        <ViewerBoundary fallback={null}>
+          <Suspense fallback={<div className="h-72 rounded-xl bg-slate-900 animate-pulse" />}>
+            <Exercise3DViewer key={name} animation={GYM_ANIMATIONS[name]} />
+          </Suspense>
+        </ViewerBoundary>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] leading-relaxed">
+        <div className="space-y-1.5">
+          <h4 className="text-xs font-bold text-slate-900">Ejecución</h4>
+          <ul className="list-disc pl-4 space-y-1 text-slate-700">
+            {technique.general.map((tip) => <li key={tip}>{tip}</li>)}
+          </ul>
+        </div>
+        <div className="p-3 rounded-lg bg-cyan-50 border border-cyan-200/70 space-y-1.5">
+          <h4 className="text-xs font-bold text-cyan-950 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" />
+            Para tu cadera
+          </h4>
+          <ul className="list-disc pl-4 space-y-1 text-cyan-950">
+            {technique.hip.map((tip) => <li key={tip}>{tip}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const GymPlan: React.FC = () => {
   const [dayIndex, setDayIndex] = useState(0);
   const [filter, setFilter] = useState('Todos');
   const [query, setQuery] = useState('');
   const [openExercise, setOpenExercise] = useState<string | null>(null);
+  const [openCatalogExercise, setOpenCatalogExercise] = useState<string | null>(null);
   const [canRender3D] = useState(supportsWebGL);
   const day = GYM_PLAN.days[dayIndex];
 
@@ -99,7 +132,6 @@ export const GymPlan: React.FC = () => {
         <ol className="space-y-2.5">
           {day.exercises.map((exercise) => {
             const isOpen = openExercise === exercise.name;
-            const technique = GYM_TECHNIQUE[exercise.name];
             return (
               <li key={exercise.name} className="rounded-xl border border-slate-200/70 bg-slate-50/60 overflow-hidden">
                 <button
@@ -121,34 +153,7 @@ export const GymPlan: React.FC = () => {
                   <p className="text-[11px] text-slate-600 leading-relaxed">{exercise.cue}</p>
                 </button>
 
-                {isOpen && (
-                  <div className="p-3.5 pt-0 space-y-3">
-                    {canRender3D && (
-                      <ViewerBoundary fallback={null}>
-                        <Suspense fallback={<div className="h-72 rounded-xl bg-slate-900 animate-pulse" />}>
-                          <Exercise3DViewer animation={GYM_ANIMATIONS[exercise.name]} />
-                        </Suspense>
-                      </ViewerBoundary>
-                    )}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] leading-relaxed">
-                      <div className="space-y-1.5">
-                        <h4 className="text-xs font-bold text-slate-900">Ejecución</h4>
-                        <ul className="list-disc pl-4 space-y-1 text-slate-700">
-                          {technique.general.map((tip) => <li key={tip}>{tip}</li>)}
-                        </ul>
-                      </div>
-                      <div className="p-3 rounded-lg bg-cyan-50 border border-cyan-200/70 space-y-1.5">
-                        <h4 className="text-xs font-bold text-cyan-950 flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5" />
-                          Para tu cadera
-                        </h4>
-                        <ul className="list-disc pl-4 space-y-1 text-cyan-950">
-                          {technique.hip.map((tip) => <li key={tip}>{tip}</li>)}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                {isOpen && <ExerciseDetail name={exercise.name} canRender3D={canRender3D} />}
               </li>
             );
           })}
@@ -212,15 +217,25 @@ export const GymPlan: React.FC = () => {
             <h4 className="text-xs font-bold text-slate-900 pt-1">{group}</h4>
             <ul className="divide-y divide-slate-100">
               {catalog.filter((exercise) => exercise.group === group).map((exercise) => (
-                <li key={exercise.name} className="py-2 space-y-1">
-                  <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                    <span className="text-xs text-slate-800 font-medium">
-                      {exercise.name}
-                      {exercise.origin === 'Nuevo' && <span className="ml-1.5 text-[10px] font-semibold text-cyan-700">Nuevo</span>}
-                    </span>
-                    <span className={`text-[10px] font-semibold rounded px-1.5 py-0.5 ${STATUS_STYLES[exercise.status]}`}>{exercise.status}</span>
-                  </div>
-                  {exercise.note && <p className="text-[11px] text-slate-500 leading-relaxed">{exercise.note}</p>}
+                <li key={exercise.name}>
+                  <button
+                    onClick={() => setOpenCatalogExercise(openCatalogExercise === exercise.name ? null : exercise.name)}
+                    aria-expanded={openCatalogExercise === exercise.name}
+                    className="w-full text-left py-2 space-y-1 hover:bg-slate-50 transition-colors"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                      <span className="text-xs text-slate-800 font-medium">
+                        {exercise.name}
+                        {exercise.origin === 'Nuevo' && <span className="ml-1.5 text-[10px] font-semibold text-cyan-700">Nuevo</span>}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <span className={`text-[10px] font-semibold rounded px-1.5 py-0.5 ${STATUS_STYLES[exercise.status]}`}>{exercise.status}</span>
+                        {openCatalogExercise === exercise.name ? <ChevronUp className="w-3.5 h-3.5 text-slate-500" /> : <ChevronDown className="w-3.5 h-3.5 text-slate-500" />}
+                      </span>
+                    </div>
+                    {exercise.note && <p className="text-[11px] text-slate-500 leading-relaxed">{exercise.note}</p>}
+                  </button>
+                  {openCatalogExercise === exercise.name && <ExerciseDetail name={exercise.name} canRender3D={canRender3D} />}
                 </li>
               ))}
             </ul>

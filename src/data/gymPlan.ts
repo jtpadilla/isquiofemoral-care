@@ -233,7 +233,7 @@ export const GYM_PLAN = {
       "text": "Acude a urgencias si notas pérdida de fuerza en la pierna o el pie, adormecimiento en la zona genital o perineal, o alteraciones en el control de la orina o las heces."
     }
   ],
-  "catalogIntro": "El estado resume cómo encaja cada ejercicio con la guía de esta aplicación. Es un criterio orientativo que debe revisar un profesional.",
+  "catalogIntro": "El estado resume cómo encaja cada ejercicio con la guía de esta aplicación. Es un criterio orientativo que debe revisar un profesional. Pulsa un ejercicio para ver su animación y sus consejos: son una aproximación, y los marcados como «Evitar por ahora» se muestran solo como referencia.",
   "catalog": [
     {
       "name": "90/90 con corcho",
@@ -376,7 +376,7 @@ export const GYM_PLAN = {
       "note": ""
     },
     {
-      "name": "Puente con pies en pared",
+      "name": "Puente de glúteo con pies en pared",
       "group": "Pierna y cadera",
       "status": "Recomendado",
       "origin": "Ya realizado",
@@ -761,7 +761,7 @@ export const GYM_PLAN = {
       "note": "No pierdas la alineación lumbar."
     },
     {
-      "name": "Jalón unilateral en banco o pulldown",
+      "name": "Jalón unilateral o pulldown en máquina",
       "group": "Torso: tirón",
       "status": "Recomendado",
       "origin": "Ya realizado",

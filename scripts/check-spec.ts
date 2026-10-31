@@ -300,7 +300,7 @@ compare('Técnica de gimnasio', () => {
 });
 
 compare('Técnica y plan de gimnasio', () => {
-  const names = GYM_PLAN.days.flatMap((day) => day.exercises.map((exercise) => exercise.name));
+  const names = [...GYM_PLAN.days.flatMap((day) => day.exercises.map((exercise) => exercise.name)), ...GYM_PLAN.catalog.map((exercise) => exercise.name)];
   const missing = names.filter((name) => !GYM_TECHNIQUE[name] || !GYM_ANIMATIONS[name]);
   const invalid = Object.entries(GYM_TECHNIQUE)
     .filter(([name, entry]) => entry.phases.length > 0 && GYM_ANIMATIONS[name].phases.length !== entry.phases.length)

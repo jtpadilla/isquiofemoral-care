@@ -48,11 +48,11 @@ const Scene: React.FC<{
     return ghost.lowestPoint();
   };
   const correctPhases = useMemo(
-    () => groundPhases(animation.basePose, animation.phases, lowestPointOf, animation.scene.rootHeight),
+    () => animation.scene.poseRoot ? animation.phases : groundPhases(animation.basePose, animation.phases, lowestPointOf, animation.scene.rootHeight),
     [animation, ghost]
   );
   const phases = useMemo(
-    () => groundPhases(animation.basePose, getPhases(animation, errorId), lowestPointOf, animation.scene.rootHeight),
+    () => animation.scene.poseRoot ? getPhases(animation, errorId) : groundPhases(animation.basePose, getPhases(animation, errorId), lowestPointOf, animation.scene.rootHeight),
     [animation, errorId, ghost]
   );
   const cycle = getCycleDuration(phases);

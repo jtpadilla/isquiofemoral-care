@@ -96,6 +96,7 @@ export interface ExerciseScene {
   wall?: { center: [number, number, number]; size: [number, number, number] };
   rails?: boolean;
   rootHeight?: number; // Altura fija de la pelvis, para sentarse o tumbarse sobre equipamiento
+  poseRoot?: boolean; // La altura sale de cada pose, cuando un pie o la espalda apoyan sobre equipamiento
   equipment?: EquipmentPiece[];
   links?: EquipmentLink[];
   followers?: EquipmentFollower[];

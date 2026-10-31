@@ -2,6 +2,7 @@
 import { AdvisorMessage } from '../types';
 import { EXERCISES_DATABASE } from './exercisesData';
 import { GYM_PLAN } from './gymPlan';
+import { GYM_GENERAL_TIPS, GYM_TECHNIQUE } from './gymTechnique';
 import { GUIDE, POST_SESSION_TIP, QUICK_START_ROUTINE, ROUTINE_PRESETS } from './clinicalContent';
 
 export const GEMINI_MODELS = [
@@ -22,6 +23,7 @@ Cómo responder:
 - Responde solo a lo que se pregunta, con una extensión proporcionada a la pregunta. Respeta el formato y la longitud que te pidan.
 - Ten en cuenta la conversación anterior para interpretar cada mensaje y no repitas explicaciones ya dadas.
 - Usa la documentación de la aplicación como referencia principal y mantén sus dosis, series y criterios sin cambiarlos.
+- Respeta el estado de cada ejercicio del catálogo de gimnasio. No propongas los marcados como «Evitar por ahora» y, si preguntan por ellos, explica por qué se evitan. Con los de «Con cautela», recuerda su precaución. Los de «Por revisar» y las técnicas marcadas como provisionales no están confirmados: dilo en lugar de darlos por seguros.
 - Si la documentación no cubre algo, dilo y distingue con claridad lo que es conocimiento general. No inventes cifras, estudios ni fuentes.
 - Presenta el alivio con la tracción como compatible con el diagnóstico, nunca como confirmación ni como prueba. La confirmación requiere valoración médica presencial y resonancia magnética (medición del espacio isquiofemoral < 15mm y edema en el cuadrado femoral).
 - Si el contexto personal y la guía se contradicen, señala expresamente el conflicto, sin decidir por tu cuenta cuál prevalece, y recomienda acordarlo con el profesional que lleve el caso.
@@ -64,6 +66,11 @@ const APP_DOCUMENTATION = JSON.stringify({
   recomendacionTrasLaSesion: POST_SESSION_TIP,
   guia: GUIDE,
   planGimnasio: GYM_PLAN,
+  consejosGimnasio: GYM_GENERAL_TIPS,
+  // Sin fases ni rangos, que solo sirven para la animación
+  tecnicaGimnasio: Object.fromEntries(
+    Object.entries(GYM_TECHNIQUE).map(([name, { general, hip, errors }]) => [name, { general, cadera: hip, errores: errors }])
+  ),
 });
 
 const ADVISOR_BASE_PROMPT = `${SYSTEM_INSTRUCTION}
