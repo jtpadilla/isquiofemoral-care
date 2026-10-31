@@ -702,6 +702,7 @@ Cuando una articulación presenta un conflicto de choque óseo, la respuesta fis
 - **Al conducir o trabajar sentado:** Evita asientos bajos o hundidos donde las rodillas superen la altura de las caderas. Utiliza una cuña pélvica que eleve ligeramente el sacro, mantén los pies bien apoyados en el suelo y realiza pausas activas poniéndote de pie cada 30-45 minutos.
 - **Al caminar o pasear:** Camina como si pisaras sobre dos raíles paralelos de tren, nunca sobre una sola línea. Acorta ligeramente la zancada, aumenta un poco la cadencia y evita arrastrar o hiperextender la pierna que queda atrás.
 - **Al subir escaleras o pendientes:** Inclina levemente el tronco hacia adelante desde las caderas, apoya todo el pie en el escalón e impúlsate activando el glúteo sin dejar que la rodilla se hunda hacia adentro (evita el valgo dinámico).
+- **Para la cintura escapular y el tórax:** Evita encorvarte hacia adelante (postura antálgica en cifosis) para compensar la molestia de cadera. Mantén el pecho suavemente abierto sin forzar una retracción rígida y practica respiraciones diafragmáticas bajas para evitar la sobrecarga tensional en pectorales altos y escápulas.
 
 ### Actividad física y deporte
 
@@ -753,6 +754,14 @@ Al doblar el tronco hacia adelante con piernas estiradas, la tuberosidad isquiá
 #### ¿Cuánto tiempo al día debo aplicar los ejercicios de tracción con goma?
 
 Se recomiendan de 2 a 3 series de 45-60 segundos por sesión, 1 o 2 veces al día (por ejemplo por la mañana y al terminar el día). La tracción no debe forzarse con dolor, sino experimentarse como una suave apertura y alivio descompresivo.
+
+#### ¿Debo realizar los ejercicios solo en la pierna con dolor o en ambas?
+
+Depende del objetivo del ejercicio. Los ejercicios de descompresión y tracción con banda (así como la neurodinámica del ciático) tienen un fin local y descompresivo, por lo que se realizan prioritariamente en la pierna afectada para decoaptar la articulación y liberar el cuadrado femoral inflamado. En cambio, los ejercicios de fortalecimiento y control motor (glúteo medio, abductores, rotación interna y estabilidad lumbo-pélvica) deben realizarse en ambas piernas desde el primer momento. Durante la marcha, el glúteo medio de la pierna de apoyo es imprescindible para evitar la caída de la pelvis contraria (signo de Trendelenburg), que cierra el espacio isquiofemoral del lado de apoyo. Además, trabajar la pierna sana previene sobrecargas compensatorias, estimula adaptaciones neurales positivas (educación cruzada) y permite integrar el patrón motor correcto libre de dolor antes de replicarlo en el lado afecto, adaptando en este último las repeticiones al umbral de confort.
+
+#### ¿Puede una alteración en la cadera o pelvis provocar dolor en la escápula y pectorales altos?
+
+Sí. La pelvis y la cintura escapular forman una unidad funcional vinculada por cadenas miofasciales cruzadas. Cuando la cadera o la pelvis sufren asimetría o dolor, el tronco compensa mediante una torsión defensiva: el dorsal ancho (unido a la pelvis por la fascia toracolumbar) tracciona hacia la escápula para mantener la horizontalidad de la mirada. Al mismo tiempo, la tendencia a cerrar la cadena anterior acorta el pectoral menor y adelanta los hombros (protracción escapular), sometiendo a los músculos fijadores de la escápula (romboides, serrato y trapecio) a una tensión excéntrica continua y dolorosa. Además, el espasmo pélvico suele inducir un patrón respiratorio apical que sobrecarga crónicamente los pectorales altos y escalenos. Por ello, el abordaje debe ser postural y global, siendo recomendable una valoración médica cervical y dorsal para descartar radiculopatías o síndromes del desfiladero torácico.
 
 ## Simulador biomecánico
 
@@ -836,6 +845,8 @@ Tus respuestas deben:
 - Explicar con precisión anatómica por qué la tracción (decoaptación de la cabeza femoral y separación lateral del trocánter menor respecto al isquion) alivia el atrapamiento del músculo cuadrado femoral y el nervio ciático adyacente.
 - Asesorar sobre corrección de técnica, dosificación de gomas, sensaciones normales vs señales de alarma (dolor punzante, adormecimiento progresivo).
 - Enfatizar siempre la activación del glúteo medio/menor para evitar la aducción relativa de cadera en la marcha.
+- Explicar que la tracción y neurodinámica se dirigen a la pierna afectada, mientras que el fortalecimiento y la estabilidad pélvica deben trabajarse bilateralmente en ambas piernas para equilibrar la marcha y evitar compensaciones.
+- Considerar las cadenas miofasciales cruzadas ascendentes: asimetrías o defensas pélvicas pueden generar compensaciones dolorosas en la cintura escapular y pectorales altos (fascia toracolumbar, protracción escapular y respiración apical), aconsejando un abordaje postural global y valoración médica cervical/dorsal.
 - Desaconsejar formalmente estiramientos agresivos de isquiotibiales que compriman el espacio.
 - Mantener un tono riguroso, empático y profesional, recordando que la confirmación diagnóstica definitiva requiere resonancia magnética (medición del espacio isquiofemoral < 15mm y edema en el cuadrado femoral) y valoración médica presencial.
 Responde de forma clara, directa y estructurada en español.
@@ -865,6 +876,7 @@ Que los ejercicios de tracción con goma elástica te alivien es un dato útil: 
 - ¿Por qué me baja un calambre por la parte posterior del muslo al caminar?
 - ¿Puedo hacer sentadillas o estirar los isquiotibiales?
 - ¿Cómo ajusto la tracción si siento molestia en la ingle anterior?
+- ¿Por qué me duele la escápula o el pecho alto si la molestia empezó en la cadera?
 
 ## Avisos de responsabilidad
 

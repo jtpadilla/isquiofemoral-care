@@ -97,6 +97,7 @@ export const GUIDE = {
     { title: 'Al conducir o trabajar sentado', text: 'Evita asientos bajos o hundidos donde las rodillas superen la altura de las caderas. Utiliza una cuña pélvica que eleve ligeramente el sacro, mantén los pies bien apoyados en el suelo y realiza pausas activas poniéndote de pie cada 30-45 minutos.' },
     { title: 'Al caminar o pasear', text: 'Camina como si pisaras sobre dos raíles paralelos de tren, nunca sobre una sola línea. Acorta ligeramente la zancada, aumenta un poco la cadencia y evita arrastrar o hiperextender la pierna que queda atrás.' },
     { title: 'Al subir escaleras o pendientes', text: 'Inclina levemente el tronco hacia adelante desde las caderas, apoya todo el pie en el escalón e impúlsate activando el glúteo sin dejar que la rodilla se hunda hacia adentro (evita el valgo dinámico).' },
+    { title: 'Para la cintura escapular y el tórax', text: 'Evita encorvarte hacia adelante (postura antálgica en cifosis) para compensar la molestia de cadera. Mantén el pecho suavemente abierto sin forzar una retracción rígida y practica respiraciones diafragmáticas bajas para evitar la sobrecarga tensional en pectorales altos y escápulas.' },
   ],
   activityIntro: '**Es una orientación general, no una lista validada:** no hay estudios que clasifiquen cada deporte para esta patología. Se basa en evitar la posición que suele provocar los síntomas: extensión de cadera con aducción y rotación externa. La tolerancia varía de una persona a otra, así que acuerda tu caso con tu médico o fisioterapeuta.',
   activityGroups: [
@@ -152,6 +153,14 @@ export const GUIDE = {
     {
       q: '¿Cuánto tiempo al día debo aplicar los ejercicios de tracción con goma?',
       a: 'Se recomiendan de 2 a 3 series de 45-60 segundos por sesión, 1 o 2 veces al día (por ejemplo por la mañana y al terminar el día). La tracción no debe forzarse con dolor, sino experimentarse como una suave apertura y alivio descompresivo.',
+    },
+    {
+      q: '¿Debo realizar los ejercicios solo en la pierna con dolor o en ambas?',
+      a: 'Depende del objetivo del ejercicio. Los ejercicios de descompresión y tracción con banda (así como la neurodinámica del ciático) tienen un fin local y descompresivo, por lo que se realizan prioritariamente en la pierna afectada para decoaptar la articulación y liberar el cuadrado femoral inflamado. En cambio, los ejercicios de fortalecimiento y control motor (glúteo medio, abductores, rotación interna y estabilidad lumbo-pélvica) deben realizarse en ambas piernas desde el primer momento. Durante la marcha, el glúteo medio de la pierna de apoyo es imprescindible para evitar la caída de la pelvis contraria (signo de Trendelenburg), que cierra el espacio isquiofemoral del lado de apoyo. Además, trabajar la pierna sana previene sobrecargas compensatorias, estimula adaptaciones neurales positivas (educación cruzada) y permite integrar el patrón motor correcto libre de dolor antes de replicarlo en el lado afecto, adaptando en este último las repeticiones al umbral de confort.',
+    },
+    {
+      q: '¿Puede una alteración en la cadera o pelvis provocar dolor en la escápula y pectorales altos?',
+      a: 'Sí. La pelvis y la cintura escapular forman una unidad funcional vinculada por cadenas miofasciales cruzadas. Cuando la cadera o la pelvis sufren asimetría o dolor, el tronco compensa mediante una torsión defensiva: el dorsal ancho (unido a la pelvis por la fascia toracolumbar) tracciona hacia la escápula para mantener la horizontalidad de la mirada. Al mismo tiempo, la tendencia a cerrar la cadena anterior acorta el pectoral menor y adelanta los hombros (protracción escapular), sometiendo a los músculos fijadores de la escápula (romboides, serrato y trapecio) a una tensión excéntrica continua y dolorosa. Además, el espasmo pélvico suele inducir un patrón respiratorio apical que sobrecarga crónicamente los pectorales altos y escalenos. Por ello, el abordaje debe ser postural y global, siendo recomendable una valoración médica cervical y dorsal para descartar radiculopatías o síndromes del desfiladero torácico.',
     },
   ],
 };
