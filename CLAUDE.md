@@ -33,6 +33,7 @@ Visualización 3D:
 
 ## Restricciones
 
+- **Despliegue privado.** Hay una alternativa aparcada para que solo acceda el usuario: `docs/despliegue-privado.md`.
 - **Dos modos de despliegue.** GitHub Pages sirve un sitio estático sin backend (`VITE_STATIC_SITE=true`, con base `/isquiofemoral-care/`). Todo debe funcionar sin servidor y con rutas compatibles con esa base.
 - **Claves de Gemini.** `GEMINI_API_KEY` solo se usa en el servidor: nunca la expongas en el cliente ni con el prefijo `VITE_`. En el sitio estático, la clave es la del propio usuario y solo se guarda en `localStorage` si este lo elige.
 - **CSP del sitio estático.** `vite.config.ts` la inyecta solo en esa compilación. Si añades un recurso externo, permítelo ahí de forma explícita y no abras `connect-src` a otros sitios, porque protege la clave del usuario.
