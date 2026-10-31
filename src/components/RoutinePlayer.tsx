@@ -22,11 +22,10 @@ import {
 
 interface Props {
   exercises: Exercise[];
-  onFinishWorkout?: (summary: { completedCount: number; minutes: number }) => void;
   onExit?: () => void;
 }
 
-export const RoutinePlayer: React.FC<Props> = ({ exercises, onFinishWorkout, onExit }) => {
+export const RoutinePlayer: React.FC<Props> = ({ exercises, onExit }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSet, setCurrentSet] = useState(1);
   const [selectedSide, setSelectedSide] = useState<'Afectada' | 'Izquierda' | 'Derecha'>('Afectada');
@@ -173,18 +172,10 @@ export const RoutinePlayer: React.FC<Props> = ({ exercises, onFinishWorkout, onE
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-          {onFinishWorkout && (
-            <button
-              onClick={() => onFinishWorkout({ completedCount: exercises.length, minutes: totalMinutes })}
-              className="w-full sm:w-auto px-6 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-all"
-            >
-              Registrar Sensaciones en el Diario de Síntomas
-            </button>
-          )}
           {onExit && (
             <button
               onClick={onExit}
-              className="w-full sm:w-auto px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-all"
+              className="w-full sm:w-auto px-6 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-all"
             >
               Volver al Menú Principal
             </button>

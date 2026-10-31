@@ -10,7 +10,6 @@ Aplicación web en español para el alivio del pinzamiento isquiofemoral (IFI): 
 - **Catálogo de ejercicios:** 10 ejercicios repartidos en tres fases (descompresión, estabilización e integración funcional), con animaciones 3D y los errores de técnica más habituales.
 - **Rutinas:** rutinas predefinidas y personalizables, con un reproductor guiado por temporizador y sonido.
 - **Guía clínica:** explicación de la patología y de los criterios de resonancia magnética.
-- **Diario de síntomas:** registro del dolor, la tolerancia a estar sentado y el efecto de la tracción. Los datos se guardan solo en el `localStorage` del navegador.
 - **Consultor IA:** chat sobre biomecánica basado en Gemini. Las preguntas se envían a la API de Google. En la versión publicada, cada usuario pone su propia clave.
 
 ## Requisitos

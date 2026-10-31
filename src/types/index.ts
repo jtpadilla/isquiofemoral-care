@@ -116,17 +116,6 @@ export interface WorkoutSessionItem {
   side?: 'left' | 'right' | 'both';
 }
 
-export interface SymptomEntry {
-  id: string;
-  date: string;
-  painLevelBefore: number; // 0-10 EVA
-  painLevelAfter: number; // 0-10 EVA
-  tractionReliefEffect: 'Alto' | 'Moderado' | 'Leve' | 'Sin cambios';
-  sittingToleranceMinutes: number;
-  walkingStiffness: 'Leve' | 'Moderada' | 'Severa' | 'Ninguna';
-  notes: string;
-}
-
 export interface BiomechanicsState {
   hipAngle: number; // -15 (extensión) a 90 (flexión)
   frontalAngle: number; // -15 (aducción) a 30 (abducción)

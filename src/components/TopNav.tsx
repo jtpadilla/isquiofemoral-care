@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type NavTab = 'simulador' | 'ejercicios' | 'rutinas' | 'guia' | 'diario' | 'chat';
+export type NavTab = 'simulador' | 'ejercicios' | 'rutinas' | 'guia' | 'chat';
 
 interface Props {
   activeTab: NavTab;
@@ -64,16 +64,6 @@ export const TopNav: React.FC<Props> = ({ activeTab, onSelectTab, onStartRoutine
             Guía Clínica
           </button>
           <button
-            onClick={() => onSelectTab('diario')}
-            className={`transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
-              activeTab === 'diario'
-                ? 'text-cyan-700 border-cyan-600'
-                : 'border-transparent hover:text-slate-900'
-            }`}
-          >
-            Diario EVA
-          </button>
-          <button
             onClick={() => onSelectTab('chat')}
             className={`transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
               activeTab === 'chat'
@@ -121,12 +111,6 @@ export const TopNav: React.FC<Props> = ({ activeTab, onSelectTab, onStartRoutine
           className={`whitespace-nowrap shrink-0 ${activeTab === 'guia' ? 'text-cyan-700 font-bold' : ''}`}
         >
           Guía Clínica
-        </button>
-        <button
-          onClick={() => onSelectTab('diario')}
-          className={`whitespace-nowrap shrink-0 ${activeTab === 'diario' ? 'text-cyan-700 font-bold' : ''}`}
-        >
-          Diario EVA
         </button>
         <button
           onClick={() => onSelectTab('chat')}

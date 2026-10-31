@@ -10,7 +10,6 @@ import { ExerciseDetailModal } from './components/ExerciseDetailModal';
 import { RoutinePlayer } from './components/RoutinePlayer';
 import { RoutineCustomizer } from './components/RoutineCustomizer';
 import { ClinicalGuide } from './components/ClinicalGuide';
-import { SymptomTracker } from './components/SymptomTracker';
 import { ClinicalAdvisorChat } from './components/ClinicalAdvisorChat';
 import { 
   Sparkles, 
@@ -44,11 +43,6 @@ export default function App() {
     setActiveWorkoutList([exercise]);
   };
 
-  const handleFinishWorkout = (summary: { completedCount: number; minutes: number }) => {
-    setActiveWorkoutList(null);
-    setActiveTab('diario');
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
       {/* Top Bar adhering to Constitution */}
@@ -79,7 +73,6 @@ export default function App() {
             </div>
             <RoutinePlayer
               exercises={activeWorkoutList}
-              onFinishWorkout={handleFinishWorkout}
               onExit={() => setActiveWorkoutList(null)}
             />
           </div>
@@ -191,9 +184,6 @@ export default function App() {
 
             {/* View: Clinical Guide */}
             {activeTab === 'guia' && <ClinicalGuide />}
-
-            {/* View: Symptom Tracker */}
-            {activeTab === 'diario' && <SymptomTracker />}
 
             {/* View: AI Clinical Advisor */}
             {activeTab === 'chat' && <ClinicalAdvisorChat />}
