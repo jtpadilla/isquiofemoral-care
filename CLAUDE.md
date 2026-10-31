@@ -19,7 +19,8 @@ No hay tests ni ESLint. Verifica los cambios con `npm run lint` y, si afectan a 
 - `src/App.tsx`: navegación por estado (`activeTab`, `activeWorkoutList`). No hay router ni librería de estado global.
 - `spec.md`: fuente de verdad del contenido clínico.
 - `src/data/exercisesData.ts` y `src/data/clinicalContent.ts`: copia de ese contenido que usa la interfaz (ejercicios, rutinas, guía, simulador, portada y avisos).
-- `src/data/gymPlan.ts`: plan y catálogo de gimnasio. Son independientes de `exercisesData.ts` y no tienen animación.
+- `src/data/gymPlan.ts`: plan y catálogo de gimnasio. Son independientes de `exercisesData.ts`.
+- `src/data/gymTechnique.ts` y `src/data/gymAnimations.ts`: consejos y animaciones de gimnasio, con las mismas piezas 3D (`Exercise3DViewer`, `mannequin.ts`, `exerciseProps.ts`). Los textos y rangos proceden de `spec.md`; las poses, no.
 - `src/data/exerciseAnimations.ts`: animaciones, indexadas por `Exercise['diagramType']`. Sus textos y rangos también proceden de `spec.md`; las poses no.
 - `src/components/RichText.tsx`: muestra la `**negrita**` del contenido.
 - `src/types/index.ts`: todos los tipos compartidos.
@@ -27,7 +28,7 @@ No hay tests ni ESLint. Verifica los cambios con `npm run lint` y, si afectan a 
 Visualización 3D:
 
 - `ExerciseVisual` carga `Exercise3DViewer` de forma diferida y recurre al diagrama SVG de `ExerciseDiagram` si no hay animación o WebGL.
-- `utils/mannequin.ts` construye el maniquí, `utils/poseTimeline.ts` interpola las poses y `utils/exerciseProps.ts` crea bandas y accesorios.
+- `utils/mannequin.ts` construye el maniquí, `utils/poseTimeline.ts` interpola las poses y `utils/exerciseProps.ts` crea bandas, accesorios y equipamiento de gimnasio (`scene.equipment`, `links`, `followers`; `rootHeight` fija la altura en máquinas).
 - `Hip3DViewer` muestra el modelo de cadera del simulador. Su geometría se genera con SDF (`utils/hipAnatomy.ts`, `utils/sdfMesher.ts`) en un Web Worker, con el hilo principal como alternativa si este falla.
 
 ## Restricciones

@@ -57,7 +57,7 @@ export interface AnimationPhase {
 export type Landmark =
   | 'groinL' | 'midThighL'
   | 'hipL' | 'hipR' | 'kneeL' | 'kneeR' | 'ankleL' | 'ankleR'
-  | 'aboveKneeL' | 'aboveKneeR' | 'wristL' | 'wristR'
+  | 'aboveKneeL' | 'aboveKneeR' | 'wristL' | 'wristR' | 'handL' | 'handR'
   | 'sacrum' | 'hipBackL' | 'thighBackL' | 'kneeBackL' | 'calfBackL' | 'ankleBackL';
 
 export type BandSpec =
@@ -66,7 +66,9 @@ export type BandSpec =
 
 export type MuscleZone =
   | 'hipLateralL' | 'hipJointL' | 'gluteMedL' | 'gluteMedR'
-  | 'gluteMaxL' | 'gluteMaxR' | 'lateralTrunkL';
+  | 'gluteMaxL' | 'gluteMaxR' | 'lateralTrunkL'
+  | 'chest' | 'upperBack' | 'abdomen' | 'shoulderL' | 'shoulderR'
+  | 'thighFrontL' | 'thighFrontR' | 'thighBackL' | 'thighBackR';
 
 export interface AnimationError {
   id: string;
@@ -93,6 +95,35 @@ export interface ExerciseScene {
   mat?: { center: [number, number]; size: [number, number] };
   wall?: { center: [number, number, number]; size: [number, number, number] };
   rails?: boolean;
+  rootHeight?: number; // Altura fija de la pelvis, para sentarse o tumbarse sobre equipamiento
+  equipment?: EquipmentPiece[];
+  links?: EquipmentLink[];
+  followers?: EquipmentFollower[];
+}
+
+// Piezas de gimnasio estáticas: bancos, asientos y estructuras
+export interface EquipmentPiece {
+  center: [number, number, number];
+  size: [number, number, number];
+  rotationX?: number; // Grados
+  color?: string;
+}
+
+// Cable o barra entre un punto fijo y una parte del cuerpo
+export interface EquipmentLink {
+  from: [number, number, number];
+  to: Landmark;
+  radius?: number;
+  color?: string;
+}
+
+// Pieza que acompaña al cuerpo: mancuernas, plataformas y rodillos
+export interface EquipmentFollower {
+  attach: Landmark;
+  offset?: [number, number, number];
+  size: [number, number, number];
+  rotationX?: number;
+  color?: string;
 }
 
 export interface ExerciseAnimation {
@@ -106,6 +137,8 @@ export interface ExerciseAnimation {
   bands?: BandSpec[];
   showNerve?: boolean;
   bilateral?: boolean; // Trabajan las dos piernas: sin selector de lado
+  workArms?: 'left' | 'both' | 'none'; // Resalta los brazos en lugar de las piernas, o ninguna extremidad
+  workLabel?: string; // Sustituye a la etiqueta de la pierna de trabajo
 }
 
 export interface WorkoutSessionItem {

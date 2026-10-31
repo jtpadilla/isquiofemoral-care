@@ -13,7 +13,7 @@ const SHOULDER_HEIGHT = 0.33;
 const rad = THREE.MathUtils.degToRad;
 
 // Zonas orientativas sobre la pelvis: no son una representación anatómica exacta
-const MUSCLE_ZONES: Record<MuscleZone, { position: [number, number, number]; scale: [number, number, number] }> = {
+const MUSCLE_ZONES: Record<MuscleZone, { position: [number, number, number]; scale: [number, number, number]; parent?: 'spine' | 'legL' | 'legR' }> = {
   hipLateralL: { position: [0.15, 0.01, 0.045], scale: [0.05, 0.1, 0.075] },
   hipJointL: { position: [0.11, -0.05, 0.07], scale: [0.075, 0.075, 0.075] },
   gluteMedL: { position: [0.14, 0.06, -0.03], scale: [0.05, 0.09, 0.075] },
@@ -21,6 +21,15 @@ const MUSCLE_ZONES: Record<MuscleZone, { position: [number, number, number]; sca
   gluteMaxL: { position: [0.08, -0.03, -0.085], scale: [0.08, 0.09, 0.05] },
   gluteMaxR: { position: [-0.08, -0.03, -0.085], scale: [0.08, 0.09, 0.05] },
   lateralTrunkL: { position: [0.13, 0.2, 0], scale: [0.045, 0.14, 0.075] },
+  chest: { position: [0, 0.26, 0.085], scale: [0.14, 0.08, 0.04], parent: 'spine' },
+  upperBack: { position: [0, 0.22, -0.085], scale: [0.15, 0.13, 0.04], parent: 'spine' },
+  abdomen: { position: [0, 0.03, 0.085], scale: [0.09, 0.11, 0.035], parent: 'spine' },
+  shoulderL: { position: [0.19, 0.3, 0], scale: [0.06, 0.06, 0.06], parent: 'spine' },
+  shoulderR: { position: [-0.19, 0.3, 0], scale: [0.06, 0.06, 0.06], parent: 'spine' },
+  thighFrontL: { position: [0, -0.22, 0.045], scale: [0.058, 0.15, 0.035], parent: 'legL' },
+  thighFrontR: { position: [0, -0.22, 0.045], scale: [0.058, 0.15, 0.035], parent: 'legR' },
+  thighBackL: { position: [0, -0.22, -0.045], scale: [0.058, 0.15, 0.035], parent: 'legL' },
+  thighBackR: { position: [0, -0.22, -0.045], scale: [0.058, 0.15, 0.035], parent: 'legR' },
 };
 
 export interface Mannequin {
@@ -38,17 +47,19 @@ interface Options {
   ghost?: boolean;
   bothLegsWork?: boolean;
   muscleZones?: MuscleZone[];
+  workArms?: 'left' | 'both' | 'none';
 }
 
-export const createMannequin = ({ ghost = false, bothLegsWork = false, muscleZones = [] }: Options = {}): Mannequin => {
+export const createMannequin = ({ ghost = false, bothLegsWork = false, muscleZones = [], workArms }: Options = {}): Mannequin => {
   const makeMaterial = (color: string) =>
     ghost
       ? new THREE.MeshStandardMaterial({ color: '#34d399', transparent: true, opacity: 0.22, depthWrite: false })
       : new THREE.MeshStandardMaterial({ color, roughness: 0.65 });
 
   const bodyMat = makeMaterial('#cbd5e1');
-  const workLegMat = makeMaterial('#22b8d6');
-  const restLegMat = bothLegsWork ? workLegMat : makeMaterial('#94a3b8');
+  const workMat = makeMaterial('#22b8d6');
+  const restLegMat = bothLegsWork ? workMat : makeMaterial('#94a3b8');
+  const workLegMat = workArms ? restLegMat : workMat;
   const markerMat = makeMaterial('#f8fafc');
   const muscleMat = new THREE.MeshStandardMaterial({
     color: '#f59e0b',
@@ -127,12 +138,13 @@ export const createMannequin = ({ ghost = false, bothLegsWork = false, muscleZon
   };
 
   const buildArm = (sign: 1 | -1) => {
+    const material = workArms === 'both' || (workArms === 'left' && sign === 1) ? workMat : bodyMat;
     const shoulder = joint(spine, sign * SHOULDER_OFFSET, SHOULDER_HEIGHT - 0.03);
-    segment(shoulder, UPPER_ARM, 0.046, 0.036, bodyMat);
+    segment(shoulder, UPPER_ARM, 0.046, 0.036, material);
     const elbow = joint(shoulder, 0, -UPPER_ARM);
-    segment(elbow, FOREARM, 0.034, 0.026, bodyMat);
+    segment(elbow, FOREARM, 0.034, 0.026, material);
     const wrist = joint(elbow, 0, -FOREARM);
-    ellipsoid(wrist, 0.036, 0.05, 0.022, bodyMat).position.y = -0.045;
+    ellipsoid(wrist, 0.036, 0.05, 0.022, material).position.y = -0.045;
     return { shoulder, elbow, wrist };
   };
 
@@ -154,6 +166,8 @@ export const createMannequin = ({ ghost = false, bothLegsWork = false, muscleZon
     aboveKneeR: marker(legR.hip, 0, -THIGH * 0.85, 0),
     wristL: armL.wrist,
     wristR: armR.wrist,
+    handL: marker(armL.wrist, 0, -0.06, 0),
+    handR: marker(armR.wrist, 0, -0.06, 0),
     sacrum: marker(root, 0, 0.04, -0.11),
     hipBackL: marker(root, HIP_OFFSET, -0.06, -0.11),
     thighBackL: marker(legL.hip, 0, -THIGH * 0.5, -0.07),
@@ -164,11 +178,11 @@ export const createMannequin = ({ ghost = false, bothLegsWork = false, muscleZon
 
   if (!ghost) {
     for (const zone of muscleZones) {
-      const { position, scale } = MUSCLE_ZONES[zone];
+      const { position, scale, parent } = MUSCLE_ZONES[zone];
       const muscle = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 14), muscleMat);
       muscle.position.set(...position);
       muscle.scale.set(...scale);
-      root.add(muscle);
+      (parent === 'spine' ? spine : parent === 'legL' ? legL.hip : parent === 'legR' ? legR.hip : root).add(muscle);
     }
   }
 

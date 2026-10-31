@@ -36,6 +36,19 @@ export const createExerciseProps = (scene: ExerciseScene, bands: BandSpec[], sho
     addBox([-0.13, 0.002, 0], [0.03, 0.004, 3], '#38bdf8');
   }
 
+  const rad = THREE.MathUtils.degToRad;
+  (scene.equipment ?? []).forEach(({ center, size, rotationX, color }) => {
+    const piece = addBox(center, size, color ?? '#64748b');
+    piece.castShadow = true;
+    if (rotationX) piece.rotation.x = rad(rotationX);
+  });
+  const followers = (scene.followers ?? []).map(({ attach, offset, size, rotationX, color }) => {
+    const piece = addBox([0, 0, 0], size, color ?? '#334155');
+    piece.castShadow = true;
+    if (rotationX) piece.rotation.x = rad(rotationX);
+    return { piece, attach, offset: new THREE.Vector3(...(offset ?? [0, 0, 0])) };
+  });
+
   const bandMat = new THREE.MeshStandardMaterial({ color: '#f59e0b', roughness: 0.5 });
   const nerveMat = new THREE.MeshBasicMaterial({ color: '#facc15', depthTest: false, transparent: true });
 
@@ -64,6 +77,17 @@ export const createExerciseProps = (scene: ExerciseScene, bands: BandSpec[], sho
     return Array.from({ length: band.kind === 'loop' ? 4 : 1 }, () => addSegment(bandMat));
   });
 
+  const links = (scene.links ?? []).map((link) => ({
+    ...link,
+    mesh: (() => {
+      const material = new THREE.MeshStandardMaterial({ color: link.color ?? '#e2e8f0', roughness: 0.4 });
+      const mesh = new THREE.Mesh(unitCylinder, material);
+      mesh.castShadow = true;
+      group.add(mesh);
+      return mesh;
+    })(),
+  }));
+
   const nerveMeshes = showNerve ? NERVE_PATH.slice(1).map(() => addSegment(nerveMat)) : [];
   const bead = showNerve ? new THREE.Mesh(new THREE.SphereGeometry(0.024, 12, 10), nerveMat) : null;
   if (bead) {
@@ -85,6 +109,15 @@ export const createExerciseProps = (scene: ExerciseScene, bands: BandSpec[], sho
 
   const update = (mannequin: Mannequin, activation: number) => {
     group.updateWorldMatrix(true, false);
+
+    followers.forEach(({ piece, attach, offset }) => {
+      toLocal(mannequin, attach, piece.position).add(offset);
+    });
+    links.forEach(({ from, to, radius, mesh }) => {
+      v1.set(...from);
+      toLocal(mannequin, to, v2);
+      stretch(mesh, v1, v2, radius ?? 0.007);
+    });
 
     bands.forEach((band, index) => {
       const meshes = bandMeshes[index];

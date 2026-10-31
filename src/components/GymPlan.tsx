@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
-import { AlertTriangle, Dumbbell, Search, ShieldAlert, TrendingUp } from 'lucide-react';
+import React, { Suspense, lazy, useState } from 'react';
+import { AlertTriangle, ChevronDown, ChevronUp, Dumbbell, Search, ShieldAlert, Sparkles, TrendingUp } from 'lucide-react';
+import { GYM_ANIMATIONS } from '../data/gymAnimations';
 import { GYM_PLAN } from '../data/gymPlan';
+import { GYM_GENERAL_TIPS, GYM_TECHNIQUE } from '../data/gymTechnique';
+import { supportsWebGL, ViewerBoundary } from './ExerciseVisual';
 import { RichText } from './RichText';
+
+// three.js solo se descarga al abrir un ejercicio
+const Exercise3DViewer = lazy(() => import('./Exercise3DViewer'));
 
 const STATUS_STYLES: Record<string, string> = {
   Recomendado: 'bg-emerald-100 text-emerald-800',
@@ -28,6 +34,8 @@ export const GymPlan: React.FC = () => {
   const [dayIndex, setDayIndex] = useState(0);
   const [filter, setFilter] = useState('Todos');
   const [query, setQuery] = useState('');
+  const [openExercise, setOpenExercise] = useState<string | null>(null);
+  const [canRender3D] = useState(supportsWebGL);
   const day = GYM_PLAN.days[dayIndex];
 
   const catalog = GYM_PLAN.catalog.filter(
@@ -70,7 +78,10 @@ export const GymPlan: React.FC = () => {
               key={option.title}
               role="tab"
               aria-selected={index === dayIndex}
-              onClick={() => setDayIndex(index)}
+              onClick={() => {
+                setDayIndex(index);
+                setOpenExercise(null);
+              }}
               className={`flex-1 px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                 index === dayIndex ? 'bg-cyan-700 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
@@ -80,22 +91,67 @@ export const GymPlan: React.FC = () => {
           ))}
         </div>
 
+        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 space-y-2">
+          <h3 className="text-xs font-bold text-slate-900">Consejos para todos los ejercicios</h3>
+          <LabelledList items={GYM_GENERAL_TIPS} />
+        </div>
+
         <ol className="space-y-2.5">
-          {day.exercises.map((exercise) => (
-            <li key={exercise.name} className="p-3.5 rounded-xl border border-slate-200/70 bg-slate-50/60 space-y-1.5">
-              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                <span className="text-xs font-bold text-slate-900">{exercise.name}</span>
-                <span className="text-[11px] font-mono text-cyan-800">
-                  {exercise.sets} × {exercise.reps}
-                  {exercise.rest !== '-' && ` · ${exercise.rest}`}
-                </span>
-              </div>
-              {exercise.block !== 'Principal' && (
-                <span className="inline-block text-[10px] font-semibold text-slate-600 bg-slate-200/70 rounded px-1.5 py-0.5">{exercise.block}</span>
-              )}
-              <p className="text-[11px] text-slate-600 leading-relaxed">{exercise.cue}</p>
-            </li>
-          ))}
+          {day.exercises.map((exercise) => {
+            const isOpen = openExercise === exercise.name;
+            const technique = GYM_TECHNIQUE[exercise.name];
+            return (
+              <li key={exercise.name} className="rounded-xl border border-slate-200/70 bg-slate-50/60 overflow-hidden">
+                <button
+                  onClick={() => setOpenExercise(isOpen ? null : exercise.name)}
+                  aria-expanded={isOpen}
+                  className="w-full text-left p-3.5 space-y-1.5 hover:bg-slate-100/70 transition-colors"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                    <span className="text-xs font-bold text-slate-900">{exercise.name}</span>
+                    <span className="text-[11px] font-mono text-cyan-800 flex items-center gap-1.5">
+                      {exercise.sets} × {exercise.reps}
+                      {exercise.rest !== '-' && ` · ${exercise.rest}`}
+                      {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                    </span>
+                  </div>
+                  {exercise.block !== 'Principal' && (
+                    <span className="inline-block text-[10px] font-semibold text-slate-600 bg-slate-200/70 rounded px-1.5 py-0.5">{exercise.block}</span>
+                  )}
+                  <p className="text-[11px] text-slate-600 leading-relaxed">{exercise.cue}</p>
+                </button>
+
+                {isOpen && (
+                  <div className="p-3.5 pt-0 space-y-3">
+                    {canRender3D && (
+                      <ViewerBoundary fallback={null}>
+                        <Suspense fallback={<div className="h-72 rounded-xl bg-slate-900 animate-pulse" />}>
+                          <Exercise3DViewer animation={GYM_ANIMATIONS[exercise.name]} />
+                        </Suspense>
+                      </ViewerBoundary>
+                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] leading-relaxed">
+                      <div className="space-y-1.5">
+                        <h4 className="text-xs font-bold text-slate-900">Ejecución</h4>
+                        <ul className="list-disc pl-4 space-y-1 text-slate-700">
+                          {technique.general.map((tip) => <li key={tip}>{tip}</li>)}
+                        </ul>
+                      </div>
+                      <div className="p-3 rounded-lg bg-cyan-50 border border-cyan-200/70 space-y-1.5">
+                        <h4 className="text-xs font-bold text-cyan-950 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          Para tu cadera
+                        </h4>
+                        <ul className="list-disc pl-4 space-y-1 text-cyan-950">
+                          {technique.hip.map((tip) => <li key={tip}>{tip}</li>)}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </ol>
       </div>
 

@@ -897,6 +897,219 @@ Enlace: https://www.activacionmuscularcastellon.com/bernardo-gonzalez-2/
 - **Revisar el plan:** Si el dolor basal empeora a las 24 horas, vuelve a la carga anterior y coméntalo con tu médico o fisioterapeuta.
 - **Atención urgente:** Acude a urgencias si notas pérdida de fuerza en la pierna o el pie, adormecimiento en la zona genital o perineal, o alteraciones en el control de la orina o las heces.
 
+### Técnica de ejecución
+
+- **Respiración:** Coge aire antes de bajar la carga y suéltalo del todo al hacer el esfuerzo, sin bloquear la respiración.
+- **Costillas y pelvis:** Mantén las costillas cerradas y la pelvis estable para no arquear la zona lumbar.
+- **Ritmo:** Baja la carga en unos 2 o 3 segundos y sube de forma controlada, sin rebotes.
+- **Rango de movimiento:** Usa el mayor recorrido que no moleste. Si el ejercicio reproduce los síntomas, reduce primero el recorrido y después la carga.
+- **Los dos lados:** Empieza por el lado con más molestias y haz en el otro las mismas repeticiones.
+
+#### Tracción lateral en cuadrupedia con goma
+
+- **General:** Coloca la goma en la raíz del muslo y aléjate del anclaje hasta notar tensión constante.
+- **Para tu cadera:** Debe sentirse como una apertura, sin dolor. Mantén la rodilla bajo la cadera, sin cruzar el muslo hacia dentro.
+
+#### 90/90 con corcho
+
+- **General:** Túmbate con caderas y rodillas a 90° y los pies en la pared. Sujeta un corcho entre las rodillas.
+- **General:** Empuja con los talones sin despegar la pelvis del suelo.
+- **Para tu cadera:** Sirve para preparar la cadera sin extenderla. Si notas pinzamiento, separa un poco los pies de la pared.
+- **Fase 1:** Caderas y rodillas a 90°, con los pies en la pared
+- **Fase 2:** Exhala, presiona el corcho y bascula la pelvis sin despegarla
+- **Error, Arquear la zona lumbar:** Se pierde la basculación de la pelvis y el esfuerzo pasa a la espalda. Exhala del todo y acerca las costillas a la pelvis.
+- **Rango, Flexión de cadera:** 85 a 100°
+
+#### Prensa de piernas
+
+- **General:** Apoya toda la espalda y la pelvis, con los pies a la anchura de los hombros y las rodillas en la línea de los pies.
+- **General:** Baja despacio y empuja con todo el pie, sin bloquear las rodillas arriba.
+- **Para tu cadera:** Es el sustituto de las zancadas porque no lleva la pierna atrás. Prueba alturas de pies hasta encontrar la que no moleste.
+- **Para tu cadera:** Detente antes de que la pelvis se despegue del respaldo. Evita que las rodillas se junten, porque acerca la cadera a la aducción.
+- **Fase 1:** Pies a la anchura de los hombros y espalda apoyada
+- **Fase 2:** Baja despacio sin llegar al tope
+- **Fase 3:** Empuja con todo el pie sin bloquear las rodillas
+- **Error, Las rodillas se juntan:** Lleva la cadera hacia la aducción, la posición que estrecha el espacio. Reduce la carga y empuja en la línea de los pies.
+- **Error, Bajar hasta el tope:** Al final del recorrido la pelvis tiende a despegarse y la zona lumbar se redondea. Detente antes.
+- **Rango, Flexión de rodilla:** 20 a 90°
+
+#### Sentadilla a cajón alto con mancuerna al pecho
+
+- **General:** Coloca los pies a la anchura de los hombros y sujeta la mancuerna contra el pecho.
+- **General:** Lleva la cadera atrás, toca el cajón sin dejarte caer y sube empujando el suelo.
+- **Para tu cadera:** Elige un cajón con el que puedas bajar sin molestias, y súbelo si notas pinzamiento. Mantén las rodillas abiertas.
+- **Fase 1:** De pie, con la mancuerna al pecho
+- **Fase 2:** Lleva la cadera atrás hasta tocar el cajón
+- **Fase 3:** Sube empujando el suelo con todo el pie
+- **Error, Las rodillas caen hacia dentro:** Aumenta la aducción de cadera. Baja la carga y empuja las rodillas hacia fuera.
+- **Rango, Flexión de cadera:** 0 a 95°
+
+#### Femoral sentado
+
+- **General:** Ajusta la máquina para alinear la rodilla con su eje y sujeta bien el muslo.
+- **General:** Flexiona la rodilla sin despegar la pelvis del asiento y vuelve despacio.
+- **Para tu cadera:** El isquiotibial se inserta cerca de la zona irritada. Si molesta en la tuberosidad isquiática, reduce recorrido y carga, y coméntalo con tu profesional.
+- **Fase 1:** Pierna casi estirada, pelvis apoyada
+- **Fase 2:** Flexiona la rodilla en unos 2 segundos
+- **Fase 3:** Vuelve despacio sin perder el apoyo
+- **Error, La pelvis se despega:** Traslada la tensión a la inserción de los isquiotibiales y a la zona lumbar. Baja la carga y mantén la pelvis basculada.
+- **Rango, Flexión de rodilla:** 20 a 95°
+
+#### Abductores en máquina
+
+- **General:** Siéntate con la pelvis atrás y el tronco quieto.
+- **General:** Abre las piernas sin impulso, mantén un segundo y vuelve despacio.
+- **Para tu cadera:** Fortalece el glúteo medio, importante para que la pelvis no caiga al caminar. Evita abrir hasta notar molestia en la nalga profunda.
+- **Fase 1:** Sentado, piernas casi juntas
+- **Fase 2:** Abre sin balancear el tronco
+- **Fase 3:** Vuelve despacio
+- **Error, Balancear el tronco:** El impulso resta trabajo al glúteo. Reduce la carga y mantén la espalda apoyada.
+- **Rango, Abducción:** 5 a 35°
+
+#### Puente de glúteo con pies en pared
+
+- **General:** Túmbate con los pies apoyados y empuja con todo el pie.
+- **General:** Sube hasta alinear rodillas, caderas y hombros, y baja despacio. La figura lo muestra con apoyo en el suelo; en la pared el gesto es el mismo.
+- **Para tu cadera:** No subas más de la línea recta: extender de más es la posición que debes evitar. Mantén las rodillas separadas.
+- **Fase 1:** Tumbado, con los pies apoyados
+- **Fase 2:** Sube hasta alinear rodillas, caderas y hombros
+- **Fase 3:** Baja despacio sin perder la retroversión
+- **Error, Subir de más:** Lleva la cadera a la extensión y arquea la zona lumbar. Detente en la línea recta.
+- **Rango, Cadera (0° = en línea):** -5 a 60°
+
+#### Extensión de rodilla en máquina
+
+- **General:** Alinea la rodilla con el eje de la máquina y apoya toda la espalda.
+- **General:** Extiende sin golpear arriba y baja despacio.
+- **Para tu cadera:** La cadera no tiene que moverse, por lo que suele tolerarse bien. Si molesta la rodilla, reduce recorrido o carga.
+- **Fase 1:** Rodilla flexionada, espalda apoyada
+- **Fase 2:** Extiende de forma controlada
+- **Fase 3:** Baja despacio
+- **Error, Despegar la pelvis:** Empujar con el cuerpo resta trabajo al muslo. Baja la carga y agárrate a las asas.
+- **Rango, Flexión de rodilla:** 10 a 90°
+
+#### Pallof isométrico
+
+- **General:** Colócate de lado a la polea, con los pies paralelos a la anchura de los hombros.
+- **General:** Lleva las manos al frente, aguanta sin dejar que el tronco gire y vuelve.
+- **Para tu cadera:** Los pies paralelos evitan llevar una pierna atrás. Mantén el peso repartido en las dos piernas.
+- **Fase 1:** De lado a la polea, con las manos en el pecho
+- **Fase 2:** Lleva las manos al frente
+- **Fase 3:** Aguanta sin que el tronco gire
+- **Fase 4:** Vuelve al pecho
+- **Error, El tronco gira:** Se pierde el trabajo antirrotación y la pelvis tiende a moverse. Reduce la carga.
+- **Rango, Giro del tronco:** -3 a 3°
+
+#### Remo sentado en máquina sin apoyar el pecho
+
+- **General:** Siéntate erguido, con los pies apoyados, y deja que el brazo se alargue delante.
+- **General:** Tira llevando los codos atrás, sin balancear el tronco.
+- **Para tu cadera:** Sentado, la cadera queda en flexión cómoda. Si te molesta el asiento, usa un cojín para descargar la tuberosidad isquiática.
+- **Para tu cadera:** Abrir el pecho sin forzar ayuda a no encorvarte para compensar la molestia de cadera.
+- **Fase 1:** Brazos alargados, tronco erguido
+- **Fase 2:** Tira llevando los codos atrás
+- **Fase 3:** Vuelve alargando el brazo
+- **Error, Balancear el tronco:** Convierte el remo en un impulso de espalda y pelvis. Reduce la carga.
+- **Rango, Flexión de codo:** 5 a 100°
+
+#### Respiración diafragmática
+
+- **General:** Túmbate con caderas y rodillas a 90° y las piernas apoyadas.
+- **General:** Inhala expandiendo costillas y abdomen, y exhala del todo acercando las costillas a la pelvis.
+- **Para tu cadera:** Esta posición evita la extensión de cadera. La guía la recomienda para no sobrecargar los pectorales altos y las escápulas al respirar.
+- **Fase 1:** Inhala expandiendo las costillas
+- **Fase 2:** Exhala del todo y cierra las costillas
+
+#### Estiramiento dorsal
+
+- **General:** Agárrate a un apoyo, lleva la cadera atrás y deja caer el pecho sin forzar.
+- **General:** Expande las costillas al inhalar y suelta el aire despacio.
+- **Para tu cadera:** Mantén las piernas con las rodillas algo flexionadas, para no estirar el isquiotibial, y los pies a la anchura de las caderas.
+- **Fase 1:** Cadera atrás y brazos alargados
+- **Fase 2:** Expande las costillas al inhalar
+- **Fase 3:** Exhala despacio
+- **Error, Estirar las piernas:** Tensa el isquiotibial y el nervio ciático, justo lo que la guía pide evitar. Mantén las rodillas flexionadas.
+- **Rango, Flexión de rodilla:** 20 a 40°
+
+#### Press de banca inclinado a 30º con pies arriba
+
+- **General:** Apoya la espalda en el banco a 30º con los pies elevados en un apoyo.
+- **General:** Baja las mancuernas con los codos abiertos unos 45° y empuja sin arquear.
+- **Para tu cadera:** Los pies arriba evitan el arco lumbar y la extensión de cadera. Si la flexión molesta, baja el apoyo de los pies.
+- **Fase 1:** Mancuernas arriba, espalda apoyada
+- **Fase 2:** Baja controlando, con los codos a unos 45°
+- **Fase 3:** Empuja mientras exhalas
+- **Error, Arquear la zona lumbar:** Empuja desde la espalda y puede mover la pelvis. Reduce la carga y cierra las costillas.
+- **Rango, Flexión de codo:** 5 a 100°
+
+#### Press landmine
+
+- **General:** Colócate frente a la barra, con los pies paralelos, y sujeta el extremo a la altura del hombro.
+- **General:** Empuja hacia delante y arriba, y baja cerrando las costillas.
+- **Para tu cadera:** Se hace con los pies paralelos, sin dar un paso atrás, para no extender la cadera. Mantén el peso en las dos piernas.
+- **Fase 1:** Mano a la altura del hombro, pies paralelos
+- **Fase 2:** Empuja hacia delante y arriba
+- **Fase 3:** Baja cerrando las costillas
+- **Error, Arquear la zona lumbar:** La pelvis se va hacia delante y se acerca a la extensión de cadera. Reduce la carga.
+- **Rango, Flexión de codo:** 5 a 125°
+
+#### Jalón unilateral o pulldown en máquina
+
+- **General:** Siéntate con los muslos sujetos y alarga el brazo arriba.
+- **General:** Tira llevando el codo hacia la costilla, y cierra las costillas al bajar.
+- **Para tu cadera:** El asiento mantiene la cadera flexionada. Ajústalo para que los pies apoyen y la rodilla no quede por encima de la cadera.
+- **Fase 1:** Brazo alargado arriba
+- **Fase 2:** Lleva el codo hacia la costilla
+- **Fase 3:** Sube alargando el brazo
+- **Error, Inclinar el tronco atrás:** Arquea la zona lumbar y resta trabajo a la espalda. Mantén el tronco estable.
+- **Rango, Flexión de hombro:** 45 a 170°
+
+#### Elevaciones laterales en polea a la altura de la rodilla
+
+- **General:** Coloca la polea a la altura de la rodilla, en el lado contrario al brazo que trabaja.
+- **General:** Sube el brazo hasta la altura del hombro y baja despacio.
+- **Para tu cadera:** Mantén los pies paralelos y sin balancear la pelvis. No te dejes caer sobre una pierna.
+- **Fase 1:** Brazo abajo, pies paralelos
+- **Fase 2:** Sube hasta la altura del hombro
+- **Fase 3:** Baja despacio
+- **Error, Inclinar el tronco:** Traslada la carga a la cadera de un lado. Reduce el peso.
+- **Rango, Abducción del hombro:** 10 a 85°
+
+#### Bíceps Scott en banco con polea
+
+- **General:** Apoya los brazos en el banco, con el pecho estable.
+- **General:** Flexiona los codos sin despegar los brazos y baja despacio.
+- **Para tu cadera:** Comprueba que el asiento no quede tan bajo que las rodillas superen las caderas. Pon los pies bien apoyados.
+- **Fase 1:** Brazos apoyados, codos casi estirados
+- **Fase 2:** Flexiona los codos
+- **Fase 3:** Baja despacio
+- **Error, Arquear la espalda:** Ayuda con el cuerpo y arquea la zona lumbar. Reduce la carga.
+- **Rango, Flexión de codo:** 20 a 130°
+
+#### Tríceps en polea de espaldas
+
+- **General:** Colócate de espaldas a la polea alta, con los pies paralelos o sentado.
+- **General:** Extiende el codo sin mover el brazo y vuelve despacio.
+- **Para tu cadera:** Evita la posición de zancada larga: lleva la pierna atrás y se acerca a la extensión de cadera.
+- **Fase 1:** Codo flexionado, brazo quieto
+- **Fase 2:** Extiende el codo
+- **Fase 3:** Vuelve despacio
+- **Error, Arquear la zona lumbar:** La pelvis se adelanta y la cadera se acerca a la extensión. Reduce la carga.
+- **Rango, Flexión de codo:** 5 a 125°
+
+#### Bicho muerto alterno
+
+- **General:** Túmbate con caderas y rodillas a 90° y los brazos arriba.
+- **General:** Alarga una pierna y el brazo contrario sin despegar la zona lumbar, y cambia de lado.
+- **Para tu cadera:** Baja la pierna solo hasta donde mantengas la zona lumbar en el suelo, sin llegar a la extensión de cadera.
+- **Fase 1:** Caderas y rodillas a 90°, brazos arriba
+- **Fase 2:** Alarga una pierna y el brazo contrario
+- **Fase 3:** Vuelve al centro
+- **Fase 4:** Cambia de lado
+- **Fase 5:** Vuelve al centro
+- **Error, Arquear la zona lumbar:** La pelvis bascula y la cadera se extiende de más. Alarga menos la pierna.
+- **Rango, Flexión de cadera:** 25 a 90°
+
 ### Catálogo de ejercicios
 
 El estado resume cómo encaja cada ejercicio con la guía de esta aplicación. Es un criterio orientativo que debe revisar un profesional.

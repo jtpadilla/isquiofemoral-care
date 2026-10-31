@@ -1,0 +1,494 @@
+import { AnimationError, AnimationPhase, AnimationReadout, ExerciseAnimation, Landmark, Pose, PoseKey } from '../types';
+import { EXERCISE_ANIMATIONS } from './exerciseAnimations';
+import { GYM_TECHNIQUE } from './gymTechnique';
+
+// Poses de los ejercicios de gimnasio. Los textos y rangos proceden de spec.md, a través de gymTechnique.ts.
+// El lado de trabajo es siempre el izquierdo; el visor refleja la escena para el derecho.
+
+const SEAT_HEIGHT = 0.55; // Pelvis sobre un asiento de unos 47 cm, con los pies en el suelo
+const SUPINE: Partial<Pose> = { rootRotX: -90, rootRotZ: 90 };
+
+const rad = (deg: number) => (deg * Math.PI) / 180;
+
+// Calcula la raíz y el tobillo para que los pies sigan fijos y planos en el suelo
+const planted = (rootRotX: number, hip: number, knee: number): Partial<Pose> => {
+  const thigh = hip - rootRotX;
+  const shin = thigh - knee;
+  return {
+    rootRotX,
+    rootZ: 0.04 * Math.sin(rad(rootRotX)) - 0.44 * Math.sin(rad(thigh)) - 0.42 * Math.sin(rad(shin)),
+    hipLFlexion: hip,
+    hipRFlexion: hip,
+    kneeLFlexion: knee,
+    kneeRFlexion: knee,
+    ankleLDorsiflexion: -shin,
+    ankleRDorsiflexion: -shin,
+  };
+};
+
+const SEATED: Partial<Pose> = { hipLFlexion: 90, hipRFlexion: 90, kneeLFlexion: 90, kneeRFlexion: 90 };
+
+const SIDE_VIEWS = (y = 0.8): ExerciseAnimation['scene']['views'] => [
+  { label: '3/4', position: [2.4, y + 0.6, 2.4] },
+  { label: 'Lateral', position: [3.4, y, 0] },
+  { label: 'Frente', position: [0, y + 0.2, 3.5] },
+  { label: 'Arriba', position: [0, 3.8, 0.1] },
+];
+const SUPINE_VIEWS: ExerciseAnimation['scene']['views'] = [
+  { label: '3/4', position: [1.05, 1.1, -2.1] },
+  { label: 'Lateral', position: [0, 0.45, -2.8] },
+  { label: 'Desde los pies', position: [2.6, 0.7, 0] },
+  { label: 'Arriba', position: [0, 2.8, -0.05] },
+];
+
+const CABLE: Pick<import('../types').EquipmentLink, 'radius' | 'color'> = { radius: 0.006, color: '#e2e8f0' };
+const DUMBBELL = (attach: Landmark) => ({ attach, size: [0.26, 0.09, 0.09] as [number, number, number], color: '#0f172a' });
+const SEAT = (z = 0) => ({ center: [0, 0.235, z] as [number, number, number], size: [0.42, 0.47, 0.42] as [number, number, number] });
+const BACKREST = (z = -0.2, tilt = -5) => ({ center: [0, 0.85, z] as [number, number, number], size: [0.42, 0.75, 0.08] as [number, number, number], rotationX: tilt, color: '#475569' });
+const TOWER = (x: number, z: number) => ({ center: [x, 1.05, z] as [number, number, number], size: [0.12, 2.1, 0.12] as [number, number, number], color: '#334155' });
+
+interface Spec extends Omit<ExerciseAnimation, 'phases' | 'errors' | 'readouts' | 'muscleLabel'> {
+  muscleLabel: string;
+  durations: number[];
+  poses: Partial<Pose>[];
+  activations: number[];
+  peaks: number[]; // Fases de trabajo
+  errors?: (Partial<Pose>)[]; // En el orden de los errores de spec.md
+  sources?: { source: PoseKey; offset?: number; peakOnly?: boolean }[]; // En el orden de los rangos
+}
+
+const build = (name: string, { durations, poses, activations, peaks, errors = [], sources = [], ...rest }: Spec): ExerciseAnimation => {
+  const text = GYM_TECHNIQUE[name];
+  const phases: AnimationPhase[] = text.phases.map((label, index) => ({
+    stepIndex: index,
+    label,
+    duration: durations[index],
+    pose: poses[index],
+    activation: activations[index],
+    peak: peaks.includes(index),
+  }));
+  const animationErrors: AnimationError[] = text.errors.map(({ title, text: why }, index) => ({
+    id: `error-${index}`,
+    label: title,
+    why,
+    peakPose: errors[index],
+  }));
+  const readouts: AnimationReadout[] = text.ranges.map(({ title, min, max, unit }, index) => ({
+    label: title,
+    unit,
+    min,
+    max,
+    ...sources[index],
+    source: sources[index].source,
+  }));
+  return { ...rest, phases, errors: animationErrors, readouts };
+};
+
+export const GYM_ANIMATIONS: Record<string, ExerciseAnimation> = {
+  'Tracción lateral en cuadrupedia con goma': EXERCISE_ANIMATIONS.lateral_traction!,
+
+  '90/90 con corcho': build('90/90 con corcho', {
+    muscleLabel: 'Isquiotibiales y abdomen',
+    muscleZones: ['thighBackL', 'thighBackR'],
+    bilateral: true,
+    scene: {
+      target: [0.1, 0.35, 0],
+      views: [SUPINE_VIEWS[1], SUPINE_VIEWS[0], SUPINE_VIEWS[2], SUPINE_VIEWS[3]],
+      mat: { center: [-0.2, 0], size: [1.6, 0.75] },
+      wall: { center: [0.62, 0.6, 0], size: [0.06, 1.2, 1] },
+      followers: [{ attach: 'kneeL', offset: [0, 0, 0.09], size: [0.09, 0.09, 0.09], color: '#b45309' }],
+    },
+    basePose: { ...SUPINE, hipLFlexion: 90, hipRFlexion: 90, kneeLFlexion: 90, kneeRFlexion: 90, ankleLDorsiflexion: 0, ankleRDorsiflexion: 0, shoulderLAbduction: 15, shoulderRAbduction: 15 },
+    durations: [1.5, 2.5],
+    poses: [{}, { spineFlexion: 8, hipLFlexion: 95, hipRFlexion: 95, rootRotY: 3 }],
+    activations: [0.2, 1],
+    peaks: [1],
+    errors: [{ spineFlexion: -15, hipLFlexion: 85, hipRFlexion: 85 }],
+    sources: [{ source: 'hipLFlexion' }],
+  }),
+
+  'Prensa de piernas': build('Prensa de piernas', {
+    muscleLabel: 'Muslo y glúteo',
+    muscleZones: ['thighFrontL', 'thighFrontR', 'gluteMaxL', 'gluteMaxR'],
+    bilateral: true,
+    scene: {
+      target: [0, 0.75, 0.25],
+      views: [
+        { label: 'Lateral', position: [3.4, 1, 0.3] },
+        { label: '3/4', position: [2.2, 1.6, 2.5] },
+        { label: 'Frente', position: [0, 1.4, 3.6] },
+        { label: 'Arriba', position: [0, 3.9, 0.3] },
+      ],
+      rootHeight: 0.62,
+      equipment: [
+        { center: [0, 0.27, -0.03], size: [0.5, 0.54, 0.5] },
+        { center: [0, 0.82, -0.42], size: [0.5, 0.95, 0.1], rotationX: -40, color: '#475569' },
+        { center: [0, 0.4, 1.35], size: [0.14, 0.8, 0.14], color: '#334155' },
+      ],
+      followers: [{ attach: 'ankleL', offset: [-0.09, 0.03, 0.09], size: [0.62, 0.5, 0.04], color: '#94a3b8' }],
+    },
+    basePose: { rootRotX: -40, hipLAbduction: 8, hipRAbduction: 8, spineFlexion: 5, shoulderLFlexion: 25, shoulderRFlexion: 25, elbowLFlexion: 15, elbowRFlexion: 15, shoulderLAbduction: 12, shoulderRAbduction: 12 },
+    durations: [1, 2.5, 1.5],
+    poses: [
+      { hipLFlexion: 80, hipRFlexion: 80, kneeLFlexion: 20, kneeRFlexion: 20, ankleLDorsiflexion: -20, ankleRDorsiflexion: -20 },
+      { hipLFlexion: 105, hipRFlexion: 105, kneeLFlexion: 88, kneeRFlexion: 88, ankleLDorsiflexion: 5, ankleRDorsiflexion: 5 },
+      { hipLFlexion: 80, hipRFlexion: 80, kneeLFlexion: 20, kneeRFlexion: 20, ankleLDorsiflexion: -20, ankleRDorsiflexion: -20 },
+    ],
+    activations: [0.3, 0.8, 1],
+    peaks: [1],
+    errors: [{ hipLAbduction: -4, hipRAbduction: -4 }, { hipLFlexion: 125, hipRFlexion: 125, kneeLFlexion: 115, kneeRFlexion: 115, spineFlexion: 22, rootRotX: -28 }],
+    sources: [{ source: 'kneeLFlexion' }],
+  }),
+
+  'Sentadilla a cajón alto con mancuerna al pecho': build('Sentadilla a cajón alto con mancuerna al pecho', {
+    muscleLabel: 'Muslo y glúteo',
+    muscleZones: ['thighFrontL', 'thighFrontR', 'gluteMaxL', 'gluteMaxR'],
+    bilateral: true,
+    scene: {
+      target: [0, 0.75, -0.1],
+      views: SIDE_VIEWS(0.9),
+      equipment: [{ center: [0, 0.29, -0.42], size: [0.5, 0.58, 0.45] }],
+      followers: [{ attach: 'handL', offset: [-0.17, 0, 0.02], size: [0.1, 0.24, 0.1], color: '#0f172a' }],
+    },
+    basePose: { hipLAbduction: 7, hipRAbduction: 7, hipLInternalRotation: -5, hipRInternalRotation: -5, shoulderLFlexion: 15, shoulderRFlexion: 15, shoulderLAbduction: -6, shoulderRAbduction: -6, elbowLFlexion: 125, elbowRFlexion: 125 },
+    durations: [1, 2.5, 1.5],
+    poses: [planted(0, 0, 0), planted(32, 95, 82), planted(0, 0, 0)],
+    activations: [0.2, 0.8, 1],
+    peaks: [1],
+    errors: [{ ...planted(32, 95, 82), hipLAbduction: -8, hipRAbduction: -8, hipLInternalRotation: 15, hipRInternalRotation: 15 }],
+    sources: [{ source: 'hipLFlexion' }],
+  }),
+
+  'Femoral sentado': build('Femoral sentado', {
+    muscleLabel: 'Isquiotibiales',
+    muscleZones: ['thighBackL', 'thighBackR'],
+    bilateral: true,
+    scene: {
+      target: [0, 0.65, 0.2],
+      views: SIDE_VIEWS(0.8),
+      rootHeight: SEAT_HEIGHT + 0.1,
+      equipment: [{ center: [0, 0.285, 0], size: [0.42, 0.57, 0.42] }, BACKREST(-0.2)],
+      followers: [
+        { attach: 'ankleL', offset: [-0.09, 0.02, 0.05], size: [0.4, 0.07, 0.07], color: '#0f172a' },
+        { attach: 'aboveKneeL', offset: [-0.09, 0.09, 0], size: [0.4, 0.06, 0.1], color: '#0f172a' },
+      ],
+    },
+    basePose: { hipLFlexion: 90, hipRFlexion: 90, ankleLDorsiflexion: 5, ankleRDorsiflexion: 5, shoulderLFlexion: 15, shoulderRFlexion: 15, elbowLFlexion: 50, elbowRFlexion: 50 },
+    durations: [1, 2, 2.5],
+    poses: [{ kneeLFlexion: 22, kneeRFlexion: 22 }, { kneeLFlexion: 92, kneeRFlexion: 92 }, { kneeLFlexion: 22, kneeRFlexion: 22 }],
+    activations: [0.3, 1, 0.6],
+    peaks: [1],
+    errors: [{ kneeLFlexion: 92, kneeRFlexion: 92, rootRotX: -14, hipLFlexion: 76, hipRFlexion: 76, spineFlexion: -10 }],
+    sources: [{ source: 'kneeLFlexion' }],
+  }),
+
+  'Abductores en máquina': build('Abductores en máquina', {
+    muscleLabel: 'Glúteo medio',
+    muscleZones: ['gluteMedL', 'gluteMedR', 'hipLateralL'],
+    bilateral: true,
+    scene: {
+      target: [0, 0.65, 0.1],
+      views: [
+        { label: 'Frente', position: [0, 1, 3.5] },
+        { label: '3/4', position: [2.1, 1.5, 2.6] },
+        { label: 'Lateral', position: [3.4, 0.8, 0.1] },
+        { label: 'Arriba', position: [0, 3.8, 0.2] },
+      ],
+      rootHeight: SEAT_HEIGHT,
+      equipment: [SEAT(), BACKREST(-0.2)],
+      followers: [
+        { attach: 'aboveKneeL', offset: [0.08, 0, 0], size: [0.04, 0.16, 0.22], color: '#0f172a' },
+        { attach: 'aboveKneeR', offset: [-0.08, 0, 0], size: [0.04, 0.16, 0.22], color: '#0f172a' },
+      ],
+    },
+    basePose: { ...SEATED, shoulderLFlexion: 15, shoulderRFlexion: 15, shoulderLAbduction: 18, shoulderRAbduction: 18, elbowLFlexion: 50, elbowRFlexion: 50 },
+    durations: [1, 2, 2.5],
+    poses: [{ hipLAbduction: 6, hipRAbduction: 6 }, { hipLAbduction: 32, hipRAbduction: 32 }, { hipLAbduction: 6, hipRAbduction: 6 }],
+    activations: [0.3, 1, 0.6],
+    peaks: [1],
+    errors: [{ hipLAbduction: 32, hipRAbduction: 32, rootRotX: -14, hipLFlexion: 76, hipRFlexion: 76 }],
+    sources: [{ source: 'hipLAbduction' }],
+  }),
+
+  'Puente de glúteo con pies en pared': build('Puente de glúteo con pies en pared', {
+    muscleLabel: 'Glúteo mayor',
+    muscleZones: ['gluteMaxL', 'gluteMaxR'],
+    bilateral: true,
+    scene: { target: [0, 0.25, 0], views: SUPINE_VIEWS, mat: { center: [-0.1, 0], size: [2, 0.75] } },
+    basePose: { ...SUPINE, shoulderLAbduction: 15, shoulderRAbduction: 15, hipLFlexion: 58, hipRFlexion: 58, hipLAbduction: 8, hipRAbduction: 8, kneeLFlexion: 133, kneeRFlexion: 133, ankleLDorsiflexion: -15, ankleRDorsiflexion: -15 },
+    durations: [1, 1.5, 2.5],
+    poses: [
+      {},
+      { rootX: -0.0375, rootRotY: -25, neckFlexion: 25, shoulderLFlexion: -25, shoulderRFlexion: -25, hipLFlexion: 0, hipRFlexion: 0, kneeLFlexion: 105, kneeRFlexion: 105, ankleLDorsiflexion: 15, ankleRDorsiflexion: 15 },
+      {},
+    ],
+    activations: [0.2, 1, 0.3],
+    peaks: [1],
+    errors: [{ rootX: -0.02, rootRotY: -15, neckFlexion: 40, spineFlexion: -25, shoulderLFlexion: -40, shoulderRFlexion: -40, hipLFlexion: -15, hipRFlexion: -15, kneeLFlexion: 105, kneeRFlexion: 105 }],
+    sources: [{ source: 'hipLFlexion' }],
+  }),
+
+  'Extensión de rodilla en máquina': build('Extensión de rodilla en máquina', {
+    muscleLabel: 'Cuádriceps',
+    muscleZones: ['thighFrontL', 'thighFrontR'],
+    bilateral: true,
+    scene: {
+      target: [0, 0.65, 0.2],
+      views: SIDE_VIEWS(0.8),
+      rootHeight: SEAT_HEIGHT + 0.1,
+      equipment: [{ center: [0, 0.285, 0], size: [0.42, 0.57, 0.42] }, BACKREST(-0.2)],
+      followers: [{ attach: 'ankleL', offset: [-0.09, -0.02, 0.05], size: [0.4, 0.07, 0.07], color: '#0f172a' }],
+    },
+    basePose: { hipLFlexion: 90, hipRFlexion: 90, shoulderLFlexion: 15, shoulderRFlexion: 15, elbowLFlexion: 50, elbowRFlexion: 50, ankleLDorsiflexion: 10, ankleRDorsiflexion: 10 },
+    durations: [1, 2, 2.5],
+    poses: [{ kneeLFlexion: 88, kneeRFlexion: 88 }, { kneeLFlexion: 12, kneeRFlexion: 12 }, { kneeLFlexion: 88, kneeRFlexion: 88 }],
+    activations: [0.3, 1, 0.5],
+    peaks: [1],
+    errors: [{ kneeLFlexion: 12, kneeRFlexion: 12, rootRotX: -14, hipLFlexion: 76, hipRFlexion: 76 }],
+    sources: [{ source: 'kneeLFlexion' }],
+  }),
+
+  'Pallof isométrico': build('Pallof isométrico', {
+    muscleLabel: 'Abdomen y oblicuos',
+    muscleZones: ['abdomen'],
+    bilateral: true,
+    workArms: 'none',
+    workLabel: 'Tronco estable',
+    scene: {
+      target: [0.2, 0.85, 0.05],
+      views: SIDE_VIEWS(1.1),
+      equipment: [TOWER(1.25, 0)],
+      links: [{ from: [1.2, 1.15, 0], to: 'handL', ...CABLE }],
+    },
+    basePose: { ...planted(0, 18, 28), hipLAbduction: 6, hipRAbduction: 6, shoulderLAbduction: -22, shoulderRAbduction: -22 },
+    durations: [1, 1.5, 2.5, 1.5],
+    poses: [{ shoulderLFlexion: 35, shoulderRFlexion: 35, elbowLFlexion: 115, elbowRFlexion: 115 }, { shoulderLFlexion: 80, shoulderRFlexion: 80, elbowLFlexion: 5, elbowRFlexion: 5 }, { shoulderLFlexion: 80, shoulderRFlexion: 80, elbowLFlexion: 5, elbowRFlexion: 5 }, { shoulderLFlexion: 35, shoulderRFlexion: 35, elbowLFlexion: 115, elbowRFlexion: 115 }],
+    activations: [0.3, 0.8, 1, 0.5],
+    peaks: [1, 2],
+    errors: [{ spineRotation: 16, shoulderLFlexion: 80, shoulderRFlexion: 80, elbowLFlexion: 5, elbowRFlexion: 5 }],
+    sources: [{ source: 'spineRotation' }],
+  }),
+
+  'Remo sentado en máquina sin apoyar el pecho': build('Remo sentado en máquina sin apoyar el pecho', {
+    muscleLabel: 'Espalda',
+    muscleZones: ['upperBack'],
+    bilateral: true,
+    workArms: 'both',
+    workLabel: 'Espalda y brazos',
+    scene: {
+      target: [0, 0.75, 0.2],
+      views: SIDE_VIEWS(1),
+      rootHeight: SEAT_HEIGHT,
+      equipment: [SEAT(), { center: [0, 1.0, 1.05], size: [0.5, 2, 0.14], color: '#334155' }],
+      links: [{ from: [0.1, 1.02, 1], to: 'handL', ...CABLE }, { from: [-0.1, 1.02, 1], to: 'handR', ...CABLE }],
+    },
+    basePose: SEATED,
+    durations: [1, 2, 2.5],
+    poses: [{ shoulderLFlexion: 80, shoulderRFlexion: 80, elbowLFlexion: 6, elbowRFlexion: 6, spineFlexion: 3 }, { shoulderLFlexion: 15, shoulderRFlexion: 15, elbowLFlexion: 98, elbowRFlexion: 98 }, { shoulderLFlexion: 80, shoulderRFlexion: 80, elbowLFlexion: 6, elbowRFlexion: 6, spineFlexion: 3 }],
+    activations: [0.3, 1, 0.5],
+    peaks: [1],
+    errors: [{ shoulderLFlexion: 15, shoulderRFlexion: 15, elbowLFlexion: 98, elbowRFlexion: 98, rootRotX: -18, hipLFlexion: 72, hipRFlexion: 72, spineFlexion: -8 }],
+    sources: [{ source: 'elbowLFlexion' }],
+  }),
+
+  'Respiración diafragmática': build('Respiración diafragmática', {
+    muscleLabel: 'Diafragma y abdomen',
+    muscleZones: ['abdomen'],
+    bilateral: true,
+    workArms: 'none',
+    workLabel: 'Respiración',
+    scene: { target: [0.1, 0.3, 0], views: SUPINE_VIEWS, mat: { center: [-0.2, 0], size: [1.6, 0.75] }, equipment: [{ center: [0.4, 0.24, 0], size: [0.55, 0.48, 0.6] }] },
+    basePose: { ...SUPINE, hipLFlexion: 90, hipRFlexion: 90, kneeLFlexion: 90, kneeRFlexion: 90, ankleLDorsiflexion: 0, ankleRDorsiflexion: 0, shoulderLAbduction: 15, shoulderRAbduction: 15 },
+    durations: [3, 4],
+    poses: [{ spineFlexion: -2 }, { spineFlexion: 6 }],
+    activations: [0.25, 1],
+    peaks: [1],
+  }),
+
+  'Estiramiento dorsal': build('Estiramiento dorsal', {
+    muscleLabel: 'Dorsales',
+    muscleZones: ['upperBack'],
+    bilateral: true,
+    workArms: 'none',
+    workLabel: 'Espalda',
+    scene: {
+      target: [0, 0.8, 0.3],
+      views: [
+        { label: 'Lateral', position: [3.4, 1.1, 0.3] },
+        { label: '3/4', position: [2.2, 1.7, 2.6] },
+        { label: 'Frente', position: [0, 1.2, 3.6] },
+        { label: 'Arriba', position: [0, 3.9, 0.4] },
+      ],
+      equipment: [TOWER(0, 1.1)],
+    },
+    basePose: { ...planted(72, 88, 30), neckFlexion: -5, shoulderLFlexion: 168, shoulderRFlexion: 168, elbowLFlexion: 3, elbowRFlexion: 3 },
+    durations: [1.5, 3, 3.5],
+    poses: [{}, { spineFlexion: -5, shoulderLFlexion: 172, shoulderRFlexion: 172 }, { spineFlexion: 3 }],
+    activations: [0.4, 1, 0.7],
+    peaks: [0, 1, 2],
+    errors: [{ ...planted(72, 72, 2) }],
+    sources: [{ source: 'kneeLFlexion' }],
+  }),
+
+  'Press de banca inclinado a 30º con pies arriba': build('Press de banca inclinado a 30º con pies arriba', {
+    muscleLabel: 'Pectoral',
+    muscleZones: ['chest'],
+    bilateral: true,
+    workArms: 'both',
+    workLabel: 'Pecho y brazos',
+    scene: {
+      target: [0, 0.75, 0.05],
+      views: [
+        { label: 'Lateral', position: [3.4, 1, 0.1] },
+        { label: '3/4', position: [2.4, 1.7, 2.3] },
+        { label: 'Frente', position: [0, 1.5, 3.5] },
+        { label: 'Arriba', position: [0, 3.9, 0.1] },
+      ],
+      rootHeight: 0.58,
+      equipment: [
+        { center: [0, 0.6, -0.32], size: [0.36, 0.08, 0.95], rotationX: 30, color: '#475569' },
+        { center: [0, 0.25, -0.03], size: [0.36, 0.5, 0.4] },
+        { center: [0, 0.075, 0.46], size: [0.5, 0.15, 0.4] },
+      ],
+      followers: [DUMBBELL('handL'), DUMBBELL('handR')],
+    },
+    basePose: { rootRotX: -60, hipLFlexion: 45, hipRFlexion: 45, kneeLFlexion: 100, kneeRFlexion: 100, ankleLDorsiflexion: -5, ankleRDorsiflexion: -5 },
+    durations: [1, 2.5, 1.5],
+    poses: [{ shoulderLFlexion: 90, shoulderRFlexion: 90, elbowLFlexion: 6, elbowRFlexion: 6 }, { shoulderLFlexion: 25, shoulderRFlexion: 25, shoulderLAbduction: 42, shoulderRAbduction: 42, elbowLFlexion: 98, elbowRFlexion: 98 }, { shoulderLFlexion: 90, shoulderRFlexion: 90, elbowLFlexion: 6, elbowRFlexion: 6 }],
+    activations: [0.4, 0.8, 1],
+    peaks: [1],
+    errors: [{ spineFlexion: -20, shoulderLFlexion: 25, shoulderRFlexion: 25, shoulderLAbduction: 42, shoulderRAbduction: 42, elbowLFlexion: 98, elbowRFlexion: 98 }],
+    sources: [{ source: 'elbowLFlexion' }],
+  }),
+
+  'Press landmine': build('Press landmine', {
+    muscleLabel: 'Hombro y pectoral',
+    muscleZones: ['shoulderL', 'chest'],
+    workArms: 'left',
+    scene: {
+      target: [0, 0.85, 0.45],
+      views: [
+        { label: 'Lateral', position: [3.6, 1.2, 0.5] },
+        { label: '3/4', position: [2.3, 1.7, -1.9] },
+        { label: 'Frente', position: [0, 1.3, 4] },
+        { label: 'Arriba', position: [0, 4, 0.5] },
+      ],
+      links: [{ from: [0, 0.03, 1.55], to: 'handL', radius: 0.018, color: '#94a3b8' }],
+      equipment: [{ center: [0, 0.03, 1.55], size: [0.2, 0.06, 0.2], color: '#334155' }],
+    },
+    basePose: { ...planted(0, 12, 20), hipLAbduction: 6, hipRAbduction: 6, shoulderRFlexion: 5, elbowRFlexion: 10 },
+    durations: [1, 2, 2.5],
+    poses: [{ shoulderLFlexion: 42, elbowLFlexion: 122 }, { shoulderLFlexion: 68, elbowLFlexion: 8 }, { shoulderLFlexion: 42, elbowLFlexion: 122 }],
+    activations: [0.3, 1, 0.5],
+    peaks: [1],
+    errors: [{ spineFlexion: -16, shoulderLFlexion: 68, elbowLFlexion: 8 }],
+    sources: [{ source: 'elbowLFlexion' }],
+  }),
+
+  'Jalón unilateral o pulldown en máquina': build('Jalón unilateral o pulldown en máquina', {
+    muscleLabel: 'Dorsal',
+    muscleZones: ['upperBack'],
+    workArms: 'left',
+    scene: {
+      target: [0.05, 1, 0.05],
+      views: SIDE_VIEWS(1.25),
+      rootHeight: SEAT_HEIGHT,
+      equipment: [SEAT(), { center: [0, 0.68, 0.32], size: [0.42, 0.06, 0.12], color: '#0f172a' }, { center: [0.19, 2.2, 0.32], size: [0.12, 0.12, 0.12], color: '#334155' }],
+      links: [{ from: [0.19, 2.15, 0.32], to: 'handL', ...CABLE }],
+    },
+    basePose: { ...SEATED, shoulderRFlexion: 10, elbowRFlexion: 60 },
+    durations: [1, 2, 2.5],
+    poses: [{ shoulderLFlexion: 165, elbowLFlexion: 6 }, { shoulderLFlexion: 50, shoulderLAbduction: 8, elbowLFlexion: 115 }, { shoulderLFlexion: 165, elbowLFlexion: 6 }],
+    activations: [0.3, 1, 0.5],
+    peaks: [1],
+    errors: [{ rootRotX: -18, hipLFlexion: 72, hipRFlexion: 72, spineFlexion: -8, shoulderLFlexion: 50, shoulderLAbduction: 8, elbowLFlexion: 115 }],
+    sources: [{ source: 'shoulderLFlexion' }],
+  }),
+
+  'Elevaciones laterales en polea a la altura de la rodilla': build('Elevaciones laterales en polea a la altura de la rodilla', {
+    muscleLabel: 'Deltoides',
+    muscleZones: ['shoulderL'],
+    workArms: 'left',
+    scene: {
+      target: [-0.1, 0.9, 0],
+      views: [
+        { label: 'Frente', position: [-0.1, 1.2, 3.7] },
+        { label: '3/4', position: [1.9, 1.7, 2.9] },
+        { label: 'Desde atrás', position: [-0.1, 1.2, -3.7] },
+        { label: 'Arriba', position: [-0.1, 4, 0.1] },
+      ],
+      equipment: [TOWER(-0.95, 0)],
+      links: [{ from: [-0.9, 0.5, 0], to: 'handL', ...CABLE }],
+    },
+    basePose: { ...planted(0, 5, 8), hipLAbduction: 6, hipRAbduction: 6, elbowLFlexion: 12, shoulderRFlexion: 3 },
+    durations: [1, 2, 2.5],
+    poses: [{ shoulderLAbduction: 12 }, { shoulderLAbduction: 82 }, { shoulderLAbduction: 12 }],
+    activations: [0.3, 1, 0.5],
+    peaks: [1],
+    errors: [{ spineSideBend: -14, shoulderLAbduction: 82 }],
+    sources: [{ source: 'shoulderLAbduction' }],
+  }),
+
+  'Bíceps Scott en banco con polea': build('Bíceps Scott en banco con polea', {
+    muscleLabel: 'Bíceps',
+    muscleZones: [],
+    bilateral: true,
+    workArms: 'both',
+    workLabel: 'Ambos brazos',
+    scene: {
+      target: [0, 0.75, 0.3],
+      views: SIDE_VIEWS(1),
+      rootHeight: SEAT_HEIGHT,
+      equipment: [SEAT(), { center: [0, 0.84, 0.13], size: [0.4, 0.38, 0.05], rotationX: -42, color: '#475569' }, { center: [0, 0.35, 0.42], size: [0.1, 0.7, 0.1], color: '#334155' }, TOWER(0, 1.2)],
+      links: [{ from: [0, 0.35, 1.15], to: 'handL', ...CABLE }, { from: [0, 0.35, 1.15], to: 'handR', ...CABLE }],
+    },
+    basePose: { ...SEATED, spineFlexion: 12, shoulderLFlexion: 42, shoulderRFlexion: 42 },
+    durations: [1, 2, 2.5],
+    poses: [{ elbowLFlexion: 22, elbowRFlexion: 22 }, { elbowLFlexion: 128, elbowRFlexion: 128 }, { elbowLFlexion: 22, elbowRFlexion: 22 }],
+    activations: [0.3, 1, 0.5],
+    peaks: [1],
+    errors: [{ spineFlexion: -8, shoulderLFlexion: 25, shoulderRFlexion: 25, elbowLFlexion: 128, elbowRFlexion: 128 }],
+    sources: [{ source: 'elbowLFlexion' }],
+  }),
+
+  'Tríceps en polea de espaldas': build('Tríceps en polea de espaldas', {
+    muscleLabel: 'Tríceps',
+    muscleZones: [],
+    workArms: 'left',
+    scene: {
+      target: [0, 0.9, -0.1],
+      views: SIDE_VIEWS(1.15),
+      equipment: [TOWER(0.19, -0.75)],
+      links: [{ from: [0.19, 2, -0.7], to: 'handL', ...CABLE }],
+    },
+    basePose: { ...planted(0, 10, 15), hipLAbduction: 6, hipRAbduction: 6, spineFlexion: 8, shoulderLFlexion: 80, shoulderRFlexion: 5, elbowRFlexion: 10 },
+    durations: [1, 2, 2.5],
+    poses: [{ elbowLFlexion: 122 }, { elbowLFlexion: 8 }, { elbowLFlexion: 122 }],
+    activations: [0.3, 1, 0.5],
+    peaks: [1],
+    errors: [{ spineFlexion: -15, elbowLFlexion: 8 }],
+    sources: [{ source: 'elbowLFlexion' }],
+  }),
+
+  'Bicho muerto alterno': build('Bicho muerto alterno', {
+    muscleLabel: 'Abdomen',
+    muscleZones: ['abdomen'],
+    bilateral: true,
+    workArms: 'none',
+    workLabel: 'Tronco estable',
+    scene: { target: [0, 0.3, 0], views: SUPINE_VIEWS, mat: { center: [-0.1, 0], size: [2, 0.75] } },
+    basePose: { ...SUPINE, ankleLDorsiflexion: 0, ankleRDorsiflexion: 0 },
+    durations: [1, 2, 1.5, 2, 1.5],
+    poses: [
+      { hipLFlexion: 90, hipRFlexion: 90, kneeLFlexion: 90, kneeRFlexion: 90, shoulderLFlexion: 90, shoulderRFlexion: 90, elbowLFlexion: 3, elbowRFlexion: 3 },
+      { hipLFlexion: 28, hipRFlexion: 90, kneeLFlexion: 15, kneeRFlexion: 90, shoulderLFlexion: 90, shoulderRFlexion: 165, elbowLFlexion: 3, elbowRFlexion: 3 },
+      { hipLFlexion: 90, hipRFlexion: 90, kneeLFlexion: 90, kneeRFlexion: 90, shoulderLFlexion: 90, shoulderRFlexion: 90, elbowLFlexion: 3, elbowRFlexion: 3 },
+      { hipLFlexion: 90, hipRFlexion: 28, kneeLFlexion: 90, kneeRFlexion: 15, shoulderLFlexion: 165, shoulderRFlexion: 90, elbowLFlexion: 3, elbowRFlexion: 3 },
+      { hipLFlexion: 90, hipRFlexion: 90, kneeLFlexion: 90, kneeRFlexion: 90, shoulderLFlexion: 90, shoulderRFlexion: 90, elbowLFlexion: 3, elbowRFlexion: 3 },
+    ],
+    activations: [0.3, 1, 0.5, 1, 0.5],
+    peaks: [1, 3],
+    errors: [{ spineFlexion: -16, hipLFlexion: 10, hipRFlexion: 90, kneeLFlexion: 15, kneeRFlexion: 90, shoulderLFlexion: 90, shoulderRFlexion: 165, elbowLFlexion: 3, elbowRFlexion: 3 }],
+    sources: [{ source: 'hipLFlexion' }],
+  }),
+};

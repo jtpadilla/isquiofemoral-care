@@ -39,9 +39,11 @@ export const getPhases = (animation: ExerciseAnimation, errorId: string | null):
 export const groundPhases = (
   basePose: Partial<Pose>,
   phases: AnimationPhase[],
-  lowestPointOf: (pose: Pose) => number
+  lowestPointOf: (pose: Pose) => number,
+  rootHeight?: number
 ): AnimationPhase[] =>
   phases.map((phase) => {
+    if (rootHeight !== undefined) return { ...phase, pose: { ...phase.pose, rootY: rootHeight } };
     const pose = { ...NEUTRAL_POSE, ...basePose, ...phase.pose };
     return { ...phase, pose: { ...phase.pose, rootY: pose.rootY - lowestPointOf(pose) } };
   });

@@ -6,6 +6,8 @@ import { DISCLAIMERS, GUIDE, HOME, POST_SESSION_TIP, QUICK_START_ROUTINE, ROUTIN
 import { EXERCISE_ANIMATIONS } from '../src/data/exerciseAnimations';
 import { EXERCISES_DATABASE, PHASE_CONFIG } from '../src/data/exercisesData';
 import { GYM_PLAN } from '../src/data/gymPlan';
+import { GYM_GENERAL_TIPS, GYM_TECHNIQUE } from '../src/data/gymTechnique';
+import { GYM_ANIMATIONS } from '../src/data/gymAnimations';
 
 const spec = fs.readFileSync(new URL('../spec.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
@@ -272,6 +274,39 @@ compare('Plan de gimnasio', () => ({
   },
   fromCode: GYM_PLAN,
 }));
+
+compare('Técnica de gimnasio', () => {
+  const technique = section(gym, 3, 'Técnica de ejecución');
+  return {
+    fromSpec: {
+      tips: labelledItems(technique.split('\n#### ')[0]),
+      entries: Object.fromEntries(blocks(technique, 4).map(({ title, body }) => {
+        const items = labelledItems(body);
+        const texts = (test: (name: string) => boolean) => items.filter((item) => test(item.title)).map((item) => item.text);
+        return [title, {
+          general: texts((name) => name === 'General'),
+          hip: texts((name) => name === 'Para tu cadera'),
+          phases: texts((name) => /^Fase \d+$/.test(name)),
+          errors: items.filter((item) => item.title.startsWith('Error, ')).map((item) => ({ title: item.title.slice(7), text: item.text })),
+          ranges: items.filter((item) => item.title.startsWith('Rango, ')).map((item) => {
+            const match = item.text.match(/^(-?\d+) a (-?\d+)(.*)$/)!;
+            return { title: item.title.slice(7), min: Number(match[1]), max: Number(match[2]), unit: match[3] };
+          }),
+        }];
+      })),
+    },
+    fromCode: { tips: GYM_GENERAL_TIPS, entries: GYM_TECHNIQUE },
+  };
+});
+
+compare('Técnica y plan de gimnasio', () => {
+  const names = GYM_PLAN.days.flatMap((day) => day.exercises.map((exercise) => exercise.name));
+  const missing = names.filter((name) => !GYM_TECHNIQUE[name] || !GYM_ANIMATIONS[name]);
+  const invalid = Object.entries(GYM_TECHNIQUE)
+    .filter(([name, entry]) => entry.phases.length > 0 && GYM_ANIMATIONS[name].phases.length !== entry.phases.length)
+    .map(([name]) => name);
+  return { fromSpec: { missing: [], invalid: [] }, fromCode: { missing: [...new Set(names.filter((name) => missing.includes(name)))], invalid } };
+});
 
 const advisor = section(spec, 2, 'Consultor IA');
 compare('Consultor IA', () => ({

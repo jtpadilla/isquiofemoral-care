@@ -36,7 +36,7 @@ const Scene: React.FC<{
   onPhaseChange: (index: number) => void;
 }> = ({ animation, errorId, mirrored, view, timeRef, playingRef, speedRef, sliderRef, readoutRefs, onPhaseChange }) => {
   const mannequin = useMemo(
-    () => createMannequin({ bothLegsWork: animation.bilateral, muscleZones: animation.muscleZones }),
+    () => createMannequin({ bothLegsWork: animation.bilateral && !animation.workArms && !animation.workLabel, muscleZones: animation.muscleZones, workArms: animation.workArms }),
     [animation]
   );
   const ghost = useMemo(() => createMannequin({ ghost: true }), []);
@@ -48,11 +48,11 @@ const Scene: React.FC<{
     return ghost.lowestPoint();
   };
   const correctPhases = useMemo(
-    () => groundPhases(animation.basePose, animation.phases, lowestPointOf),
+    () => groundPhases(animation.basePose, animation.phases, lowestPointOf, animation.scene.rootHeight),
     [animation, ghost]
   );
   const phases = useMemo(
-    () => groundPhases(animation.basePose, getPhases(animation, errorId), lowestPointOf),
+    () => groundPhases(animation.basePose, getPhases(animation, errorId), lowestPointOf, animation.scene.rootHeight),
     [animation, errorId, ghost]
   );
   const cycle = getCycleDuration(phases);
@@ -245,8 +245,8 @@ const Exercise3DViewer: React.FC<Props> = ({ animation, side, playing }) => {
 
         <div className="absolute top-2 right-2 text-[11px] space-y-1 text-right pointer-events-none">
           <div className="bg-slate-950/75 px-2 py-0.5 rounded">
-            <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 mr-1.5" />
-            {animation.bilateral ? 'Ambas piernas' : `Pierna ${activeSide === 'right' ? 'derecha' : 'izquierda'}`}
+            {animation.workArms !== 'none' && <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 mr-1.5" />}
+            {animation.workLabel ?? (animation.bilateral ? 'Ambas piernas' : `${animation.workArms ? 'Brazo' : 'Pierna'} ${activeSide === 'right' ? 'derecho' : 'izquierdo'}`.replace('Pierna derecho', 'Pierna derecha').replace('Pierna izquierdo', 'Pierna izquierda'))}
           </div>
           <div className="bg-slate-950/75 px-2 py-0.5 rounded">
             <span className="inline-block w-2 h-2 rounded-full bg-amber-500 mr-1.5" />
@@ -305,7 +305,7 @@ const Exercise3DViewer: React.FC<Props> = ({ animation, side, playing }) => {
 
           <div className="flex flex-wrap items-center gap-2">
             {!side && !animation.bilateral && (
-              <div className="flex items-center gap-0.5 p-0.5 bg-slate-800 rounded-lg" role="group" aria-label="Pierna de trabajo">
+              <div className="flex items-center gap-0.5 p-0.5 bg-slate-800 rounded-lg" role="group" aria-label="Lado de trabajo">
                 <button onClick={() => setOwnSide('left')} aria-pressed={activeSide === 'left'} className={buttonClass(activeSide === 'left')}>Izq.</button>
                 <button onClick={() => setOwnSide('right')} aria-pressed={activeSide === 'right'} className={buttonClass(activeSide === 'right')}>Der.</button>
               </div>
