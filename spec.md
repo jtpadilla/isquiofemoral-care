@@ -2109,118 +2109,119 @@ Enlace: https://www.activacionmuscularcastellon.com/bernardo-gonzalez-2/
 
 ### Catálogo de ejercicios
 
-El estado resume cómo encaja cada ejercicio con la guía de esta aplicación. Es un criterio orientativo que debe revisar un profesional. Pulsa un ejercicio para ver su animación y sus consejos: son una aproximación, y los marcados como «Evitar por ahora» se muestran solo como referencia.
+El estado resume cómo encaja cada ejercicio con la guía de esta aplicación. Es un criterio orientativo que debe revisar un profesional. Pulsa un ejercicio para ver su animación y sus consejos: son una aproximación, y los marcados como «Evitar por ahora» se muestran solo como referencia. Cada ejercicio lleva un número fijo y, entre paréntesis, el año y el mes en que se incorporó (AA/MM).
 
-| Ejercicio | Grupo | Estado | Origen | Nota |
-|---|---|---|---|---|
-| 90/90 con corcho | Preparación y movilidad | Recomendado | Ya realizado | - |
-| 90/90 femoral con corcho | Preparación y movilidad | Recomendado | Ya realizado | - |
-| 90/90 con basculación pélvica | Preparación y movilidad | Recomendado | Ya realizado | - |
-| Hookling en step | Preparación y movilidad | Recomendado | Ya realizado | - |
-| Respiración diafragmática | Preparación y movilidad | Recomendado | Ya realizado | - |
-| Open book bilateral | Preparación y movilidad | Recomendado | Ya realizado | - |
-| Estiramiento dorsal | Preparación y movilidad | Recomendado | Ya realizado | - |
-| Estiramiento dorsal sentado | Preparación y movilidad | Recomendado | Ya realizado | - |
-| Bretzel dinámico con churro | Preparación y movilidad | Con cautela | Ya realizado | Incluye rotación: sin forzar el rango. |
-| Estiramiento piramidal | Preparación y movilidad | Con cautela | Ya realizado | Combina flexión y rotación externa: detente si reproduce los síntomas. |
-| Inflar globo en cuclillas contra pared | Preparación y movilidad | Con cautela | Ya realizado | Flexión profunda: ajusta la altura. |
-| Camello a cobra | Preparación y movilidad | Con cautela | Ya realizado | Sin llevar la extensión a la zona lumbar. |
-| Alargar pierna con la otra rodilla flexionada | Preparación y movilidad | Con cautela | Ya realizado | No pierdas la retroversión. |
-| Sliding de pierna | Preparación y movilidad | Con cautela | Ya realizado | Evita llevar la pierna a extensión con aducción. |
-| Sliding pull back en cuadrupedia | Preparación y movilidad | Con cautela | Ya realizado | Sin extender la cadera más allá de la zona cómoda. |
-| Cross connect | Preparación y movilidad | Por revisar | Ya realizado | Falta definir el movimiento exacto. |
-| Delfín tocando pie alterno | Preparación y movilidad | Por revisar | Ya realizado | Falta definir el movimiento exacto. |
-| Femoral sentado | Pierna y cadera | Recomendado | Ya realizado | Reduce recorrido si molesta en la tuberosidad isquiática. |
-| Extensión de rodilla en máquina | Pierna y cadera | Recomendado | Ya realizado | - |
-| Extensión de rodilla unilateral en máquina | Pierna y cadera | Recomendado | Ya realizado | - |
-| Puente de glúteo con pies en pared | Pierna y cadera | Recomendado | Ya realizado | Sin hiperextender. |
-| Sentadilla con cuña | Pierna y cadera | Con cautela | Ya realizado | Ajusta la profundidad. |
-| Sentadilla Zecher | Pierna y cadera | Con cautela | Ya realizado | Sin bajar a un rango profundo. |
-| Sentadilla isométrica en polea | Pierna y cadera | Con cautela | Ya realizado | Busca la altura sin molestias. |
-| Media sentadilla en pared con codo al frente | Pierna y cadera | Recomendado | Ya realizado | - |
-| Femoral isométrico en step | Pierna y cadera | Con cautela | Ya realizado | Pelvis basculada. |
-| Femoral con churro o fitball | Pierna y cadera | Con cautela | Ya realizado | Mantén la retroversión. |
-| Puente con step y rodilla al pecho | Pierna y cadera | Con cautela | Ya realizado | Trabajo a una pierna: vigila que la pelvis no caiga. |
-| Puente unilateral con rodilla al pecho | Pierna y cadera | Con cautela | Ya realizado | Trabajo a una pierna: vigila que la pelvis no caiga. |
-| Almeja de pie en pared | Pierna y cadera | Con cautela | Ya realizado | Trabajo a una pierna: vigila que la pelvis no caiga. |
-| Step up con mancuernas | Pierna y cadera | Con cautela | Ya realizado | Trabajo a una pierna: vigila que la pelvis no caiga. |
-| Step up con mancuerna contralateral | Pierna y cadera | Con cautela | Ya realizado | Trabajo a una pierna: vigila que la pelvis no caiga. |
-| Step down en cajón | Pierna y cadera | Con cautela | Ya realizado | Trabajo a una pierna: vigila que la pelvis no caiga. |
-| Sentadilla stagg con mancuerna | Pierna y cadera | Con cautela | Ya realizado | Posición escalonada: pie trasero sin extensión forzada. |
-| Peso muerto rumano base stagg | Pierna y cadera | Con cautela | Ya realizado | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
-| Peso muerto rumano asimétrico con manos en pelvis | Pierna y cadera | Con cautela | Ya realizado | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
-| Peso muerto rumano asimétrico con mancuernas | Pierna y cadera | Con cautela | Ya realizado | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
-| Rack pull | Pierna y cadera | Evitar por ahora | Ya realizado | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
-| Bisagra de rodilla con goma | Pierna y cadera | Con cautela | Ya realizado | Sin carga alta. |
-| Máquina de aductores | Pierna y cadera | Evitar por ahora | Ya realizado | La guía pide evitarla por completo. |
-| Zancada de glúteo | Pierna y cadera | Evitar por ahora | Ya realizado | Zancada: la guía pide evitarla mientras haya síntomas. |
-| Zancada en polea con step | Pierna y cadera | Evitar por ahora | Ya realizado | Zancada: la guía pide evitarla mientras haya síntomas. |
-| Zancada en polea con pie elevado | Pierna y cadera | Evitar por ahora | Ya realizado | Zancada: la guía pide evitarla mientras haya síntomas. |
-| Zancada Conor | Pierna y cadera | Evitar por ahora | Ya realizado | Zancada: la guía pide evitarla mientras haya síntomas. |
-| Zancada con alcance bajo en polea | Pierna y cadera | Evitar por ahora | Ya realizado | Zancada: la guía pide evitarla mientras haya síntomas. |
-| Zancada con taco en pared | Pierna y cadera | Evitar por ahora | Ya realizado | Zancada: la guía pide evitarla mientras haya síntomas. |
-| Zancada Sissy | Pierna y cadera | Evitar por ahora | Ya realizado | Zancada: la guía pide evitarla mientras haya síntomas. |
-| Prensa de piernas | Pierna y cadera | Recomendado | Nuevo | Permite fijar la posición de los pies y limitar el recorrido. |
-| Sentadilla a cajón alto con mancuerna al pecho | Pierna y cadera | Recomendado | Nuevo | Permite limitar la profundidad. |
-| Abductores en máquina | Pierna y cadera | Recomendado | Nuevo | Sustituye a la máquina de aductores. |
-| Puente de glúteo bilateral en máquina | Pierna y cadera | Con cautela | Nuevo | Sin hiperextender al final. |
-| Press de banca inclinado a 30º con pies arriba | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Press alterno en banco inclinado | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Floor press | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Floor press unilateral | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Floor press alterno con pies en banco | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Press de hombro con mancuernas en banco a 60º | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Press de hombro con mancuerna, pies en pared | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Press en polea unilateral | Torso: empuje | Recomendado | Ya realizado | Con pies paralelos. |
-| Press landmine | Torso: empuje | Recomendado | Ya realizado | Con pies paralelos. |
-| Contractora de pecho | Torso: empuje | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Flexiones con taco en la mano | Torso: empuje | Recomendado | Ya realizado | - |
-| Flexiones tocando la mano | Torso: empuje | Con cautela | Ya realizado | Mantén la pelvis estable. |
-| Plancha de cuatro puntos con serrato en declinado | Torso: empuje | Con cautela | Ya realizado | Mantén la flexión de cadera cómoda. |
-| Serrato en pared en caballero unilateral | Torso: empuje | Con cautela | Ya realizado | Sin extensión forzada de la pierna de atrás. |
-| Arquero en pared | Torso: empuje | Recomendado | Ya realizado | Sin arquear la zona lumbar. |
-| Remo sentado en máquina sin apoyar el pecho | Torso: tirón | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Remo en máquina alterno | Torso: tirón | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Remo unilateral en polea o máquina | Torso: tirón | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Remo sentado en polea de lado | Torso: tirón | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Remo lateral con empuje de mano en banco | Torso: tirón | Con cautela | Ya realizado | Mantén la pelvis estable. |
-| Remo A unilateral en polea | Torso: tirón | Recomendado | Ya realizado | - |
-| Pull remo unilateral | Torso: tirón | Recomendado | Ya realizado | - |
-| Remo alterno en prono | Torso: tirón | Con cautela | Ya realizado | En prono, sin extender la cadera. |
-| Monkey row alterno | Torso: tirón | Con cautela | Ya realizado | No pierdas la alineación lumbar. |
-| Jalón unilateral o pulldown en máquina | Torso: tirón | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Pull down en caballero unilateral | Torso: tirón | Con cautela | Ya realizado | Sin extensión forzada de la pierna de atrás. |
-| Jalón para bíceps | Torso: tirón | Recomendado | Ya realizado | Sin arquear la zona lumbar. |
-| Pull over | Torso: tirón | Recomendado | Ya realizado | Cierra las costillas. |
-| Pull efer | Torso: tirón | Por revisar | Ya realizado | Falta definir el movimiento exacto. |
-| Elevaciones laterales en polea a la altura de la rodilla | Hombro y brazos | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Elevaciones laterales unilaterales | Hombro y brazos | Recomendado | Ya realizado | - |
-| Elevaciones en polea por detrás | Hombro y brazos | Recomendado | Ya realizado | - |
-| Bíceps Scott en banco con polea | Hombro y brazos | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Bíceps bayesian | Hombro y brazos | Recomendado | Ya realizado | Con pies paralelos. |
-| Bíceps a 90º en banco | Hombro y brazos | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Bíceps concentrado en banco | Hombro y brazos | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Bíceps en anteversión | Hombro y brazos | Recomendado | Ya realizado | - |
-| Bíceps squat | Hombro y brazos | Con cautela | Ya realizado | Combina sentadilla: ajusta la profundidad. |
-| Curl de bíceps sentado con respiración abajo | Hombro y brazos | Recomendado | Ya realizado | Sin relación directa con la cadera, con apoyo estable. |
-| Tríceps en polea de espaldas | Hombro y brazos | Recomendado | Ya realizado | - |
-| Tríceps en polea alta desde detrás | Hombro y brazos | Recomendado | Ya realizado | - |
-| Tríceps de lado | Hombro y brazos | Recomendado | Ya realizado | - |
-| Tríceps plano en cuatro puntos unilateral | Hombro y brazos | Recomendado | Ya realizado | - |
-| Pata de tríceps en polea | Hombro y brazos | Recomendado | Ya realizado | - |
-| Francés en cuatro puntos con polea | Hombro y brazos | Recomendado | Ya realizado | - |
-| Pallof isométrico | Core | Recomendado | Ya realizado | - |
-| Pallof de pie | Core | Recomendado | Ya realizado | - |
-| Bicho muerto alterno | Core | Recomendado | Ya realizado | - |
-| Bicho muerto rana con fitball | Core | Con cautela | Ya realizado | La rotación externa en rana puede molestar. |
-| Crunch 90/90 rodando churro | Core | Recomendado | Ya realizado | - |
-| Crunch con goma y piernas estiradas | Core | Con cautela | Ya realizado | Mantén la retroversión. |
-| Plancha lateral con arco lumbar | Core | Con cautela | Ya realizado | Carga en el lado de apoyo: vigila la molestia. |
-| Plancha de cuatro puntos tocando hombro | Core | Recomendado | Ya realizado | - |
-| Plancha de cuatro puntos con estiramiento de isquios | Core | Evitar por ahora | Ya realizado | La guía desaconseja estirar los isquiotibiales de forma agresiva. |
-| Chop hacia abajo | Core | Recomendado | Ya realizado | Sin girar la pelvis. |
-| Lift bombero | Core | Por revisar | Ya realizado | Falta definir el movimiento exacto. |
-| Rotación inversa con fitball y mancuerna | Core | Con cautela | Ya realizado | Controla la rotación de cadera. |
+| Nº | Ejercicio | Grupo | Estado | Origen | Incorporación | Nota |
+|---|---|---|---|---|---|---|
+| 001 | Tracción lateral en cuadrupedia con goma | Preparación y movilidad | Recomendado | Nuevo | 26/10 | Es el ejercicio de la fase 1 de esta aplicación. |
+| 002 | 90/90 con corcho | Preparación y movilidad | Recomendado | Ya realizado | 24/04 | - |
+| 003 | 90/90 femoral con corcho | Preparación y movilidad | Recomendado | Ya realizado | 24/04 | - |
+| 004 | 90/90 con basculación pélvica | Preparación y movilidad | Recomendado | Ya realizado | 24/10 | - |
+| 005 | Hookling en step | Preparación y movilidad | Recomendado | Ya realizado | 24/10 | - |
+| 006 | Respiración diafragmática | Preparación y movilidad | Recomendado | Ya realizado | 25/08 | - |
+| 007 | Open book bilateral | Preparación y movilidad | Recomendado | Ya realizado | 24/10 | - |
+| 008 | Estiramiento dorsal | Preparación y movilidad | Recomendado | Ya realizado | 24/04 | - |
+| 009 | Estiramiento dorsal sentado | Preparación y movilidad | Recomendado | Ya realizado | 24/10 | - |
+| 010 | Bretzel dinámico con churro | Preparación y movilidad | Con cautela | Ya realizado | 24/04 | Incluye rotación: sin forzar el rango. |
+| 011 | Estiramiento piramidal | Preparación y movilidad | Con cautela | Ya realizado | 24/10 | Combina flexión y rotación externa: detente si reproduce los síntomas. |
+| 012 | Inflar globo en cuclillas contra pared | Preparación y movilidad | Con cautela | Ya realizado | 24/04 | Flexión profunda: ajusta la altura. |
+| 013 | Camello a cobra | Preparación y movilidad | Con cautela | Ya realizado | 25/08 | Sin llevar la extensión a la zona lumbar. |
+| 014 | Alargar pierna con la otra rodilla flexionada | Preparación y movilidad | Con cautela | Ya realizado | 24/10 | No pierdas la retroversión. |
+| 015 | Sliding de pierna | Preparación y movilidad | Con cautela | Ya realizado | 24/10 | Evita llevar la pierna a extensión con aducción. |
+| 016 | Sliding pull back en cuadrupedia | Preparación y movilidad | Con cautela | Ya realizado | 25/08 | Sin extender la cadera más allá de la zona cómoda. |
+| 017 | Cross connect | Preparación y movilidad | Por revisar | Ya realizado | 25/08 | Falta definir el movimiento exacto. |
+| 018 | Delfín tocando pie alterno | Preparación y movilidad | Por revisar | Ya realizado | 24/04 | Falta definir el movimiento exacto. |
+| 019 | Femoral sentado | Pierna y cadera | Recomendado | Ya realizado | 24/10 | Reduce recorrido si molesta en la tuberosidad isquiática. |
+| 020 | Extensión de rodilla en máquina | Pierna y cadera | Recomendado | Ya realizado | 26/01 | - |
+| 021 | Extensión de rodilla unilateral en máquina | Pierna y cadera | Recomendado | Ya realizado | 26/01 | - |
+| 022 | Puente de glúteo con pies en pared | Pierna y cadera | Recomendado | Ya realizado | 25/08 | Sin hiperextender. |
+| 023 | Sentadilla con cuña | Pierna y cadera | Con cautela | Ya realizado | 24/10 | Ajusta la profundidad. |
+| 024 | Sentadilla Zecher | Pierna y cadera | Con cautela | Ya realizado | 25/08 | Sin bajar a un rango profundo. |
+| 025 | Sentadilla isométrica en polea | Pierna y cadera | Con cautela | Ya realizado | 25/08 | Busca la altura sin molestias. |
+| 026 | Media sentadilla en pared con codo al frente | Pierna y cadera | Recomendado | Ya realizado | 24/04 | - |
+| 027 | Femoral isométrico en step | Pierna y cadera | Con cautela | Ya realizado | 25/08 | Pelvis basculada. |
+| 028 | Femoral con churro o fitball | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Mantén la retroversión. |
+| 029 | Puente con step y rodilla al pecho | Pierna y cadera | Con cautela | Ya realizado | 24/10 | Trabajo a una pierna: vigila que la pelvis no caiga. |
+| 030 | Puente unilateral con rodilla al pecho | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Trabajo a una pierna: vigila que la pelvis no caiga. |
+| 031 | Almeja de pie en pared | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Trabajo a una pierna: vigila que la pelvis no caiga. |
+| 032 | Step up con mancuernas | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Trabajo a una pierna: vigila que la pelvis no caiga. |
+| 033 | Step up con mancuerna contralateral | Pierna y cadera | Con cautela | Ya realizado | 24/10 | Trabajo a una pierna: vigila que la pelvis no caiga. |
+| 034 | Step down en cajón | Pierna y cadera | Con cautela | Ya realizado | 26/01 | Trabajo a una pierna: vigila que la pelvis no caiga. |
+| 035 | Sentadilla stagg con mancuerna | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Posición escalonada: pie trasero sin extensión forzada. |
+| 036 | Peso muerto rumano base stagg | Pierna y cadera | Con cautela | Ya realizado | 24/10 | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
+| 037 | Peso muerto rumano asimétrico con manos en pelvis | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
+| 038 | Peso muerto rumano asimétrico con mancuernas | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
+| 039 | Rack pull | Pierna y cadera | Evitar por ahora | Ya realizado | 24/04 | Bisagra o carga alta: la guía desaconseja el peso muerto pesado. |
+| 040 | Bisagra de rodilla con goma | Pierna y cadera | Con cautela | Ya realizado | 24/04 | Sin carga alta. |
+| 041 | Máquina de aductores | Pierna y cadera | Evitar por ahora | Ya realizado | 26/01 | La guía pide evitarla por completo. |
+| 042 | Zancada de glúteo | Pierna y cadera | Evitar por ahora | Ya realizado | 26/01 | Zancada: la guía pide evitarla mientras haya síntomas. |
+| 043 | Zancada en polea con step | Pierna y cadera | Evitar por ahora | Ya realizado | 26/01 | Zancada: la guía pide evitarla mientras haya síntomas. |
+| 044 | Zancada en polea con pie elevado | Pierna y cadera | Evitar por ahora | Ya realizado | 26/01 | Zancada: la guía pide evitarla mientras haya síntomas. |
+| 045 | Zancada Conor | Pierna y cadera | Evitar por ahora | Ya realizado | 24/10 | Zancada: la guía pide evitarla mientras haya síntomas. |
+| 046 | Zancada con alcance bajo en polea | Pierna y cadera | Evitar por ahora | Ya realizado | 24/10 | Zancada: la guía pide evitarla mientras haya síntomas. |
+| 047 | Zancada con taco en pared | Pierna y cadera | Evitar por ahora | Ya realizado | 25/08 | Zancada: la guía pide evitarla mientras haya síntomas. |
+| 048 | Zancada Sissy | Pierna y cadera | Evitar por ahora | Ya realizado | 25/08 | Zancada: la guía pide evitarla mientras haya síntomas. |
+| 049 | Prensa de piernas | Pierna y cadera | Recomendado | Nuevo | 26/10 | Permite fijar la posición de los pies y limitar el recorrido. |
+| 050 | Sentadilla a cajón alto con mancuerna al pecho | Pierna y cadera | Recomendado | Nuevo | 26/10 | Permite limitar la profundidad. |
+| 051 | Abductores en máquina | Pierna y cadera | Recomendado | Nuevo | 26/10 | Sustituye a la máquina de aductores. |
+| 052 | Puente de glúteo bilateral en máquina | Pierna y cadera | Con cautela | Nuevo | 26/10 | Sin hiperextender al final. |
+| 053 | Press de banca inclinado a 30º con pies arriba | Torso: empuje | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 054 | Press alterno en banco inclinado | Torso: empuje | Recomendado | Ya realizado | 25/08 | Sin relación directa con la cadera, con apoyo estable. |
+| 055 | Floor press | Torso: empuje | Recomendado | Ya realizado | 24/04 | Sin relación directa con la cadera, con apoyo estable. |
+| 056 | Floor press unilateral | Torso: empuje | Recomendado | Ya realizado | 24/10 | Sin relación directa con la cadera, con apoyo estable. |
+| 057 | Floor press alterno con pies en banco | Torso: empuje | Recomendado | Ya realizado | 25/08 | Sin relación directa con la cadera, con apoyo estable. |
+| 058 | Press de hombro con mancuernas en banco a 60º | Torso: empuje | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 059 | Press de hombro con mancuerna, pies en pared | Torso: empuje | Recomendado | Ya realizado | 24/04 | Sin relación directa con la cadera, con apoyo estable. |
+| 060 | Press en polea unilateral | Torso: empuje | Recomendado | Ya realizado | 24/10 | Con pies paralelos. |
+| 061 | Press landmine | Torso: empuje | Recomendado | Ya realizado | 24/04 | Con pies paralelos. |
+| 062 | Contractora de pecho | Torso: empuje | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 063 | Flexiones con taco en la mano | Torso: empuje | Recomendado | Ya realizado | 24/04 | - |
+| 064 | Flexiones tocando la mano | Torso: empuje | Con cautela | Ya realizado | 25/08 | Mantén la pelvis estable. |
+| 065 | Plancha de cuatro puntos con serrato en declinado | Torso: empuje | Con cautela | Ya realizado | 24/04 | Mantén la flexión de cadera cómoda. |
+| 066 | Serrato en pared en caballero unilateral | Torso: empuje | Con cautela | Ya realizado | 24/04 | Sin extensión forzada de la pierna de atrás. |
+| 067 | Arquero en pared | Torso: empuje | Recomendado | Ya realizado | 24/04 | Sin arquear la zona lumbar. |
+| 068 | Remo sentado en máquina sin apoyar el pecho | Torso: tirón | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 069 | Remo en máquina alterno | Torso: tirón | Recomendado | Ya realizado | 24/10 | Sin relación directa con la cadera, con apoyo estable. |
+| 070 | Remo unilateral en polea o máquina | Torso: tirón | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 071 | Remo sentado en polea de lado | Torso: tirón | Recomendado | Ya realizado | 24/10 | Sin relación directa con la cadera, con apoyo estable. |
+| 072 | Remo lateral con empuje de mano en banco | Torso: tirón | Con cautela | Ya realizado | 26/01 | Mantén la pelvis estable. |
+| 073 | Remo A unilateral en polea | Torso: tirón | Recomendado | Ya realizado | 24/10 | - |
+| 074 | Pull remo unilateral | Torso: tirón | Recomendado | Ya realizado | 25/08 | - |
+| 075 | Remo alterno en prono | Torso: tirón | Con cautela | Ya realizado | 24/04 | En prono, sin extender la cadera. |
+| 076 | Monkey row alterno | Torso: tirón | Con cautela | Ya realizado | 24/04 | No pierdas la alineación lumbar. |
+| 077 | Jalón unilateral o pulldown en máquina | Torso: tirón | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 078 | Pull down en caballero unilateral | Torso: tirón | Con cautela | Ya realizado | 24/04 | Sin extensión forzada de la pierna de atrás. |
+| 079 | Jalón para bíceps | Torso: tirón | Recomendado | Ya realizado | 24/04 | Sin arquear la zona lumbar. |
+| 080 | Pull over | Torso: tirón | Recomendado | Ya realizado | 24/04 | Cierra las costillas. |
+| 081 | Pull efer | Torso: tirón | Por revisar | Ya realizado | 25/08 | Falta definir el movimiento exacto. |
+| 082 | Elevaciones laterales en polea a la altura de la rodilla | Hombro y brazos | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 083 | Elevaciones laterales unilaterales | Hombro y brazos | Recomendado | Ya realizado | 24/04 | - |
+| 084 | Elevaciones en polea por detrás | Hombro y brazos | Recomendado | Ya realizado | 24/10 | - |
+| 085 | Bíceps Scott en banco con polea | Hombro y brazos | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 086 | Bíceps bayesian | Hombro y brazos | Recomendado | Ya realizado | 24/10 | Con pies paralelos. |
+| 087 | Bíceps a 90º en banco | Hombro y brazos | Recomendado | Ya realizado | 24/10 | Sin relación directa con la cadera, con apoyo estable. |
+| 088 | Bíceps concentrado en banco | Hombro y brazos | Recomendado | Ya realizado | 24/04 | Sin relación directa con la cadera, con apoyo estable. |
+| 089 | Bíceps en anteversión | Hombro y brazos | Recomendado | Ya realizado | 24/04 | - |
+| 090 | Bíceps squat | Hombro y brazos | Con cautela | Ya realizado | 25/08 | Combina sentadilla: ajusta la profundidad. |
+| 091 | Curl de bíceps sentado con respiración abajo | Hombro y brazos | Recomendado | Ya realizado | 26/01 | Sin relación directa con la cadera, con apoyo estable. |
+| 092 | Tríceps en polea de espaldas | Hombro y brazos | Recomendado | Ya realizado | 26/01 | - |
+| 093 | Tríceps en polea alta desde detrás | Hombro y brazos | Recomendado | Ya realizado | 24/10 | - |
+| 094 | Tríceps de lado | Hombro y brazos | Recomendado | Ya realizado | 25/08 | - |
+| 095 | Tríceps plano en cuatro puntos unilateral | Hombro y brazos | Recomendado | Ya realizado | 24/04 | - |
+| 096 | Pata de tríceps en polea | Hombro y brazos | Recomendado | Ya realizado | 24/10 | - |
+| 097 | Francés en cuatro puntos con polea | Hombro y brazos | Recomendado | Ya realizado | 24/04 | - |
+| 098 | Pallof isométrico | Core | Recomendado | Ya realizado | 26/01 | - |
+| 099 | Pallof de pie | Core | Recomendado | Ya realizado | 25/08 | - |
+| 100 | Bicho muerto alterno | Core | Recomendado | Ya realizado | 24/04 | - |
+| 101 | Bicho muerto rana con fitball | Core | Con cautela | Ya realizado | 26/01 | La rotación externa en rana puede molestar. |
+| 102 | Crunch 90/90 rodando churro | Core | Recomendado | Ya realizado | 24/04 | - |
+| 103 | Crunch con goma y piernas estiradas | Core | Con cautela | Ya realizado | 24/10 | Mantén la retroversión. |
+| 104 | Plancha lateral con arco lumbar | Core | Con cautela | Ya realizado | 24/04 | Carga en el lado de apoyo: vigila la molestia. |
+| 105 | Plancha de cuatro puntos tocando hombro | Core | Recomendado | Ya realizado | 24/10 | - |
+| 106 | Plancha de cuatro puntos con estiramiento de isquios | Core | Evitar por ahora | Ya realizado | 25/08 | La guía desaconseja estirar los isquiotibiales de forma agresiva. |
+| 107 | Chop hacia abajo | Core | Recomendado | Ya realizado | 25/08 | Sin girar la pelvis. |
+| 108 | Lift bombero | Core | Por revisar | Ya realizado | 25/08 | Falta definir el movimiento exacto. |
+| 109 | Rotación inversa con fitball y mancuerna | Core | Con cautela | Ya realizado | 24/04 | Controla la rotación de cadera. |
 
 ## Consultor IA
 

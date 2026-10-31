@@ -270,7 +270,7 @@ compare('Plan de gimnasio', () => ({
     progression: labelledItems(section(gym, 3, 'Progresión')),
     stop: labelledItems(section(gym, 3, 'Cuándo parar')),
     catalogIntro: paragraphs(section(gym, 3, 'Catálogo de ejercicios'))[0],
-    catalog: tableRows(section(gym, 3, 'Catálogo de ejercicios')).map(([name, group, status, origin, note]) => ({ name, group, status, origin, note: note === '-' ? '' : note })),
+    catalog: tableRows(section(gym, 3, 'Catálogo de ejercicios')).map(([code, name, group, status, origin, since, note]) => ({ code, name, group, status, origin, since, note: note === '-' ? '' : note })),
   },
   fromCode: GYM_PLAN,
 }));
@@ -296,6 +296,20 @@ compare('Técnica de gimnasio', () => {
       })),
     },
     fromCode: { tips: GYM_GENERAL_TIPS, entries: GYM_TECHNIQUE },
+  };
+});
+
+compare('Numeración del catálogo de gimnasio', () => {
+  const codes = GYM_PLAN.catalog.map((exercise) => exercise.code);
+  const catalogNames = new Set(GYM_PLAN.catalog.map((exercise) => exercise.name));
+  return {
+    fromSpec: { repeatedCodes: [], invalidCodes: [], invalidDates: [], planOutsideCatalog: [] },
+    fromCode: {
+      repeatedCodes: codes.filter((code, index) => codes.indexOf(code) !== index),
+      invalidCodes: codes.filter((code) => !/^\d{3}$/.test(code)),
+      invalidDates: GYM_PLAN.catalog.filter((exercise) => !/^\d{2}\/(0[1-9]|1[0-2])$/.test(exercise.since)).map((exercise) => exercise.name),
+      planOutsideCatalog: GYM_PLAN.days.flatMap((day) => day.exercises.map((exercise) => exercise.name)).filter((name) => !catalogNames.has(name)),
+    },
   };
 });
 

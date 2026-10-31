@@ -18,6 +18,20 @@ const STATUS_STYLES: Record<string, string> = {
 
 const FILTERS = ['Todos', 'Recomendado', 'Con cautela', 'Evitar por ahora', 'Por revisar', 'Nuevo'];
 
+const CATALOG_BY_NAME = new Map(GYM_PLAN.catalog.map((exercise) => [exercise.name, exercise]));
+
+// Número fijo delante del nombre y año/mes de incorporación al final
+const ExerciseLabel: React.FC<{ name: string }> = ({ name }) => {
+  const entry = CATALOG_BY_NAME.get(name);
+  return (
+    <>
+      {entry && <span className="font-mono text-slate-500 mr-1.5">{entry.code}</span>}
+      {name}
+      {entry && <span className="font-normal text-slate-500 ml-1" title="Año y mes de incorporación">({entry.since})</span>}
+    </>
+  );
+};
+
 const normalize = (text: string) => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
 const LabelledList: React.FC<{ items: { title: string; text: string }[] }> = ({ items }) => (
@@ -74,7 +88,7 @@ export const GymPlan: React.FC = () => {
   const catalog = GYM_PLAN.catalog.filter(
     (exercise) =>
       (filter === 'Todos' || exercise.status === filter || exercise.origin === filter) &&
-      normalize(exercise.name).includes(normalize(query))
+      normalize(`${exercise.code} ${exercise.name}`).includes(normalize(query))
   );
   const groups = [...new Set(catalog.map((exercise) => exercise.group))];
 
@@ -140,7 +154,7 @@ export const GymPlan: React.FC = () => {
                   className="w-full text-left p-3.5 space-y-1.5 hover:bg-slate-100/70 transition-colors"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                    <span className="text-xs font-bold text-slate-900">{exercise.name}</span>
+                    <span className="text-xs font-bold text-slate-900"><ExerciseLabel name={exercise.name} /></span>
                     <span className="text-[11px] font-mono text-cyan-800 flex items-center gap-1.5">
                       {exercise.sets} × {exercise.reps}
                       {exercise.rest !== '-' && ` · ${exercise.rest}`}
@@ -225,7 +239,7 @@ export const GymPlan: React.FC = () => {
                   >
                     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
                       <span className="text-xs text-slate-800 font-medium">
-                        {exercise.name}
+                        <ExerciseLabel name={exercise.name} />
                         {exercise.origin === 'Nuevo' && <span className="ml-1.5 text-[10px] font-semibold text-cyan-700">Nuevo</span>}
                       </span>
                       <span className="flex items-center gap-1.5">
