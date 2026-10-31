@@ -1,5 +1,14 @@
 // Derivado de spec.md: cámbialo allí primero. Lo comparten server.ts y la versión estática, que llama a Gemini desde el navegador.
-export const GEMINI_MODEL = 'gemini-3.8-flash';
+export const GEMINI_MODELS = [
+  { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash' },
+  { id: 'gemini-3.7-flash', label: 'Gemini 3.7 Flash' },
+  { id: 'gemini-3.6-flash', label: 'Gemini 3.6 Flash' },
+];
+
+export const DEFAULT_GEMINI_MODEL = 'gemini-3.6-flash';
+
+export const isGeminiModel = (model: unknown): model is string =>
+  GEMINI_MODELS.some(({ id }) => id === model);
 
 export const SYSTEM_INSTRUCTION = `Eres un especialista clínico y fisioterapeuta experto en biomecánica de cadera y Pinzamiento Isquiofemoral (Ischiofemoral Impingement - IFI).
 El usuario experimenta síntomas compatibles con pinzamiento isquiofemoral y nota gran alivio con ejercicios de tracción con bandas elásticas.

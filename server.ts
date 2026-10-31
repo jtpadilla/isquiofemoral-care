@@ -4,7 +4,7 @@ import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { buildConsultationPrompt, GEMINI_MODEL, NO_KEY_REPLY } from './src/data/clinicalAdvisor';
+import { buildConsultationPrompt, DEFAULT_GEMINI_MODEL, isGeminiModel, NO_KEY_REPLY } from './src/data/clinicalAdvisor';
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ async function startServer() {
   // API Route: AI Clinical & Biomechanical Consultation for Ischiofemoral Impingement
   app.post('/api/consultation', async (req, res) => {
     try {
-      const { prompt, context } = req.body;
+      const { prompt, context, model } = req.body;
       const apiKey = process.env.GEMINI_API_KEY;
 
       if (!apiKey) {
@@ -32,7 +32,8 @@ async function startServer() {
       const ai = new GoogleGenAI({ apiKey });
 
       const response = await ai.models.generateContent({
-        model: GEMINI_MODEL,
+        // Solo los modelos ofrecidos en la interfaz: el valor llega del cliente
+        model: isGeminiModel(model) ? model : DEFAULT_GEMINI_MODEL,
         contents: [
           {
             role: 'user',

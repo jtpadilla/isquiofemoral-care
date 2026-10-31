@@ -1,6 +1,24 @@
-import { buildConsultationPrompt, GEMINI_MODEL } from '../data/clinicalAdvisor';
+import { buildConsultationPrompt, DEFAULT_GEMINI_MODEL, isGeminiModel } from '../data/clinicalAdvisor';
 
 const STORAGE_KEY = 'isquiofemoral_gemini_api_key';
+const MODEL_STORAGE_KEY = 'isquiofemoral_gemini_model';
+
+export const loadModel = () => {
+  try {
+    const saved = localStorage.getItem(MODEL_STORAGE_KEY);
+    return isGeminiModel(saved) ? saved : DEFAULT_GEMINI_MODEL;
+  } catch {
+    return DEFAULT_GEMINI_MODEL;
+  }
+};
+
+export const saveModel = (model: string) => {
+  try {
+    localStorage.setItem(MODEL_STORAGE_KEY, model);
+  } catch {
+    // Sin almacenamiento disponible, la selección dura hasta recargar
+  }
+};
 
 // Vive en el módulo para sobrevivir al cambio de pestaña de la app; se pierde al recargar o cerrar
 let sessionKey: string | null = null;
@@ -33,7 +51,7 @@ export const clearApiKey = () => {
   }
 };
 
-const errorMessage = (error: unknown, apiKey: string) => {
+const errorMessage = (error: unknown, apiKey: string, model: string) => {
   const status = (error as { status?: number })?.status;
   // El detalle permite distinguir la causa; nunca debe incluir la clave
   const detail = `${error instanceof Error ? error.message : String(error)}`.split(apiKey).join('[clave]').slice(0, 300);
@@ -43,13 +61,13 @@ const errorMessage = (error: unknown, apiKey: string) => {
     return `Google ha rechazado la clave de API (error ${status}). Compruébala o borra la clave y añade otra.`;
   }
   if (status === 404) {
-    return `El modelo ${GEMINI_MODEL} no está disponible para tu clave (error 404).`;
+    return `El modelo ${model} no está disponible para tu clave (error 404). Prueba a seleccionar otro.`;
   }
   if (status === 429) {
-    return 'Tu clave ha alcanzado su límite de uso (error 429). Inténtalo más tarde o revisa tu cuota en Google AI Studio.';
+    return `Tu clave ha alcanzado su límite de uso con ${model} (error 429). Prueba a seleccionar otro modelo, inténtalo más tarde o revisa tu cuota en Google AI Studio.`;
   }
   if (status && status >= 500) {
-    return `El servicio de Gemini no está disponible en este momento (error ${status}). Inténtalo de nuevo en unos minutos.`;
+    return `${model} no está disponible en este momento (error ${status}). Prueba a seleccionar otro modelo o inténtalo de nuevo en unos minutos.`;
   }
   if (status) {
     return `Gemini ha devuelto un error inesperado (error ${status}).`;
@@ -57,17 +75,17 @@ const errorMessage = (error: unknown, apiKey: string) => {
   return `No se pudo conectar con Gemini. Comprueba tu conexión y desactiva los bloqueadores de contenido para este sitio. Detalle: ${detail}`;
 };
 
-export const askGemini = async (apiKey: string, prompt: string, context: unknown) => {
+export const askGemini = async (apiKey: string, model: string, prompt: string, context: unknown) => {
   try {
     // El SDK solo se descarga cuando alguien usa el consultor
     const { GoogleGenAI } = await import('@google/genai');
     const ai = new GoogleGenAI({ apiKey });
     const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
+      model,
       contents: [{ role: 'user', parts: [{ text: buildConsultationPrompt(prompt, context) }] }],
     });
     return response.text || 'Gemini no ha devuelto ninguna respuesta. Prueba a reformular la pregunta.';
   } catch (error) {
-    return errorMessage(error, apiKey);
+    return errorMessage(error, apiKey, model);
   }
 };

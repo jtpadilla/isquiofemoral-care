@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Send, Sparkles, User, Bot, AlertCircle, RefreshCw, KeyRound } from 'lucide-react';
-import { ADVISOR_GREETING, ADVISOR_SAMPLE_QUESTIONS } from '../data/clinicalAdvisor';
+import { ADVISOR_GREETING, ADVISOR_SAMPLE_QUESTIONS, GEMINI_MODELS } from '../data/clinicalAdvisor';
 import { DISCLAIMERS } from '../data/clinicalContent';
-import { askGemini, clearApiKey, loadApiKey, saveApiKey } from '../utils/browserGemini';
+import { askGemini, clearApiKey, loadApiKey, loadModel, saveApiKey, saveModel } from '../utils/browserGemini';
 
 const IS_STATIC_SITE = !!import.meta.env.VITE_STATIC_SITE;
 
@@ -23,7 +23,13 @@ export const ClinicalAdvisorChat: React.FC = () => {
   const [apiKey, setApiKey] = useState(loadApiKey);
   const [keyInput, setKeyInput] = useState('');
   const [rememberKey, setRememberKey] = useState(false);
+  const [model, setModel] = useState(loadModel);
   const needsKey = IS_STATIC_SITE && !apiKey;
+
+  const handleSelectModel = (selected: string) => {
+    setModel(selected);
+    saveModel(selected);
+  };
 
   const handleSaveKey = () => {
     const key = keyInput.trim();
@@ -57,7 +63,7 @@ export const ClinicalAdvisorChat: React.FC = () => {
 
     // La versión estática (GitHub Pages) no tiene servidor: llama a Gemini con la clave del usuario
     if (IS_STATIC_SITE) {
-      const reply = await askGemini(apiKey!, textToSend, context);
+      const reply = await askGemini(apiKey!, model, textToSend, context);
       setMessages((prev) => [...prev, { sender: 'assistant', text: reply }]);
       setLoading(false);
       return;
@@ -67,7 +73,7 @@ export const ClinicalAdvisorChat: React.FC = () => {
       const response = await fetch('/api/consultation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: textToSend, context })
+        body: JSON.stringify({ prompt: textToSend, context, model })
       });
 
       const data = await response.json();
@@ -95,12 +101,20 @@ export const ClinicalAdvisorChat: React.FC = () => {
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <span>Consultor Biomecánico Inteligente</span>
-              <span className="text-[10px] font-mono font-medium text-cyan-800 bg-cyan-100/80 px-2 py-0.5 rounded">
-                Gemini 3.8 Flash
-              </span>
-            </h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="text-sm font-bold text-slate-900">Consultor Biomecánico Inteligente</h3>
+              <select
+                value={model}
+                onChange={(e) => handleSelectModel(e.target.value)}
+                disabled={loading}
+                aria-label="Modelo de Gemini"
+                className="text-[10px] font-mono font-medium text-cyan-800 bg-cyan-100/80 px-2 py-0.5 rounded cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {GEMINI_MODELS.map(({ id, label }) => (
+                  <option key={id} value={id}>{label}</option>
+                ))}
+              </select>
+            </div>
             <p className="text-[11px] text-slate-500">
               Especializado en pinzamiento isquiofemoral, vectores de tracción y progresión funcional.
             </p>
