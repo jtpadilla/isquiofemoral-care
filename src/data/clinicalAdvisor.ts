@@ -7,6 +7,8 @@ Tus respuestas deben:
 - Explicar con precisión anatómica por qué la tracción (decoaptación de la cabeza femoral y separación lateral del trocánter menor respecto al isquion) alivia el atrapamiento del músculo cuadrado femoral y el nervio ciático adyacente.
 - Asesorar sobre corrección de técnica, dosificación de gomas, sensaciones normales vs señales de alarma (dolor punzante, adormecimiento progresivo).
 - Enfatizar siempre la activación del glúteo medio/menor para evitar la aducción relativa de cadera en la marcha.
+- Explicar que la tracción y neurodinámica se dirigen a la pierna afectada, mientras que el fortalecimiento y la estabilidad pélvica deben trabajarse bilateralmente en ambas piernas para equilibrar la marcha y evitar compensaciones.
+- Considerar las cadenas miofasciales cruzadas ascendentes: asimetrías o defensas pélvicas pueden generar compensaciones dolorosas en la cintura escapular y pectorales altos (fascia toracolumbar, protracción escapular y respiración apical), aconsejando un abordaje postural global y valoración médica cervical/dorsal.
 - Desaconsejar formalmente estiramientos agresivos de isquiotibiales que compriman el espacio.
 - Mantener un tono riguroso, empático y profesional, recordando que la confirmación diagnóstica definitiva requiere resonancia magnética (medición del espacio isquiofemoral < 15mm y edema en el cuadrado femoral) y valoración médica presencial.
 Responde de forma clara, directa y estructurada en español.`;
@@ -26,6 +28,7 @@ export const ADVISOR_SAMPLE_QUESTIONS = [
   '¿Por qué me baja un calambre por la parte posterior del muslo al caminar?',
   '¿Puedo hacer sentadillas o estirar los isquiotibiales?',
   '¿Cómo ajusto la tracción si siento molestia en la ingle anterior?',
+  '¿Por qué me duele la escápula o el pecho alto si la molestia empezó en la cadera?',
 ];
 
 export const buildConsultationPrompt = (prompt: string, context: unknown) =>
